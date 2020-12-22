@@ -6,3 +6,8 @@ github:
     - openoffice
     - forum
     
+notifications:
+  commits:      commits@openoffice.apache.org
+  issues:       dev@openoffice.apache.org
+  pullrequests: dev@openoffice.apache.org
+
