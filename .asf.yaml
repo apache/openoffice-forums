@@ -1,13 +1,15 @@
 github:
-  description: "Apache OpenOffice.org Forums"
+  description: "Apache OpenOffice Forums"
   homepage: https://forum.openoffice.org/
+  features:
+    issues: true
   labels:
     - apache
     - openoffice
     - forum
+    - phpbb
     
 notifications:
   commits:      commits@openoffice.apache.org
   issues:       dev@openoffice.apache.org
   pullrequests: dev@openoffice.apache.org
-
