@@ -1,0 +1,15 @@
+Subject: 引用 - “{TOPIC_TITLE}”
+
+您好 {USERNAME}，
+
+ “{AUTHOR_NAME}” 在 “{SITENAME}”论坛的主题 “{TOPIC_TITLE}” 引用了您。
+
+如果您想查看引用的帖子，点下面的链接:
+{U_VIEW_POST}
+
+
+如果您不想再收到关于回复引用的更新，请更新您的通知设置在这里:
+
+{U_NOTIFICATION_SETTINGS}
+
+{EMAIL_SIG}

@@ -1,0 +1,13 @@
+Subject: "{TOPIC_TITLE}" témába válasz érkezett
+
+Kedves {USERNAME}!
+
+A kedvencnek jelölt "{TOPIC_TITLE}" témába az utolsó látogatásod óta új válasz érkezett a "{SITENAME}" oldalon. Újabb értesítést nem fogsz kapni, míg meg nem látogatod a témát.
+
+A következő linkre kattintva eljuthatsz a legutóbbi olvasatlan válaszhoz:
+{U_NEWEST_POST}
+
+Amennyiben a továbbiakban nem kívánsz értesítést kapni a kedvencnek jelölt témákba érkezett hozzászólásokról, frissítsd az értesítési beállításokat a következő linken:
+{U_NOTIFICATION_SETTINGS}
+
+{EMAIL_SIG}

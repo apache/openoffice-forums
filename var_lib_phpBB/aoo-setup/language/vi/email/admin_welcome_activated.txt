@@ -1,0 +1,7 @@
+Subject: Tài khoản của bạn đã được kích hoạt
+
+Chào bạn, "{USERNAME}"
+
+Tài khoản thành viên của bạn trong website "{SITENAME}" đã được kích hoạt, ngay bây giờ bạn có thể đăng nhập vào hệ thống bằng tên thành viên và mật khẩu mà bạn đã nhận được trong Email mà chúng tôi đã gửi cho bạn trước đây.
+
+{EMAIL_SIG}

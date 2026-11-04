@@ -1,0 +1,10 @@
+Subject: Nhắc nhở tài khoản chưa kích hoạt
+
+Chào bạn, "{USERNAME}"
+
+Vào ngày {REGISTER_DATE}, bạn đã đăng ký một tài khoản thành viên mới trong website "{SITENAME}". Đến bây giờ, bạn vẫn chưa kích hoạt tài khoản này. Bạn phải thực hiện việc kích hoạt tài khoản theo yêu cầu này mới có thể đăng nhập được vào hệ thống. Để thuận tiện, bạn có thể bấm ngay vào liên kết kích hoạt tài khoản của mình dưới đây:
+{U_ACTIVATE}
+
+Cám ơn bạn đã đăng ký làm thành viên của website "{SITENAME}", chúng tôi đang mong chờ sự tham gia của bạn!
+
+{EMAIL_SIG}

@@ -1,0 +1,13 @@
+Subject: Hozzászólás jelentése - "{TOPIC_TITLE}"
+
+Kedves {USERNAME}!
+
+A "{SITENAME}" oldalon a "{POST_SUBJECT}" hozzászólást jelentették.
+
+Amennyiben meg szeretnéd tekinteni a jelentést, kattints a következő linkre:
+{U_VIEW_REPORT}
+
+Amennyiben meg szeretnéd tekinteni a hozzászólást, kattints a következő linkre:
+{U_VIEW_POST}
+
+{EMAIL_SIG}

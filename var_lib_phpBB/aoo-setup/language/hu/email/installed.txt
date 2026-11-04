@@ -1,0 +1,19 @@
+Subject: phpBB telepítve
+
+Gratulálunk!
+
+Sikeresen telepítetted a phpBB-t a szerveredre.
+
+Ez az e-mail fontos információkat tartalmaz az épp telepített fórumról, gondosan őrizd meg. A jelszavad biztonságosan került eltárolásra az adatbázisunkban, így nincs mód a kiderítésére. Ha esetleg mégis elfelejtenéd, akkor az azonosítódhoz társított e-mail cím segítségével igényelhetsz egy újat.
+
+----------------------------
+Felhasználónév: {USERNAME}
+
+Fórum URL: {U_BOARD}
+----------------------------
+
+További hasznos információkat és a dokumentációt megtalálod a fórumod "docs" könyvtárában vagy a phpBB.com felhasználói segítségnyújtási oldalán a következő linken: https://www.phpbb.com/support/
+
+Annak érdekében, hogy a fórumod biztonságos legyen, kimondottan javasoljuk, hogy tarts lépést a frissítésekkel. Ennek megkönnyítése érdekében a fenti oldalon feliratkozhatsz egy levelezőlistára.
+
+{EMAIL_SIG}

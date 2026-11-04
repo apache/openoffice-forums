@@ -1,0 +1,13 @@
+
+Chào bạn, "{TO_USERNAME}"
+
+Dưới đây là Email được gửi đến cho bạn từ thành viên "{FROM_USERNAME}" thông qua tài khoản của bạn trong website "{SITENAME}". Nếu đây là thư rác, lừa đảo hay có nội dung không đúng đắn, bạn có thể liên hệ về điều này với người chủ của website theo địa chỉ Email dưới đây:
+{BOARD_CONTACT}
+
+Hãy nhớ đính kèm bản sao của Email này, đặc biệt là phần tiêu đề Email. Lưu ý rằng địa chỉ trả lời của Email này đã được thiết lập lại thành địa chỉ Email của thành viên "{FROM_USERNAME}".
+
+Nội dung Email gửi cho bạn như sau:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+{MESSAGE}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

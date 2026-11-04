@@ -1,0 +1,9 @@
+Subject: Aktiváld az azonosítód
+
+Kedves {USERNAME}!
+
+Az azonosítód a "{SITENAME}" oldalon deaktiválásra került, valószínűleg a profilodban történt változások miatt. Ahhoz, hogy újra aktív legyen, kattints a következő linkre:
+
+{U_ACTIVATE}
+
+{EMAIL_SIG}

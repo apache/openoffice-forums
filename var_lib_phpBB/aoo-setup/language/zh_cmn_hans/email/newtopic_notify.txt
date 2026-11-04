@@ -1,0 +1,18 @@
+Subject: 新主题 - “{FORUM_NAME}”
+List-Unsubscribe: <{U_STOP_WATCHING_FORUM}>
+
+您好 {USERNAME},
+
+自从您上次访问“{SITENAME}”论坛后，在“{FORUM_NAME}”板块有了<!-- IF AUTHOR_NAME != '' --> {AUTHOR_NAME} 发布的<!-- ENDIF -->一个新主题贴“{TOPIC_TITLE}”。 在您访问该论坛之前不会再发送更多的通知。
+
+{U_FORUM}
+
+查看此新主题，请点击下面链接：
+
+{U_TOPIC}
+
+如果您不希望再关注这个版面, 点击下面的链接：
+
+{U_STOP_WATCHING_FORUM}
+
+{EMAIL_SIG}

@@ -1,0 +1,8 @@
+﻿{MESSAGE}
+
+{EMAIL_SIG}
+
+Email này được một nhà quản trị của "{SITENAME}" gửi đến cho bạn. Nếu email này là spam, chứa thông tin quấy nhiễu hay các bình luận bạn cho rằng là mang tính đã kích, hãy liên hệ với nhà quản trị web tại địa chỉ sau:
+
+{CONTACT_EMAIL}
+_EMAIL}

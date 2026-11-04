@@ -1,0 +1,8 @@
+Tiêu d?: Báo cáo du?c xóa - "{PM_SUBJECT}"
+
+Xin chào {USERNAME},
+
+B?n nh?n du?c thông báo này vì báo cáo c?a b?n liên quan d?n tin nh?n riêng "{PM_SUBJECT}" t?i trang web "{SITENAME}" v?a du?c xóa b?i nhà di?u hành hay qu?n tr?.
+
+
+{EMAIL_SIG}
