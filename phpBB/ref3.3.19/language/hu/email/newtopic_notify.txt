@@ -1,0 +1,15 @@
+Subject: "{FORUM_NAME}" fórumba új téma érkezett
+List-Unsubscribe: <{U_STOP_WATCHING_FORUM}>
+
+Kedves {USERNAME}!
+
+A "{SITENAME}" oldalon a "{FORUM_NAME}" fórumba a legutóbbi látogatásod óta új téma érkezett "{TOPIC_TITLE}" címmel<!-- IF AUTHOR_NAME != '' -->, melynek szerzője "{AUTHOR_NAME}"<!-- ENDIF -->. Több értesítést nem fogsz kapni, amíg meg nem tekinted a fórumot.
+{U_FORUM}
+
+A téma megtekintéséhez kattints a következő linkre:
+{U_TOPIC}
+
+Amennyiben a továbbiakban nem kívánod figyelni a fórumot, kattints a következő linkre:
+{U_STOP_WATCHING_FORUM}
+
+{EMAIL_SIG}

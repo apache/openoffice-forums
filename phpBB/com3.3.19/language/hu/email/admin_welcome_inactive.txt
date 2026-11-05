@@ -1,0 +1,19 @@
+Subject: Üdvözlünk a "{SITENAME}" fórumon
+
+{WELCOME_MSG}
+
+Őrizd meg ezt az e-mailt, mert elképzelhető, hogy a későbbiekben szükséged lesz rá. A fórumon létrehozott azonosító információi:
+
+----------------------------
+Felhasználónév: {USERNAME}
+
+Fórum URL: {U_BOARD}
+----------------------------
+
+A felhasználói azonosítód jelenleg inaktív, használatba vétele előtt a fórum adminisztrátorának aktiválnia kell. Amint megtörtént, egy másik értesítőt fogsz erről kapni e-mailben.
+
+A jelszavad biztonságosan került eltárolásra az adatbázisunkban, így nincs mód a kiderítésére. Ha esetleg mégis elfelejtenéd, akkor az azonosítódhoz társított e-mail cím segítségével igényelhetsz egy újat.
+
+Köszönjük, hogy regisztráltál!
+
+{EMAIL_SIG}

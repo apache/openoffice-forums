@@ -1,0 +1,20 @@
+Subject: 回复 - “{FORUM_NAME}”
+List-Unsubscribe: <{U_STOP_WATCHING_FORUM}>
+
+您好 {USERNAME}，
+
+自从您上次访问 “{SITENAME}” 论坛后， “{FORUM_NAME}” 板块上<!-- IF AUTHOR_NAME != '' --> 由 {AUTHOR_NAME} 发布<!-- ENDIF -->的主题 “{TOPIC_TITLE}”有了一个新的回帖。 此在您访问该主题之前不会再发送更多的通知。
+
+{U_NEWEST_POST}
+
+如果您想查看这个主题，点击下面的链接：
+{U_TOPIC}
+
+如果您想查看这个版面，点击下面的链接：
+{U_FORUM}
+
+如果您不想再监视这个版面, 点击下面的链接:
+
+{U_STOP_WATCHING_FORUM}
+
+{EMAIL_SIG}

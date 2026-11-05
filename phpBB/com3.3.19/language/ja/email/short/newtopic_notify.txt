@@ -1,0 +1,16 @@
+Subject: 新着トピック - フォーラム "{FORUM_NAME}"
+
+{USERNAME} さん
+
+フォーラムサイト "{SITENAME}" に於いて
+フォーラム "{FORUM_NAME}" に
+新しいトピック "{TOPIC_TITLE}"
+
+が投稿されました<!-- IF AUTHOR_NAME !== '' --> （投稿者： {AUTHOR_NAME} さん）<!-- ENDIF -->。
+フォーラムを見るまで新たな通知が送られる事はありません。
+{U_FORUM}
+
+新着トピックの通知メールを停止したい場合はこちらをクリックしてください：
+{U_STOP_WATCHING_FORUM}
+
+{EMAIL_SIG}

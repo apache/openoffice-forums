@@ -1,0 +1,13 @@
+Subject: Nowa odpowiedź w wątku – „{TOPIC_TITLE}”
+
+Witaj {USERNAME},
+
+„{AUTHOR_NAME}” zacytował Twój post w wątku „{TOPIC_TITLE}” na witrynie „{SITENAME}”.
+
+Jeśli chcesz przejść bezpośrednio do zacytowanego posta, skorzystaj z poniższego odnośnika:
+{U_VIEW_POST}
+
+Jeśli nie chcesz już otrzymywać informacji o cytowaniu Twoich postów, zmień ustawienia powiadomień, klikając poniższy odnośnik:
+{U_NOTIFICATION_SETTINGS}
+
+{EMAIL_SIG}

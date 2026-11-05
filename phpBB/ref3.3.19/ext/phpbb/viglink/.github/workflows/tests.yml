@@ -1,0 +1,25 @@
+name: Tests
+
+on:
+    push:
+        branches:        # Run tests when commits are pushed to these branches in your repo
+            - main
+            - master
+            - develop
+            - dev/*
+    pull_request:        # Run tests when pull requests are made on these branches in your repo
+        branches:
+            - main
+            - master
+            - develop
+            - dev/*
+
+jobs:
+    call-tests:
+        name: Extension tests
+        uses: phpbb-extensions/test-framework/.github/workflows/tests.yml@3.3.x
+        with:
+            EXTNAME: phpbb/viglink   # Your extension vendor/package name
+            CODECOV: 1           # Run code coverage via codecov? 1 or 0
+        secrets:
+            CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }} # Do not change this

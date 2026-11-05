@@ -1,0 +1,19 @@
+Subject: Respuesta en - "{TOPIC_TITLE}"
+
+Hola {USERNAME},
+
+Tu tema marcado como favorito “{TOPIC_TITLE}” recibió una nueva respuesta desde tu última visita a “{SITENAME}”. No se enviarán más notificaciones hasta que visites el tema.
+
+Si deseas ver el mensaje más reciente, haz clic en el siguiente enlace:
+{U_NEWEST_POST}
+
+Si quieres ver el tema, haz clic en el siguiente enlace:
+{U_TOPIC}
+
+Si quieres ver el foro, haz clic en el siguiente enlace:
+{U_FORUM}
+
+Si ya no deseas recibir información sobre las respuestas a los Favoritos, por favor, actualiza la configuración de notificaciones aquí:
+{U_NOTIFICATION_SETTINGS}
+
+{EMAIL_SIG}

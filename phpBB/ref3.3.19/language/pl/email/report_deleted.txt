@@ -1,0 +1,7 @@
+Subject: Zgłoszenie zostało usunięte – „{POST_SUBJECT}”
+
+Witaj {USERNAME}!
+
+Wysłane przez Ciebie zgłoszenie dotyczące posta „{POST_SUBJECT}” w wątku „{TOPIC_TITLE}” na witrynie „{SITENAME}” zostało usunięte przez moderatora lub administratora.
+
+{EMAIL_SIG}

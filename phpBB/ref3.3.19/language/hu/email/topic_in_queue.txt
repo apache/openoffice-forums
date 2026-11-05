@@ -1,0 +1,13 @@
+Subject: Téma jóváhagyásra vár - "{TOPIC_TITLE}"
+
+Kedves {USERNAME}!
+
+A "{SITENAME}" oldalon a "{TOPIC_TITLE}" téma jóváhagyásra vár.
+
+Amennyiben meg szeretnéd tekinteni a témát, kattints a következő linkre:
+{U_VIEW_TOPIC}
+
+Amennyiben meg szeretnéd tekinteni a fórumot, kattints a következő linkre:
+{U_FORUM}
+
+{EMAIL_SIG}

@@ -1,0 +1,20 @@
+Subject: 「{TOPIC_TITLE}」的回覆
+List-Unsubscribe: <{U_STOP_WATCHING_TOPIC}>
+
+親愛的 {USERNAME} 您好：
+
+自從您上次來訪「{SITENAME}」後，主題「{TOPIC_TITLE}」有了<!-- IF AUTHOR_NAME !== '' -->由 {AUTHOR_NAME} 發表<!-- ENDIF -->的新回覆。直到您訪問這個主題之前，不會再傳送更多的通知。
+
+如果您要檢視最新的文章，點選下面的連結：
+{U_NEWEST_POST}
+
+如果您希望檢視這個主題，點選下面的連結：
+{U_TOPIC}
+
+如果您希望檢視主題所在的版面，點選下面的連結：
+{U_FORUM}
+
+如果您不想要再訂閱這個主題，點選下面的連結：
+ {U_STOP_WATCHING_TOPIC}
+
+{EMAIL_SIG}

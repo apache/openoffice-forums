@@ -1,0 +1,18 @@
+Subject: Odpowiedź na forum „{FORUM_NAME}”
+List-Unsubscribe: <{U_STOP_WATCHING_FORUM}>
+
+Witaj {USERNAME}!
+
+Na forum „{FORUM_NAME}” na witrynie „{SITENAME}” od czasu Twojej ostatniej wizyty, pojawiła się odpowiedź w wątku „{TOPIC_TITLE}”<!-- IF AUTHOR_NAME !== '' --> napisana przez użytkownika {AUTHOR_NAME}<!-- ENDIF -->. Kolejne powiadomienie o zmianach na forum zostanie wysyłane, dopiero gdy zapoznasz się z tym postem.
+{U_NEWEST_POST}
+
+Jeśli chcesz przejść na początek wątku, w którym go napisano – użyj poniższego odnośnika:
+{U_TOPIC}
+
+Jeśli chcesz przejść do obserwowanego forum – skorzystaj z poniższego odnośnika:
+{U_FORUM}
+
+Jeśli nie chcesz już obserwować tego forum, kliknij odnośnik:
+{U_STOP_WATCHING_FORUM}
+
+{EMAIL_SIG}

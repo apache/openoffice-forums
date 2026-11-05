@@ -1,0 +1,8 @@
+Tiêu d?: Ðóng báo cáo - "{PM_SUBJECT}"
+
+Xin chào {USERNAME},
+
+B?n nh?n du?c thông báo này vì báo cáo c?a b?n liên quan d?n tin nh?n riêng "{PM_SUBJECT}" ? trang web "{SITENAME}" v?a du?c x? lý b?i m?t nhà di?u hành hay qu?n tr?. Báo cao bây gi? s? du?c dóng l?i. N?u b?n có th?c m?c, xin liên h? {CLOSER_NAME} b?ng tin nh?n riêng.
+
+
+{EMAIL_SIG}

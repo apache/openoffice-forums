@@ -1,0 +1,17 @@
+Subject: Üdvözlünk a "{SITENAME}" fórumon!
+
+{WELCOME_MSG}
+
+Kérünk, tartsd meg ezt az üzenetet. Az azonosítód adatai a következőek:
+
+----------------------------
+Felhasználónév: {USERNAME}
+
+Fórum URL: {U_BOARD}
+----------------------------
+
+A jelszavad biztonságosan került eltárolásra az adatbázisunkban, így nincs mód a kiderítésére. Ha esetleg mégis elfelejtenéd, akkor az azonosítódhoz társított e-mail cím segítségével igényelhetsz egy újat.
+
+Köszönjük, hogy regisztráltál!
+
+{EMAIL_SIG}

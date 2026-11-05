@@ -1,0 +1,7 @@
+Subject: Informe borrado - “{POST_SUBJECT}”
+
+Hola {USERNAME},
+
+El informe que presentó por el mensaje “{POST_SUBJECT}” en “{TOPIC_TITLE}” de “{SITENAME}” fue borrado por un Moderador o Administrador.
+
+{EMAIL_SIG}

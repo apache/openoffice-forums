@@ -1,0 +1,20 @@
+Subject: Risposta su "{FORUM_NAME}"
+List-Unsubscribe: <{U_STOP_WATCHING_FORUM}>
+
+Ciao {USERNAME},
+
+"{FORUM_NAME}" ha ricevuto una nuova risposta all'argomento "{TOPIC_TITLE}" <!-- IF AUTHOR_NAME != '' --> da {AUTHOR_NAME}<!-- ENDIF --> dalla tua ultima visita a "{SITENAME}". Non verranno più inviate notifiche finché non visiterai l'argomento.
+
+{U_NEWEST_POST}
+
+Per visualizzare l’argomento clicca sul seguente link:
+{U_TOPIC}
+
+Per visualizzare il forum clicca sul seguente link:
+{U_FORUM}
+
+Se non desideri più seguire questo forum, clicca sul seguente link:
+
+{U_STOP_WATCHING_FORUM}
+
+{EMAIL_SIG}

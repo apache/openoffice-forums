@@ -1,0 +1,14 @@
+Subject: phpBB 邮件功能已正确的配置好
+
+您好 {USERNAME}，
+
+恭喜您，如果你收到此电邮，意味着你的 phpBB 论坛的电邮发送功能已经正确的配置完成了。
+
+<!-- IF MESSAGE -->
+{MESSAGE}
+
+<!-- ENDIF -->
+
+如果你需要其它帮助，请访问 phpBB 支持论坛 - https://www.phpbb.com/community/
+
+{EMAIL_SIG}

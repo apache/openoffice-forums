@@ -1,0 +1,9 @@
+Subject: Informe cerrado - “{PM_SUBJECT}”
+
+Hola {USERNAME},
+
+El informe que presentó sobre el mensaje privado “{PM_SUBJECT}” en “{SITENAME}” ha sido atendido por un Moderador o Administrador. El informe ahora está cerrado.
+
+Si tiene alguna pregunta o duda, por favor póngase en contacto con {CLOSER_NAME} por mensaje privado.
+
+{EMAIL_SIG}

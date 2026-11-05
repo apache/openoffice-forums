@@ -1,0 +1,17 @@
+Subject: Kích hoạt lại tài khoản của bạn trong "{SITENAME}" - {U_BOARD}
+
+Một quản trị viên đã yêu cầu bạn phải kích hoạt lại tài khoản của mình. Tài khoản của bạn tạm thời ngưng kích hoạt.
+Bạn hãy vui lòng làm theo những bước dưới đây để kích hoạt lại tài khoản của mình.
+
+Hãy giữ Email này cẩn thận. Thông tin về tài khoản thành viên của bạn như sau:
+
+----------------------------------
+Tên thành viên: {USERNAME}
+----------------------------------
+
+Xin vui lòng đừng quên mật khẩu của bạn bởi vì nó đã được mã hoá trong cơ sở dữ liệu của hệ thống và chúng tôi không thể khôi phục lại nó cho bạn. Tuy nhiên, nếu bạn quên mật khẩu của mình, bạn có thể yêu cầu một mật khẩu mới và cũng cần phải được kích hoạt giống như tài khoản này.
+
+Hãy vui lòng bấm vào liên kết bên dưới để kích hoạt lại tài khoản của bạn:
+{U_ACTIVATE}
+
+{EMAIL_SIG}

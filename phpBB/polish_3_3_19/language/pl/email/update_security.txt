@@ -1,0 +1,14 @@
+Subject: Dostępna jest aktualizacja zabezpieczeń phpBB {NEW_VERSION} dla "{SITENAME}"
+
+Witaj {USERNAME},
+
+Informujemy, że opublikowano aktualizację zabezpieczeń dla Twojej instalacji phpBB.
+
+Twoja obecna wersja to {CURRENT_VERSION}, a dostępna jest nowa wersja zawierająca poprawki zabezpieczeń. Zalecamy zaktualizowanie forum do najnowszej dostępnej wersji {NEW_VERSION}, aby zapewnić bezpieczeństwo i ochronę Twojej instalacji.
+
+Szczegóły dotyczące wydania można sprawdzić w panelu administracyjnym Twojej instalacji phpBB.
+{U_BOARD}
+
+Aby uzyskać pomoc dotyczącą procesu aktualizacji, zapoznaj się z dokumentacją lub odwiedź fora pomocy technicznej phpBB.
+
+{EMAIL_SIG}

@@ -1,0 +1,14 @@
+Subject: phpBB is correct geconfigureerd om e-mails te versturen
+
+Hallo {USERNAME},
+
+Gefeliciteerd. Als je deze e-mail hebt ontvangen, is je forum correct geconfigureerd om e-mails te versturen.
+
+<!-- IF MESSAGE -->
+{MESSAGE}
+
+<!-- ENDIF -->
+
+Mocht je toch nog hulp nodig hebben, bezoek dan ons support forum via http://www.phpbb.nl/forums/index.php
+
+{EMAIL_SIG}

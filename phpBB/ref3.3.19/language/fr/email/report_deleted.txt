@@ -1,0 +1,7 @@
+Subject: Votre signalement a été supprimé : « {POST_SUBJECT} »
+
+Bonjour {USERNAME},
+
+Le signalement que vous avez rédigé concernant le message « {POST_SUBJECT} » dans « {TOPIC_TITLE} » sur « {SITENAME} » a été supprimé par un modérateur ou un administrateur.
+
+{EMAIL_SIG}

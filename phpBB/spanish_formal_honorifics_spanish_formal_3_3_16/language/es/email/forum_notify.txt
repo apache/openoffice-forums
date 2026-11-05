@@ -1,0 +1,18 @@
+Subject: Respuesta en - “{FORUM_NAME}”
+Lista-Darse de baja: <{U_STOP_WATCHING_FORUM}>
+
+Hola {USERNAME},
+
+El “{FORUM_NAME}” recibió una nueva respuesta al tema “{TOPIC_TITLE}”<!-- IF AUTHOR_NAME != '' --> por {AUTHOR_NAME}<!-- ENDIF --> desde su última visita a “{SITENAME}”. No se enviarán más notificaciones hasta que visite el tema.
+{U_NEWEST_POST}
+
+Si quiere ver el tema, haga clic en el siguiente enlace:
+{U_TOPIC}
+
+Si quiere ver el foro, haga clic en el siguiente enlace:
+{U_FORUM}
+
+Si ya no desea seguir este foro, haga clic en el siguiente enlace:
+{U_STOP_WATCHING_FORUM}
+
+{EMAIL_SIG}

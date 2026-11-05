@@ -1,0 +1,7 @@
+Subject: Cancellazione segnalazione - “{PM_SUBJECT}”
+
+Ciao {USERNAME},
+
+La segnalazione che hai presentato in merito al messaggio privato "{PM_SUBJECT}" in "{SITENAME}" è stata eliminata da un moderatore o amministratore.
+
+{EMAIL_SIG}

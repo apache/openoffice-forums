@@ -1,0 +1,20 @@
+Subject: Risposta su “{TOPIC_TITLE}”
+
+Ciao {USERNAME},
+
+Il tuo argomento aggiunto ai preferiti "{TOPIC_TITLE}" ha ricevuto una nuova risposta dalla tua ultima visita a "{SITENAME}". Non verranno più inviate notifiche finché non visiterai l'argomento.
+
+Se desideri visualizzare il messaggio più recente, fai clic sul seguente link:
+{U_NEWEST_POST}
+
+Per visualizzare l’argomento clicca sul seguente link:
+{U_TOPIC}
+
+Per visualizzare il forum clicca sul seguente link:
+{U_FORUM}
+
+Se non desideri più controllare questo argomento puoi cliccare su “Annulla sottoscrizione argomento” che trovi sull’argomento sottoscritto, o cliccando sul link seguente:
+
+{U_NOTIFICATION_SETTINGS}
+
+{EMAIL_SIG}

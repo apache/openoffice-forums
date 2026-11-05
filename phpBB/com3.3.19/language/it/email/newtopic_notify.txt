@@ -1,0 +1,19 @@
+Subject: Nuovo argomento su "{FORUM_NAME}"
+List-Unsubscribe: <{U_STOP_WATCHING_FORUM}>
+
+Ciao {USERNAME},
+
+Nel forum "{FORUM_NAME}" è stato aperto un nuovo argomento "{TOPIC_TITLE}" <!-- IF AUTHOR_NAME != '' --> da {AUTHOR_NAME}<!-- ENDIF --> dalla tua ultima visita a "{SITENAME} ". Non verranno più inviate notifiche finché non visiterai il forum.
+
+{U_FORUM}
+
+
+Per vedere direttamente il nuovo argomento, visita il seguente link:
+{U_TOPIC}
+
+
+Se non desideri più seguire questo forum, clicca sul seguente link:
+
+{U_STOP_WATCHING_FORUM}
+
+{EMAIL_SIG}

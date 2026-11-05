@@ -1,0 +1,14 @@
+Subject: Nowa odpowiedź w wątku „{TOPIC_TITLE}”
+List-Unsubscribe: <{U_STOP_WATCHING_TOPIC}>
+
+Witaj {USERNAME}!
+
+Na witrynie „{SITENAME}” od czasu Twojej ostatniej wizyty, pojawiła się nowa odpowiedź w wątku „{TOPIC_TITLE}”<!-- IF AUTHOR_NAME !== '' --> założony przez {AUTHOR_NAME}<!-- ENDIF -->. Kolejne powiadomienie o zmianach na forum zostanie wysyłane, dopiero gdy zapoznasz się z tym postem.
+
+Jeśli chcesz przejść bezpośrednio do nowego posta, kliknij poniższy odnośnik:
+{U_NEWEST_POST}
+
+Jeśli nie chcesz już obserwować tego tematu, kliknij odnośnik:
+{U_STOP_WATCHING_TOPIC}
+
+{EMAIL_SIG}

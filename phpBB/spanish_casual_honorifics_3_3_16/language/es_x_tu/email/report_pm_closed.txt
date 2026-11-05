@@ -1,0 +1,13 @@
+Subject: Informe de mensaje privado cerrado - “{SUBJECT}”
+
+Hola {USERNAME},
+
+El informe que presentaste sobre el mensaje “{SUBJECT}” por “{AUTHOR_NAME}” de “{SITENAME}” fue revisado por un Moderador o Administrador. Posteriormente se cerró el informe. Si tienes más preguntas, contacta con {CLOSER_NAME} con un mensaje privado.
+
+Puedes ver tu mensaje reportado haciendo clic en el siguiente enlace:
+
+{U_VIEW_MESSAGE}
+
+Has solicitado que se te notifique sobre este evento, recuerda que siempre puedes elegir no ser notificado de los informes de mensajes cerrados cambiando la configuración adecuada en tu perfil.
+
+{EMAIL_SIG}

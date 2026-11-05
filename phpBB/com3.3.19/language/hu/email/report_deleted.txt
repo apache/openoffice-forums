@@ -1,0 +1,7 @@
+Subject: Jelentés törölve - "{POST_SUBJECT}"
+
+Kedves {USERNAME}!
+
+A "{SITENAME}" oldalon a "{POST_SUBJECT}" hozzászólást a "{TOPIC_TITLE} témában jelentetted az adminisztrátorok és moderátorok felé. A jelentésed törlésre került.
+
+{EMAIL_SIG}

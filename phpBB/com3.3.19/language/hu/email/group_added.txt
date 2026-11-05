@@ -1,0 +1,11 @@
+Subject: Sikeresen csatlakoztál egy felhasználói csoporthoz
+
+Gratulálunk!
+
+A "{SITENAME}" oldalon hozzáadásra kerültél a "{GROUP_NAME}" csoporthoz.
+Ezt a fórum adminisztrátorának, vagy a csoport vezetőjének köszönheted. További információért fordult hozzájuk.
+
+A csoport információit a következő linkre kattintva érheted el:
+{U_GROUP}
+
+{EMAIL_SIG}

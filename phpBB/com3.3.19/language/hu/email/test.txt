@@ -1,0 +1,13 @@
+Subject: phpBB e-mail beállításai helyesek voltak
+
+Szia {USERNAME},
+
+Gratulálunk! Ha ezt az e-mail-t olvasod, az azt jelenti, hogy helyesen állítottad be a phpBB e-mail küldési funkcióját.
+
+<!-- IF MESSAGE -->
+{MESSAGE}
+
+<!-- ENDIF -->
+Amennyiben segítségre lenne szükséged, keresd fel a Magyar phpBB Közösség fórumát - http://phpbb.hu/forum
+
+{EMAIL_SIG}

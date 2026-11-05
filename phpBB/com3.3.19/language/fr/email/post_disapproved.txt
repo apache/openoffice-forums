@@ -1,0 +1,11 @@
+Subject: Votre message a été refusé : « {POST_SUBJECT} »
+
+Bonjour {USERNAME},
+
+Votre message « {POST_SUBJECT} » sur « {SITENAME} » a été refusé par un modérateur ou un administrateur.
+
+Le motif suivant a été indiqué pour ce refus :
+
+{REASON}
+
+{EMAIL_SIG}

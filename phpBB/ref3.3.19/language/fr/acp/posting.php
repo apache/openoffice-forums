@@ -1,0 +1,305 @@
+<?php
+/**
+ * This file is part of the French language pack for the
+ * phpBB forum software.
+ *
+ * @copyright (c) phpBB Limited <https://www.phpbb.com>
+ * @copyright (c) Qiaeru <https://qiaeru.com>
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ * For more information about the language pack, please visit
+ * https://www.phpbb.com/customise/db/translation/french/
+ */
+
+/**
+ * DO NOT CHANGE
+ */
+if (!defined('IN_PHPBB'))
+{
+	exit;
+}
+
+if (empty($lang) || !is_array($lang))
+{
+	$lang = [];
+}
+
+// DEVELOPERS PLEASE NOTE
+//
+// All language files should use UTF-8 as their encoding and the files must not contain a BOM.
+//
+// Placeholders can now contain order information, e.g. instead of
+// 'Page %s of %s' you can (and should) write 'Page %1$s of %2$s', this allows
+// translators to re-order the output of data while ensuring it remains correct
+//
+// You do not need this where single placeholders are used, e.g. 'Message %d' is fine
+// equally where a string contains only two placeholders which are used to wrap text
+// in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
+
+// BBCodes
+// Note to translators: you can translate everything but what's between { and }
+$lang = array_merge($lang, [
+	'ACP_BBCODES_EXPLAIN' => 'Le BBCode est une variante du HTML qui offre un meilleur contrôle sur la mise en forme. Depuis cette page, vous pouvez ajouter, supprimer et modifier des BBCodes personnalisés.',
+	'ADD_BBCODE'          => 'Ajouter un nouveau BBCode',
+
+	'BBCODE_DANGER'         => 'Le BBCode que vous essayez d’ajouter semble dangereux. Si le BBCode utilise une chaîne de symboles « {TEXT} » dans un contexte sensible, préférez un type plus restrictif. Ne continuez que si vous comprenez les risques encourus.',
+	'BBCODE_DANGER_PROCEED' => 'Continuer', //'I understand the risk',
+
+	'BBCODE_ADDED'             => 'Le BBCode a été ajouté.',
+	'BBCODE_EDITED'            => 'Le BBCode a été modifié.',
+	'BBCODE_DELETED'           => 'Le BBCode a été supprimé.',
+	'BBCODE_NOT_EXIST'         => 'Le BBCode est introuvable.',
+	'BBCODE_HELPLINE'          => 'Ligne d’aide',
+	'BBCODE_HELPLINE_EXPLAIN'  => 'Texte affiché au passage de la souris sur le bouton du BBCode.',
+	'BBCODE_HELPLINE_TEXT'     => 'Texte de la ligne d’aide',
+	'BBCODE_HELPLINE_TOO_LONG' => 'La ligne d’aide est trop longue.',
+
+	'BBCODE_INVALID_TAG_NAME' => 'Le nom de la balise BBCode est invalide ou existe déjà.',
+	'BBCODE_INVALID'          => 'Le BBCode a une structure invalide.',
+	'BBCODE_INVALID_TEMPLATE' => 'Le modèle de BBCode est invalide.',
+	'BBCODE_TAG'              => 'Balise',
+	'BBCODE_TAG_TOO_LONG'     => 'Le nom de la balise est trop long.',
+	'BBCODE_TAG_DEF_TOO_LONG' => 'La définition de la balise est trop longue, raccourcissez-la.',
+	'BBCODE_USAGE'            => 'Structure du BBCode',
+	'BBCODE_USAGE_EXAMPLE'    => '[highlight={COLOR}]{TEXT}[/highlight]<br><br>[font={SIMPLETEXT1}]{SIMPLETEXT2}[/font]',
+	'BBCODE_USAGE_EXPLAIN'    => 'Saisissez la structure du BBCode que vos utilisateurs devront respecter. Remplacez les variables par les jetons correspondants (%svoir ci-dessous%s).',
+
+	'EXAMPLE'  => 'Exemple :',
+	'EXAMPLES' => 'Exemples :',
+
+	'HTML_REPLACEMENT'         => 'Code HTML',
+	'HTML_REPLACEMENT_EXAMPLE' => '&lt;span style="background-color: {COLOR};"&gt;{TEXT}&lt;/span&gt;<br><br>&lt;span style="font-family: {SIMPLETEXT1};"&gt;{SIMPLETEXT2}&lt;/span&gt;',
+	'HTML_REPLACEMENT_EXPLAIN' => 'Vous pouvez saisir dans ce champ le code HTML qui sera affiché lors de l’utilisation du BBCode saisi ci-dessus. N’oubliez pas d’utiliser toutes les chaînes de symboles que vous avez utilisées dans votre BBCode !',
+
+	'TOKEN'            => 'Chaîne de symboles',
+	'TOKENS'           => 'Chaînes de symboles',
+	'TOKENS_EXPLAIN'   => 'Les chaînes de symboles sont des marques substitutives pour les entrées des utilisateurs. Les entrées ne seront validées que si elles correspondent à la définition. Si besoin, vous pouvez les numéroter en ajoutant un nombre comme dernier caractère entre les accolades, par exemple « {TEXT1} », « {TEXT2} », etc.<br><br>Dans le code HTML, vous pouvez également utiliser une chaîne de langue dans votre répertoire « language/ » tel que « {L_<em>« NOMDELACHAÎNE »</em>} » où <em>« NOMDELACHAÎNE »</em> est le nom de la chaîne traduite à ajouter. Par exemple, « {L_WROTE} » sera affiché en tant que « a écrit » ou sa traduction selon la langue locale de l’utilisateur.<br><br><strong>Notez que seules les chaînes listées ci-dessous peuvent être utilisées dans les BBCodes personnalisés.</strong>',
+	'TOKEN_DEFINITION' => 'Qu’est-ce que c’est ?',
+	'TOO_MANY_BBCODES' => 'Vous ne pouvez pas créer d’autres BBCodes. Supprimez-en un ou plusieurs et réessayez.',
+
+	'tokens' => [
+		'TEXT'         => 'Du texte, y compris les caractères étrangers, les chiffres, etc.',
+		'SIMPLETEXT'   => 'Caractères de l’alphabet latin (A-Z), chiffres, espaces, virgules, points, tirets, tirets bas et signes plus et moins.',
+		'INTTEXT'      => 'Lettres Unicode, chiffres, espaces, virgules, points, tirets, tirets bas, espaces insécables et signes plus et moins.',
+		'IDENTIFIER'   => 'Caractères de l’alphabet latin (A-Z), chiffres, tirets et tirets bas.',
+		'NUMBER'       => 'Une série de chiffres.',
+		'EMAIL'        => 'Une adresse e-mail correcte.',
+		'URL'          => 'Une URL correcte utilisant n’importe quel protocole autorisé (HTTP, FTP, etc.) ne pouvant pas être utilisée pour des injections de Javascript. Si aucun protocole n’est renseigné, « http:// » sera utilisé par défaut.',
+		'LOCAL_URL'    => 'Une URL locale. L’adresse doit être relative à la page du sujet et ne doit pas contenir de nom de serveur ou de protocole, car les liens sont préfixés par « %s »',
+		'RELATIVE_URL' => 'Une URL relative. Vous pouvez l’utiliser pour capturer des parties d’une URL, mais soyez vigilant, car une URL complète est une URL relative valide. Pour utiliser les URL relatives de votre forum, utilisez la chaîne de symboles « LOCAL_URL ».',
+		'COLOR'        => 'Une couleur HTML, sous forme hexadécimale « #FF1234 » ou un <a href="https://www.w3.org/TR/css3-color/#colorunits">nom de couleur CSS</a> (en anglais), tel que « black » ou « fuchsia ».',
+		'ALNUM'        => 'Caractères de l’alphabet latin (A-Z) et chiffres.',
+		'CHOICE'       => 'Un choix de valeurs indiquées, par exemple <samp>{CHOICE=pique,cœur,carreau,trèfle}</samp>. Les valeurs sont traitées comme insensibles à la casse par défaut et peuvent être traitées comme sensibles à la casse en spécifiant l’option <samp>caseSensitive</samp> : <samp>{CHOICE=pique,cœur,carreau,trèfle;caseSensitive}</samp>',
+		'FLOAT'        => 'Une valeur décimale, par exemple <samp>0.5</samp>.',
+		'HASHMAP'      => 'Associe des chaînes à leur remplacement sous la forme <samp>{HASHMAP=chaîne1:remplacement1,chaîne2:remplacement2}</samp>. Sensible à la casse. Préserve les valeurs inconnues par défaut.',
+		'INT'          => 'Une valeur entière, par exemple <samp>2</samp>.',
+		'IP'           => 'Une adresse IPv4 ou IPv6 valide.',
+		'IPPORT'       => 'Une adresse IPv4 ou IPv6 valide avec un numéro de port.',
+		'IPV4'         => 'Une adresse IPv4 valide.',
+		'IPV6'         => 'Une adresse IPv6 valide.',
+		'MAP'          => 'Associe des chaînes à leur remplacement sous la forme <samp>{MAP=chaîne1:remplacement1,chaîne2:remplacement2}</samp>. Insensible à la casse. Préserve les valeurs inconnues par défaut.',
+		'RANGE'        => 'Accepte un entier dans l’intervalle donné, par exemple <samp>{RANGE=-10,42}</samp>.',
+		'REGEXP'       => 'Valide sa valeur par rapport à une expression rationnelle donnée, par exemple <samp>{REGEXP=/^foo\w+bar$/}</samp>.',
+		'TIMESTAMP'    => 'Un horodatage tel que <samp>1h30m10s</samp> qui sera converti en nombre de secondes. Accepte également un nombre.',
+		'UINT'         => 'Une valeur entière non signée. Identique à <samp>{INT}</samp>, mais rejette les valeurs inférieures à 0.',
+	],
+]);
+
+// Smilies and topic icons
+$lang = array_merge($lang, [
+	'ACP_ICONS_EXPLAIN'   => 'Depuis cette page, vous pouvez ajouter, supprimer ou modifier les icônes que les utilisateurs peuvent associer à leurs sujets et à leurs messages. Ces icônes sont généralement affichées à côté des titres des sujets sur la liste des forums ou à côté des titres des messages sur la liste des sujets. Vous pouvez également installer et créer de nouvelles archives d’icônes.',
+	'ACP_SMILIES_EXPLAIN' => 'Les émoticônes sont généralement de petites images, parfois animées, utilisées pour exprimer une émotion ou un sentiment. Depuis cette page, vous pouvez ajouter, supprimer et modifier les émoticônes que les utilisateurs peuvent insérer dans leurs messages et leurs messages privés. Vous pouvez également installer et créer de nouvelles archives d’émoticônes.',
+	'ADD_SMILIES'         => 'Ajouter plusieurs émoticônes',
+	'ADD_SMILEY_CODE'     => 'Ajouter un code d’émoticône additionnel',
+	'ADD_ICONS'           => 'Ajouter plusieurs icônes',
+	'AFTER_ICONS'         => 'Après %s',
+	'AFTER_SMILIES'       => 'Après %s',
+
+	'CODE'                    => 'Code',
+	'CURRENT_ICONS'           => 'Icônes actuelles',
+	'CURRENT_ICONS_EXPLAIN'   => 'Choisissez l’action à appliquer aux icônes actuellement installées.',
+	'CURRENT_SMILIES'         => 'Émoticônes actuelles',
+	'CURRENT_SMILIES_EXPLAIN' => 'Choisissez l’action à appliquer aux émoticônes actuellement installées.',
+
+	'DISPLAY_ON_POSTING' => 'Afficher sur la page de rédaction',
+	'DISPLAY_POSTING'    => 'Sur la page de rédaction',
+	'DISPLAY_POSTING_NO' => 'Pas sur la page de rédaction',
+
+	'EDIT_ICONS'             => 'Modifier les icônes',
+	'EDIT_SMILIES'           => 'Modifier les émoticônes',
+	'EMOTION'                => 'Émotion',
+	'EXPORT_ICONS'           => 'Exporter et télécharger « icons.pak »',
+	'EXPORT_ICONS_EXPLAIN'   => '%sSi vous cliquez sur ce lien, la configuration des icônes installées sera archivée dans « icons.pak » qui, une fois téléchargé, pourra être utilisé pour créer un fichier compressé au format « .zip » ou « .tgz » qui contiendra toutes vos icônes, ainsi que le fichier de configuration « icons.pak »%s.',
+	'EXPORT_SMILIES'         => 'Exporter et télécharger « smilies.pak »',
+	'EXPORT_SMILIES_EXPLAIN' => '%sSi vous cliquez sur ce lien, la configuration des émoticônes installées sera archivée dans « smilies.pak » qui, une fois téléchargé, pourra être utilisé pour créer un fichier compressé au format « .zip » ou « .tgz » qui contiendra toutes vos émoticônes, ainsi que le fichier de configuration « smilies.pak »%s.',
+
+	'FIRST' => 'Premier',
+
+	'ICONS_ADD'   => 'Ajouter une nouvelle icône',
+	'ICONS_ADDED' => [
+		0 => 'Aucune icône n’a été ajoutée.',
+		1 => 'L’icône a été ajoutée.',
+		2 => 'Les icônes ont été ajoutées.',
+	],
+	'ICONS_CONFIG'  => 'Configuration de l’icône',
+	'ICONS_DELETED' => 'L’icône a été supprimée.',
+	'ICONS_EDIT'    => 'Modifier l’icône',
+	'ICONS_EDITED'  => [
+		0 => 'Aucune icône n’a été mise à jour.',
+		1 => 'L’icône a été mise à jour.',
+		2 => 'Les icônes ont été mises à jour.',
+	],
+	'ICONS_HEIGHT'         => 'Hauteur de l’icône',
+	'ICONS_IMAGE'          => 'Image de l’icône',
+	'ICONS_IMPORTED'       => 'L’archive d’icônes a été installée.',
+	'ICONS_IMPORT_SUCCESS' => 'L’archive d’icônes a été importée.',
+	'ICONS_LOCATION'       => 'Emplacement de l’icône',
+	'ICONS_NOT_DISPLAYED'  => 'Les icônes suivantes ne sont pas affichées sur la page de rédaction',
+	'ICONS_ORDER'          => 'Position de l’icône',
+	'ICONS_URL'            => 'Fichier image de l’icône',
+	'ICONS_WIDTH'          => 'Largeur de l’icône',
+	'IMPORT_ICONS'         => 'Installer une archive d’icônes',
+	'IMPORT_SMILIES'       => 'Installer une archive d’émoticônes',
+
+	'KEEP_ALL' => 'Tout conserver',
+
+	'MASS_ADD_SMILIES' => 'Ajouter plusieurs émoticônes',
+
+	'NO_ICONS_ADD'      => 'Impossible d’ajouter une icône : aucune n’est disponible.',
+	'NO_ICONS_EDIT'     => 'Impossible de modifier une icône : aucune n’est disponible.',
+	'NO_ICONS_EXPORT'   => 'Vous n’avez aucune icône pour créer une archive.',
+	'NO_ICONS_PAK'      => 'Aucune archive d’icônes n’a été trouvée.',
+	'NO_SMILIES_ADD'    => 'Impossible d’ajouter une émoticône : aucune n’est disponible.',
+	'NO_SMILIES_EDIT'   => 'Impossible de modifier une émoticône : aucune n’est disponible.',
+	'NO_SMILIES_EXPORT' => 'Vous n’avez aucune émoticône pour créer une archive.',
+	'NO_SMILIES_PAK'    => 'Aucune archive d’émoticônes n’a été trouvée.',
+
+	'PAK_FILE_NOT_READABLE' => 'Impossible de lire le fichier « .pak ».',
+
+	'REPLACE_MATCHES' => 'Remplacer les résultats',
+
+	'SELECT_PACKAGE' => 'Sélectionner une archive',
+	'SMILIES_ADD'    => 'Ajouter une nouvelle émoticône',
+	'SMILIES_ADDED'  => [
+		0 => 'Aucune émoticône n’a été ajoutée.',
+		1 => 'L’émoticône a été ajoutée.',
+		2 => 'Les émoticônes ont été ajoutées.',
+	],
+	'SMILIES_CODE'      => 'Code de l’émoticône',
+	'SMILIES_CONFIG'    => 'Configuration de l’émoticône',
+	'SMILIES_DELETED'   => 'L’émoticône a été supprimée.',
+	'SMILIES_EDIT'      => 'Modifier l’émoticône',
+	'SMILIE_NO_CODE'    => 'L’émoticône « %s » a été ignorée car aucun code n’a été indiqué.',
+	'SMILIE_NO_EMOTION' => 'L’émoticône « %s » a été ignorée car aucune émotion n’a été indiquée.',
+	'SMILIE_NO_FILE'    => 'L’émoticône « %s » a été ignorée car le fichier est manquant.',
+	'SMILIES_EDITED'    => [
+		0 => 'Aucune émoticône n’a été mise à jour.',
+		1 => 'L’émoticône a été mise à jour.',
+		2 => 'Les émoticônes ont été mises à jour.',
+	],
+	'SMILIES_EMOTION'        => 'Émotion',
+	'SMILIES_HEIGHT'         => 'Hauteur de l’émoticône',
+	'SMILIES_IMAGE'          => 'Image de l’émoticône',
+	'SMILIES_IMPORTED'       => 'L’archive d’émoticônes a été installée.',
+	'SMILIES_IMPORT_SUCCESS' => 'L’archive d’émoticônes a été importée.',
+	'SMILIES_LOCATION'       => 'Emplacement de l’émoticône',
+	'SMILIES_NOT_DISPLAYED'  => 'Les émoticônes suivantes ne sont pas affichées sur la page de rédaction',
+	'SMILIES_ORDER'          => 'Position de l’émoticône',
+	'SMILIES_URL'            => 'Fichier image de l’émoticône',
+	'SMILIES_WIDTH'          => 'Largeur de l’émoticône',
+
+	'TOO_MANY_SMILIES' => [
+		1 => 'La limite de %d émoticône a été atteinte.',
+		2 => 'La limite de %d émoticônes a été atteinte.',
+	],
+
+	'WRONG_PAK_TYPE' => 'L’archive ne contient pas les données attendues.',
+]);
+
+// Word censors
+$lang = array_merge($lang, [
+	'ACP_WORDS_EXPLAIN' => 'Depuis cette page, vous pouvez ajouter, modifier et supprimer les mots qui seront automatiquement censurés sur votre forum. Les mots censurés seront alors remplacés par les substitutions qui leur sont assignées. Les visiteurs pourront tout de même s’inscrire avec des noms d’utilisateurs contenant ces mots. Les astérisques « * » utilisés comme métacaractère passe-partout sont acceptés dans les champs. Par exemple, « *test* » censurera « détestable », « test* » censurera « testament », « *test » censurera « alcootest ».',
+	'ADD_WORD'          => 'Ajouter un nouveau mot',
+
+	'EDIT_WORD'  => 'Modifier la censure de mot',
+	'ENTER_WORD' => 'Saisissez un mot et sa substitution.',
+
+	'NO_WORD' => 'Aucun mot n’a été sélectionné pour la modification.',
+
+	'REPLACEMENT' => 'Substitution',
+
+	'UPDATE_WORD' => 'Mettre à jour la censure de mot',
+
+	'WORD'         => 'Mot',
+	'WORD_ADDED'   => 'La censure de mot a été ajoutée.',
+	'WORD_REMOVED' => 'La censure de mot a été supprimée.',
+	'WORD_UPDATED' => 'La censure de mot a été mise à jour.',
+]);
+
+// Ranks
+$lang = array_merge($lang, [
+	'ACP_RANKS_EXPLAIN' => 'Depuis cette page, vous pouvez consulter, ajouter, modifier et supprimer les rangs des utilisateurs. Vous pouvez aussi créer des rangs personnalisés à attribuer depuis la page de gestion des utilisateurs.',
+	'ADD_RANK'          => 'Ajouter un nouveau rang',
+
+	'MUST_SELECT_RANK' => 'Vous devez sélectionner un rang.',
+
+	'NO_ASSIGNED_RANK' => 'Aucun rang spécial n’a été indiqué.',
+	'NO_RANK_TITLE'    => 'Le titre du rang n’a pas été indiqué.',
+	'NO_UPDATE_RANKS'  => 'Le rang a été supprimé. Les comptes des utilisateurs qui l’utilisaient n’ont pas été mis à jour ; réinitialisez leur rang manuellement.',
+
+	'RANK_ADDED'         => 'Le rang a été ajouté.',
+	'RANK_IMAGE'         => 'Image du rang',
+	'RANK_IMAGE_EXPLAIN' => 'Associe une petite image au rang. Le chemin est relatif à la racine du répertoire de votre forum.',
+	'RANK_IMAGE_IN_USE'  => '(en cours d’utilisation)',
+	'RANK_MINIMUM'       => 'Nombre minimal de messages',
+	'RANK_REMOVED'       => 'Le rang a été supprimé.',
+	'RANK_SPECIAL'       => 'Définir comme rang spécial',
+	'RANK_TITLE'         => 'Titre du rang',
+	'RANK_UPDATED'       => 'Le rang a été mis à jour.',
+]);
+
+// Disallow Usernames
+$lang = array_merge($lang, [
+	'ACP_DISALLOW_EXPLAIN' => 'Depuis cette page, vous pouvez gérer les noms d’utilisateurs qui ne sont pas autorisés à être utilisés. Les noms d’utilisateurs interdits peuvent contenir un astérisque « * » comme métacaractère passe-partout.',
+	'ADD_DISALLOW_EXPLAIN' => 'Vous pouvez interdire un nom d’utilisateur en utilisant un astérisque « * » comme métacaractère passe-partout qui remplacera alors n’importe quel caractère.',
+	'ADD_DISALLOW_TITLE'   => 'Interdire un nom d’utilisateur',
+
+	'DELETE_DISALLOW_EXPLAIN' => 'Vous pouvez autoriser un nom d’utilisateur en sélectionnant dans cette liste le nom d’utilisateur interdit souhaité et en cliquant sur « Envoyer ».',
+	'DELETE_DISALLOW_TITLE'   => 'Autoriser un nom d’utilisateur',
+	'DISALLOWED_ALREADY'      => 'Ce nom d’utilisateur est déjà interdit.',
+	'DISALLOWED_DELETED'      => 'Le nom d’utilisateur a été autorisé.',
+	'DISALLOW_SUCCESSFUL'     => 'Le nom d’utilisateur a été interdit.',
+
+	'NO_DISALLOWED'         => 'Aucun nom d’utilisateur n’a été interdit.',
+	'NO_USERNAME_SPECIFIED' => 'Vous devez sélectionner un nom d’utilisateur.',
+]);
+
+// Reasons
+$lang = array_merge($lang, [
+	'ACP_REASONS_EXPLAIN' => 'Depuis cette page, vous pouvez gérer les raisons utilisées dans les signalements et dans les messages de refus lorsqu’un message est refusé. La raison par défaut, signalée par un astérisque « * », ne peut pas être supprimée car elle est réservée aux messages personnalisés quand aucune autre raison ne convient.',
+	'ADD_NEW_REASON'      => 'Ajouter une nouvelle raison',
+	'AVAILABLE_TITLES'    => 'Titres des raisons traduites disponibles',
+
+	'IS_NOT_TRANSLATED'         => 'La raison n’a pas été traduite.',
+	'IS_NOT_TRANSLATED_EXPLAIN' => 'La raison n’a pas été traduite. Pour fournir la version traduite, saisissez la clé correspondante de la section des raisons de signalement des fichiers de langue.',
+	'IS_TRANSLATED'             => 'La raison a été traduite.',
+	'IS_TRANSLATED_EXPLAIN'     => 'La raison a été traduite. Si le titre saisi ici figure dans les fichiers de langue de la section des raisons de signalement, la version traduite du titre et de la description sera utilisée.',
+
+	'NO_REASON'                => 'La raison est introuvable.',
+	'NO_REASON_INFO'           => 'Saisissez le titre et la description de cette raison.',
+	'NO_REMOVE_DEFAULT_REASON' => 'Vous ne pouvez pas supprimer la raison par défaut « Divers ».',
+
+	'REASON_ADD'              => 'Ajouter une raison',
+	'REASON_ADDED'            => 'La raison a été ajoutée.',
+	'REASON_ALREADY_EXIST'    => 'Une raison portant ce titre existe déjà. Saisissez-en un autre.',
+	'REASON_DESCRIPTION'      => 'Description de la raison',
+	'REASON_DESC_TRANSLATED'  => 'Description de la raison affichée',
+	'REASON_EDIT'             => 'Modifier la raison',
+	'REASON_EDIT_EXPLAIN'     => 'Depuis cette page, vous pouvez ajouter ou modifier une raison. Si elle est traduite, la traduction est utilisée à la place de la description saisie.',
+	'REASON_REMOVED'          => 'La raison a été supprimée.',
+	'REASON_TITLE'            => 'Titre de la raison',
+	'REASON_TITLE_TRANSLATED' => 'Titre de la raison affiché',
+	'REASON_UPDATED'          => 'La raison a été mise à jour.',
+
+	'USED_IN_REPORTS' => 'Nombre d’utilisations',
+]);

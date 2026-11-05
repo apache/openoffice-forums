@@ -1,0 +1,13 @@
+Subject: Respuesta en - “{TOPIC_TITLE}”
+
+Hola {USERNAME},
+
+El tema “{TOPIC_TITLE}” recibió una nueva respuesta<!-- IF AUTHOR_NAME != '' --> por {AUTHOR_NAME}<!-- ENDIF --> desde tu última visita a “{SITENAME}”. No se enviarán más notificaciones hasta que visites el tema.
+
+Si quieres ver los nuevos mensajes desde tu última visita, haz clic en el siguiente enlace:
+{U_NEWEST_POST}
+
+Si ya no deseas seguir este tema, haz clic en el siguiente enlace:
+{U_STOP_WATCHING_TOPIC}
+
+{EMAIL_SIG}

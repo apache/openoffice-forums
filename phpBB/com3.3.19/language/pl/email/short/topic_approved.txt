@@ -1,0 +1,10 @@
+Subject: Temat „{TOPIC_TITLE}” został zaakceptowany
+
+Witaj {USERNAME}!
+
+Twój temat „{TOPIC_TITLE}” napisany na witrynie „{SITENAME}” został zaakceptowany przez moderatora lub administratora.
+
+Jeśli chcesz zobaczyć ten temat – kliknij poniższy odnośnik:
+{U_VIEW_TOPIC}
+
+{EMAIL_SIG}

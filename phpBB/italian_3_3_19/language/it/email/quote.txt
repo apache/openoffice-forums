@@ -1,0 +1,20 @@
+Subject: Citazione su - “{TOPIC_TITLE}”
+
+Ciao {USERNAME},
+
+"{AUTHOR_NAME}" ti ha citato nell'argomento "{TOPIC_TITLE}" in "{SITENAME}". 
+
+Per visualizzare la risposta con il messaggio citato clicca sul seguente link:
+{U_VIEW_POST}
+
+Per visualizzare l’argomento clicca sul seguente link:
+{U_TOPIC}
+
+Per visualizzare il forum clicca sul seguente link:
+{U_FORUM}
+
+Se non desideri più ricevere aggiornamenti sulle citazioni ai tuoi messaggi, aggiorna le tue impostazioni delle notifiche da qui:
+
+{U_NOTIFICATION_SETTINGS}
+
+{EMAIL_SIG}

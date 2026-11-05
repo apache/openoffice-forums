@@ -1,0 +1,10 @@
+Subject: Privát üzenet jelentése - "{SUBJECT}"
+
+Kedves {USERNAME}!
+
+A "{SITENAME}" oldalon a "{AUTHOR_NAME}" által írt "{SUBJECT}" privát üzenetet jelentették.
+
+Amennyiben meg szeretnéd tekinteni a jelentést, kattints a következő linkre:
+{U_VIEW_REPORT}
+
+{EMAIL_SIG}

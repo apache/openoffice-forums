@@ -1,0 +1,13 @@
+Subject: Privát üzenet jelentés lezárva - "{SUBJECT}"
+
+Kedves {USERNAME}!
+
+A "{SITENAME}" oldalon, "{AUTHOR_NAME}" által írt "{SUBJECT}" privát üzenetet jelentetted az adminisztrátorok és moderátorok felé. A jelentésed kezelése befejeződött, s ezzel lezárult. Amennyiben további kérdéseid vannak, lépj kapcsolatba privát üzenetben a jelentés lezárójával: {CLOSER_NAME}.
+
+A jelentett privát üzenetet megtekintheted a következő hivatkozásra kattintva:
+
+{U_VIEW_MESSAGE}
+
+Értesítést kértél hasonló események esetén, ezt bármikor megváltoztathatod a felhasználói vezérlőpult megfelelő beállításának módosításával.
+
+{EMAIL_SIG}

@@ -1,0 +1,13 @@
+Subject: Jelentés lezárva - "{POST_SUBJECT}"
+
+Kedves {USERNAME}!
+
+A "{SITENAME}" oldalon, "{AUTHOR_NAME}" által írt "{POST_SUBJECT}" hozzászólást a "{TOPIC_TITLE}" témában jelentetted az adminisztrátorok és moderátorok felé. A jelentésed kezelése befejeződött, s ezzel lezárult. Amennyiben további kérdéseid vannak, lépj kapcsolatba privát üzenetben a jelentés lezárójával: {CLOSER_NAME}.
+
+A jelentett hozzászólást megtekintheted a következő hivatkozásra kattintva:
+
+{U_VIEW_POST}
+
+Értesítést kértél hasonló események esetén, ezt bármikor megváltoztathatod a felhasználói vezérlőpult megfelelő beállításának módosításával.
+
+{EMAIL_SIG}

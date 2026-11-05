@@ -1,0 +1,13 @@
+Subject: Post wymaga zaakceptowania - „{TOPIC_TITLE}”
+
+Witaj {USERNAME},
+
+Twój post „{POST_SUBJECT}” na witrynie „{SITENAME}” wymaga zaakceptowania.
+
+Jeśli chcesz zobaczyć post, kliknij poniższy odnośnik:
+{U_VIEW_POST}
+
+Jeśli chcesz zobaczyć temat, kliknij ten odnośnik:
+{U_TOPIC}
+
+{EMAIL_SIG}

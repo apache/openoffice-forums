@@ -1,0 +1,20 @@
+Subject: "{TOPIC_TITLE}" témába válasz érkezett
+List-Unsubscribe: <{U_STOP_WATCHING_TOPIC}>
+
+Kedves {USERNAME}!
+
+A "{SITENAME}" oldalon a "{TOPIC_TITLE}" témába a legutóbbi látogatásod óta új hozzászólás érkezett<!-- IF AUTHOR_NAME != '' -->, melynek szerzője "{AUTHOR_NAME}"<!-- ENDIF -->. Több értesítést nem fogsz kapni, amíg meg nem tekinted a témát.
+
+A legfrissebb hozzászólás megtekintéséhez kattints a következő linkre:
+{U_NEWEST_POST}
+
+A téma megtekintéséhez kattints a következő linkre:
+{U_TOPIC}
+
+A fórum megtekintéséhez kattints a következő linkre:
+{U_FORUM}
+
+Amennyiben a továbbiakban nem kívánod figyelni a témát, kattints a következő linkre:
+{U_STOP_WATCHING_TOPIC}
+
+{EMAIL_SIG}

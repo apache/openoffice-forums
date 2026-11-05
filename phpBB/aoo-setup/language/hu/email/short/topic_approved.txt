@@ -1,0 +1,10 @@
+Subject: Téma jóváhagyva - "{TOPIC_TITLE}"
+
+Kedves {USERNAME}!
+
+A "{SITENAME}" oldalon az általad nyitott "{TOPIC_TITLE}" témát jóváhagyta egy moderátor vagy egy adminisztrátor.
+
+A témát megtekintheted a következő linkre kattintva:
+{U_VIEW_TOPIC}
+
+{EMAIL_SIG}

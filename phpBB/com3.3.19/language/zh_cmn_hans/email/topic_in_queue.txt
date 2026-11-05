@@ -1,0 +1,13 @@
+Subject: 主题需要审核 - “{TOPIC_TITLE}”
+
+您好 {USERNAME}，
+
+在 "{SITENAME}" 上的主题 “{TOPIC_TITLE}” 需要审核批准。
+
+如果您想查看主题，点下面的链接:
+{U_VIEW_TOPIC}
+
+如果您想查看论坛，点下面的链接:
+{U_FORUM}
+
+{EMAIL_SIG}

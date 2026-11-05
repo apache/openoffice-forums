@@ -1,0 +1,13 @@
+Subject: Hozzászólás jóváhagyásra vár - "{TOPIC_TITLE}"
+
+Kedves {USERNAME}!
+
+A "{SITENAME}" oldalon a "{POST_SUBJECT}" hozzászólás jóváhagyásra vár.
+
+Amennyiben meg szeretnéd tekinteni a hozzászólást, kattints a következő linkre:
+{U_VIEW_POST}
+
+Amennyiben meg szeretnéd tekinteni a témát, kattints a következő linkre:
+{U_TOPIC}
+
+{EMAIL_SIG}

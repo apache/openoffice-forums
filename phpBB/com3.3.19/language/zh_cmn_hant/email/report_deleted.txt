@@ -1,0 +1,7 @@
+Subject: 檢舉已刪除 -「{POST_SUBJECT}」
+
+親愛的 {USERNAME} 您好：
+
+您在「{SITENAME}」針對主題「{TOPIC_TITLE}」中的文章「{POST_SUBJECT}」所提出的檢舉已經被版主或管理員刪除。
+
+{EMAIL_SIG}

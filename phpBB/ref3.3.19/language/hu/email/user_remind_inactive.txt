@@ -1,0 +1,11 @@
+Subject: Inaktív azonosító figyelmeztetés
+
+Kedves {USERNAME}!
+
+Ez az értesítő egy emlékeztető, hogy a "{SITENAME}" oldalon {REGISTER_DATE}-kor regisztrált azonosítód máig inaktív. Amennyiben aktiválni szeretnéd az azonosítód, látogass el a következő linkre:
+
+{U_ACTIVATE}
+
+Köszönjük, hogy regisztráltál a "{SITENAME}" oldalon, várjuk a közreműködésed.
+
+{EMAIL_SIG}

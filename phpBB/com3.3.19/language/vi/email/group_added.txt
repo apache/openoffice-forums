@@ -1,0 +1,11 @@
+Subject: Bạn đã được thêm vào một nhóm thành viên
+
+Xin chúc mừng!
+
+Bạn đã được thêm vào làm thành viên của nhóm "{GROUP_NAME}" trong website "{SITENAME}".
+Quyết định này được thực hiện bởi người lãnh đạo của nhóm hoặc người quản trị của website, hãy liên hệ với họ để biết thêm thông tin.
+
+Bạn có thể xem thông tin về nhóm của mình tại đây:
+{U_GROUP}
+
+{EMAIL_SIG}

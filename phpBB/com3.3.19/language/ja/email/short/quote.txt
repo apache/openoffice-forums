@@ -1,0 +1,17 @@
+Subject: 引用つき返信記事の通知 - "{TOPIC_TITLE}"
+
+{USERNAME} さん
+
+フォーラムサイト "{SITENAME}" に於いて
+トピック "{TOPIC_TITLE}" に
+
+{AUTHOR_NAME} さんがあなたの記事を引用して
+返信記事を投稿しました。
+
+記事を確認したい場合はこちらのリンクをクリックしてください：
+{U_VIEW_POST}
+
+新着記事の通知メールを停止したい場合、通知設定を更新してください：
+{U_NOTIFICATION_SETTINGS}
+
+{EMAIL_SIG}

@@ -1,0 +1,15 @@
+Subject: "{SITENAME}" - e-mail egy barátodtól
+
+Kedves {TO_USERNAME}!
+
+Ezt az e-mailt a "{SITENAME}" fórumról {FROM_USERNAME} küldte neked, mert azt gondolta, a következő téma érdekelni fog: {TOPIC_NAME}
+
+A következő linkre kattintva megtekintheted a témát:
+
+{U_TOPIC}
+
+{FROM_USERNAME} lehet, hogy megjegyzést is fűzött a levélhez, amit alább olvashatsz. Kérjük, vedd figyelembe, hogy a következő üzenetet nem látta a fórum adminisztrátora. Ha problémát jelent számodra ezen üzenet tartalma, lépj kapcsolatba a fórum adminisztrátorával a következő címen: {BOARD_CONTACT}. Amennyiben kapcsolatba lépsz, kérjük, idézd ezt az e-mailt is, különös tekintettel a fejlécre.
+
+----------
+
+{MESSAGE}

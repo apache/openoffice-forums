@@ -1,0 +1,10 @@
+Subject: Zgłoszono do moderacji prywatną wiadomość – „{SUBJECT}”
+
+Witaj {USERNAME},
+
+Na witrynie „{SITENAME}” „{AUTHOR_NAME}” zgłosił do moderacji prywatną wiadomość zatytułowaną „{SUBJECT}”.
+
+Jeśli chcesz zobaczyć zgłoszenie, kliknij poniższy odnośnik:
+{U_VIEW_REPORT}
+
+{EMAIL_SIG}

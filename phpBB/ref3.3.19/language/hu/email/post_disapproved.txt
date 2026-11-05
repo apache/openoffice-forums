@@ -1,0 +1,11 @@
+Subject: Hozzászólásod elutasításra került - "{POST_SUBJECT}"
+
+Kedves {USERNAME}!
+
+A "{POST_SUBJECT}" témájú hozzászólásod a "{SITENAME}" oldalon elutasításra került egy adminisztrátor vagy egy moderátor által.
+
+Az elutasítás indoka a következő:
+
+{REASON}
+
+{EMAIL_SIG}

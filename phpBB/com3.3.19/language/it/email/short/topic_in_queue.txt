@@ -1,0 +1,13 @@
+Subject: L'argomento richiede l'approvazione - "{TOPIC_TITLE}"
+
+Ciao {USERNAME},
+
+l'argomento "{TOPIC_TITLE}" su "{SITENAME}" richiede l'approvazione.
+
+Per visualizzare l’argomento clicca sul seguente link:
+{U_VIEW_TOPIC}
+
+Per visualizzare il forum clicca sul seguente link:
+{U_FORUM}
+
+{EMAIL_SIG}

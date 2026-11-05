@@ -1,0 +1,13 @@
+Subject: Azonosító aktiválása
+
+Üdvözlünk!
+
+A "{USERNAME}" nevű azonosító deaktiválásra került, vagy újonnan létre lett hozva. Ellenőrizheted a felhasználó által megadott adatokat (amennyiben szükségesnek tartod) majd megteheted a szükséges lépéseket.
+
+A következő linkre kattintva a felhasználó profiljához jutsz:
+{U_USER_DETAILS}
+
+A következő linkkel tudod azonnal aktiválni az azonosítót:
+{U_ACTIVATE}
+
+{EMAIL_SIG}

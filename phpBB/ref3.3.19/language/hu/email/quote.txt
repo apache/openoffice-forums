@@ -1,0 +1,19 @@
+Subject: "{TOPIC_TITLE}" témában idézték a hozzászólásod
+
+Kedves {USERNAME}!
+
+A "{SITENAME}" oldalon a "{TOPIC_TITLE}" témában "{AUTHOR_NAME}" idézett téged.
+
+Amennyiben meg szeretnéd tekinteni a hozzászólást, kattints a következő linkre:
+{U_VIEW_POST}
+
+Amennyiben meg szeretnéd tekinteni a témát, kattints a következő linkre:
+{U_TOPIC}
+
+Amennyiben meg szeretnéd tekinteni a fórumot, kattints a következő linkre:
+{U_FORUM}
+
+Amennyiben a továbbiakban nem kívánsz értesítést kapni arról, ha egy hozzászólásban idéznek, frissítsd az értesítési beállításokat a következő linken:
+{U_NOTIFICATION_SETTINGS}
+
+{EMAIL_SIG}

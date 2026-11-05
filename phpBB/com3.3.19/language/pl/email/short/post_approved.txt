@@ -1,0 +1,13 @@
+Subject: Post „{POST_SUBJECT}” został zaakceptowany
+
+Witaj {USERNAME}!
+
+Twój post „{POST_SUBJECT}” napisany na witrynie „{SITENAME}” został zaakceptowany przez moderatora lub administratora.
+
+Jeśli chcesz zobaczyć ten post, kliknij poniższy odnośnik:
+{U_VIEW_POST}
+
+Jeśli chcesz zobaczyć temat, użyj tego odnośnika:
+{U_VIEW_TOPIC}
+
+{EMAIL_SIG}

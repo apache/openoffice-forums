@@ -1,0 +1,7 @@
+Subject: Jelentés törölve - "{PM_SUBJECT}"
+
+Kedves {USERNAME}!
+
+A "{SITENAME}" oldalon a "{PM_SUBJECT}" privát üzenettel kapcsolatos jelentésed egy moderátor vagy adminisztrátor törölte.
+
+{EMAIL_SIG}

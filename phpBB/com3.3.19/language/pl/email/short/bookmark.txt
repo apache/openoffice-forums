@@ -1,0 +1,13 @@
+Subject: Opowiedź w wątku – „{TOPIC_TITLE}”
+
+Witaj {USERNAME},
+
+W wątku „{TOPIC_TITLE}” na witrynie „{SITENAME}”, do którego została dodana zakładka, od czasu Twojego ostatniego pobytu został opublikowany nowy post. Kolejne powiadomienia o zmianach będą wysyłane dopiero, gdy zapoznasz się z tym postem.
+
+Jeśli chcesz zobaczyć najnowszy post, kliknij poniższy odnośnik:
+{U_NEWEST_POST}
+
+Jeśli nie chcesz już otrzymywać informacji o nowych postach w temacie, do którego została dodana zakładka, zmień ustawienia powiadomień, klikając poniższy odnośnik:
+{U_NOTIFICATION_SETTINGS}
+
+{EMAIL_SIG}

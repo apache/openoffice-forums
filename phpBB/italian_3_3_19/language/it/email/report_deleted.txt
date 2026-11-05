@@ -1,0 +1,7 @@
+Subject: Cancellazione segnalazione - “{POST_SUBJECT}”
+
+Ciao {USERNAME},
+
+La segnalazione che hai presentato sul messaggio "{POST_SUBJECT}" su "{TOPIC_TITLE}" in "{SITENAME}" è stata eliminata da un moderatore o da un amministratore.
+
+{EMAIL_SIG}

@@ -1,0 +1,7 @@
+Subject: Informe eliminado - “{PM_SUBJECT}”
+
+Hola {USERNAME},
+
+El informe que presentó sobre el mensaje privado “{PM_SUBJECT}” en “{SITENAME}” ha sido borrado por un Moderador o Administrador.
+
+{EMAIL_SIG}

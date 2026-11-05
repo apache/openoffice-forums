@@ -1,0 +1,13 @@
+
+Bonjour {TO_USERNAME},
+
+{FROM_USERNAME} vous a envoyé cet e-mail via votre compte sur « {SITENAME} ». Si ce message est un spam ou contient des propos déplacés, contactez un administrateur du forum à l’adresse suivante :
+
+{BOARD_CONTACT}
+
+Incluez cet e-mail intégralement (en particulier les en-têtes). Notez que l’adresse de réponse à cet e-mail a été définie comme celle de {FROM_USERNAME}.
+
+Voici le message :
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+{MESSAGE}

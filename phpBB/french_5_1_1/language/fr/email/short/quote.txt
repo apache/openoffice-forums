@@ -1,0 +1,13 @@
+Subject: Citation dans un sujet : « {TOPIC_TITLE} »
+
+Bonjour {USERNAME},
+
+« {AUTHOR_NAME} » vous a cité dans le sujet « {TOPIC_TITLE} » sur « {SITENAME} ».
+
+Pour consulter le message cité, cliquez sur le lien suivant :
+{U_VIEW_POST}
+
+Pour ne plus recevoir de notifications lorsqu’un utilisateur vous cite, configurez vos paramètres de notification depuis le lien suivant :
+{U_NOTIFICATION_SETTINGS}
+
+{EMAIL_SIG}

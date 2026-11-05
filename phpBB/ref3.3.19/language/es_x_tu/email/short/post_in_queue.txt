@@ -1,0 +1,13 @@
+Subject: Mensaje necesita aprobación - “{TOPIC_TITLE}”
+
+Hola {USERNAME},
+
+El mensaje “{POST_SUBJECT}” en “{SITENAME}” necesita aprobación.
+
+Si quieres ver el mensaje, haz clic en el siguiente enlace:
+{U_VIEW_POST}
+
+Si quieres ver el tema, haz clic en el siguiente enlace:
+{U_TOPIC}
+
+{EMAIL_SIG}

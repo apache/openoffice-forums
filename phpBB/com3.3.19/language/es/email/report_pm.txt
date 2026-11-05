@@ -1,0 +1,10 @@
+Subject: Mensaje privado reportado - “{SUBJECT}”
+
+Hola {USERNAME},
+
+Un mensaje privado titulado “{SUBJECT}” por “{AUTHOR_NAME}” en “{SITENAME}” ha sido reportado.
+
+Si quiere ver el informe, visite el siguiente enlace:
+{U_VIEW_REPORT}
+
+{EMAIL_SIG}

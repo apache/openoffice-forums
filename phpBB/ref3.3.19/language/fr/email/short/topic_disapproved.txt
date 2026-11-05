@@ -1,0 +1,11 @@
+Subject: Votre sujet a été refusé : « {TOPIC_TITLE} »
+
+Bonjour {USERNAME},
+
+Votre sujet « {TOPIC_TITLE} » sur « {SITENAME} » a été refusé par un modérateur ou un administrateur.
+
+Le motif suivant a été indiqué pour ce refus :
+
+{REASON}
+
+{EMAIL_SIG}

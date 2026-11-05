@@ -1,0 +1,13 @@
+Subject: Melding gesloten - "{POST_SUBJECT}"
+
+Hallo {USERNAME},
+
+Je ontvangt dit bericht omdat een melding van het bericht "{POST_SUBJECT}" door "{AUTHOR_NAME}" in "{TOPIC_TITLE}" op "{SITENAME}" is afgehandeld door een moderator of door een beheerder. De melding is achteraf gesloten. Als je nog vragen hebt neem dan contact op met {CLOSER_NAME} via een privébericht.
+
+Je kan het door jou gemelde bericht bekijken via de volgende link:
+
+{U_VIEW_POST}
+
+Je hebt verzocht hiervan een notificatie te krijgen, mocht je dit niet meer willen dan kan je in de notificatie-instellingen in je Gebruikerspaneel de instellingen hiervoor aanpassen. 
+
+{EMAIL_SIG}

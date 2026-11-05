@@ -1,0 +1,13 @@
+Subject: Mensaje reportado - “{TOPIC_TITLE}”
+
+Hola {USERNAME},
+
+El mensaje “{POST_SUBJECT}” en “{SITENAME}” ha sido reportado.
+
+Si quiere ver el informe, visite el siguiente enlace:
+{U_VIEW_REPORT}
+
+Si quiere ver el mensaje, visite el siguiente enlace:
+{U_VIEW_POST}
+
+{EMAIL_SIG}

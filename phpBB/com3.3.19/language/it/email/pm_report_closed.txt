@@ -1,0 +1,9 @@
+Subject: Chiusura segnalazione - “{PM_SUBJECT}”
+
+Ciao {USERNAME},
+
+La segnalazione che hai presentato in merito al messaggio privato "{PM_SUBJECT}" su "{SITENAME}" è stata curata da un moderatore o un amministratore. Il rapporto è ora chiuso.
+
+Se hai ulteriori domande, contatta {CLOSER_NAME} tramite messaggio privato.
+
+{EMAIL_SIG}

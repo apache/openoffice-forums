@@ -1,0 +1,10 @@
+Subject: Tema aprobado - “{TOPIC_TITLE}”
+
+Hola {USERNAME},
+
+Su tema “{TOPIC_TITLE}” en “{SITENAME}” fue aprobado por un Moderador(a) o Administrador.
+
+Si quiere ver el tema, visite el siguiente enlace:
+{U_VIEW_TOPIC}
+
+{EMAIL_SIG}

@@ -1,0 +1,15 @@
+Subject: 回复 - “{TOPIC_TITLE}”
+
+您好 {USERNAME}，
+
+自从您上次访问 “{SITENAME}” 论坛后，主题 “{TOPIC_TITLE}”有了一个<!-- IF AUTHOR_NAME !=''  --> 由{AUTHOR_NAME} 发布的<!-- ENDIF -->新回帖。在您访问主题前没有别的通知了。
+
+如果您想查看最新帖子，点下面的链接:
+{U_NEWEST_POST}
+
+
+如果您不想再关注此主题您可以点下面的链接:
+
+{U_STOP_WATCHING_TOPIC}
+
+{EMAIL_SIG}

@@ -1,0 +1,14 @@
+Subject: Risposta su “{TOPIC_TITLE}”
+
+Ciao {USERNAME},
+
+L'argomento "{TOPIC_TITLE}" ha ricevuto una nuova risposta <!-- IF AUTHOR_NAME != '' --> da {AUTHOR_NAME}<!-- ENDIF --> dalla tua ultima visita a "{SITENAME}". Non verranno più inviate e-mail fino a quando non visiterai l'argomento.
+
+Se vuoi vedere la risposta più recente dalla tua ultima visita, clicca sul seguente link:
+{U_NEWEST_POST}
+
+Se non desideri più seguire questo argomento, fai clic sul seguente link:
+
+{U_STOP_WATCHING_TOPIC}
+
+{EMAIL_SIG}

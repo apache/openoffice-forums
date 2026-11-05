@@ -1,0 +1,13 @@
+Subject: Un sujet est en attente d’approbation : « {TOPIC_TITLE} »
+
+Bonjour {USERNAME},
+
+Le sujet « {TOPIC_TITLE} » sur « {SITENAME} » est en attente d’approbation.
+
+Pour consulter le sujet, cliquez sur le lien suivant :
+{U_VIEW_TOPIC}
+
+Pour consulter le forum, cliquez sur le lien suivant :
+{U_FORUM}
+
+{EMAIL_SIG}

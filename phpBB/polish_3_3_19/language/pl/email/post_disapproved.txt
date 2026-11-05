@@ -1,0 +1,10 @@
+Subject: Post „{POST_SUBJECT}” został odrzucony
+
+Witaj {USERNAME}!
+
+Twój post „{POST_SUBJECT}” napisany na witrynie „{SITENAME}” został odrzucony przez moderatora lub administratora.
+
+Powód odrzucenia:
+{REASON}
+
+{EMAIL_SIG}

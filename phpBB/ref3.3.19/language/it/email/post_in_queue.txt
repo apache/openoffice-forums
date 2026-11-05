@@ -1,0 +1,13 @@
+Subject: Il messaggio necessita di approvazione - "{TOPIC_TITLE}"
+
+Ciao {USERNAME},
+
+Il messaggio "{POST_SUBJECT}" su "{SITENAME}" richiede l'approvazione.
+
+Per visualizzare il messaggio clicca sul link seguente:
+{U_VIEW_POST}
+
+Per visualizzare l’argomento clicca sul link seguente:
+{U_TOPIC}
+
+{EMAIL_SIG}

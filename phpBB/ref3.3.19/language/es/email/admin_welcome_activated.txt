@@ -1,0 +1,9 @@
+Subject: Cuenta activada
+
+Hola {USERNAME},
+
+Su cuenta en “{SITENAME}” ha sido activada por un Administrador, ahora puede identificarse.
+
+Su contraseña ha sido guardada de forma segura en nuestra base de datos y no puede ser recuperada. En el caso de que la olvide tendrá la posibilidad de regenerarla usando la misma dirección de correo electrónico asociada a su cuenta.
+
+{EMAIL_SIG}

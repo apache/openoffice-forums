@@ -1,0 +1,18 @@
+Subject: Chào mừng bạn đã đến với "{SITENAME}" - {U_BOARD}
+
+{WELCOME_MSG}
+
+Hãy giữ lại Email này cẩn thận. Thông tin về tài khoản thành viên của bạn như sau:
+
+----------------------------
+Tên thành viên: {USERNAME}
+Mật khẩu: {PASSWORD}
+----------------------------
+
+Tài khoản của bạn chưa được kích hoạt, hãy vui lòng chờ cho đến khi người quản trị kích hoạt tài khoản này thì bạn mới có thể đăng nhập được vào hệ thống. Bạn sẽ nhận được một Email thông báo khác khi việc kích hoạt hoàn tất.
+
+Xin vui lòng đừng quên mật khẩu của bạn bởi vì nó đã được mã hoá trong cơ sở dữ liệu của hệ thống và chúng tôi không thể khôi phục lại nó cho bạn. Tuy nhiên, nếu bạn quên mật khẩu của mình, bạn có thể yêu cầu một mật khẩu mới và cũng cần phải được kích hoạt giống như tài khoản này.
+
+Cám ơn bạn đã đăng ký làm thành viên của chúng tôi!
+
+{EMAIL_SIG}

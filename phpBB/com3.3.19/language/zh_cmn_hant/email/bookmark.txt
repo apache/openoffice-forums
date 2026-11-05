@@ -1,0 +1,19 @@
+Subject: 「{TOPIC_TITLE}」的回覆
+
+親愛的 {USERNAME} 您好：
+
+自從您上次來訪「{SITENAME}」後，您訂閱的「{TOPIC_TITLE}」主題收到新的回覆。直到您訪問這個主題之前，不會再傳送更多的通知。
+
+如果您要檢視最新的文章，點選下面的連結：
+{U_NEWEST_POST}
+
+如果您要檢視這個主題，點選下面的連結：
+{U_TOPIC}
+
+如果您要檢視主題所在的版面，點選下面的連結：
+{U_FORUM}
+
+如果您不希望再收到訂閱主題回覆的通知，請更新您的通知設定：
+{U_NOTIFICATION_SETTINGS}
+
+{EMAIL_SIG}

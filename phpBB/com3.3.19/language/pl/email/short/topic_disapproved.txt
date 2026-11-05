@@ -1,0 +1,10 @@
+Subject: Temat „{TOPIC_TITLE}” został odrzucony
+
+Witaj {USERNAME}!
+
+Twój temat „{TOPIC_TITLE}” napisany na forum „{SITENAME}” został odrzucony przez moderatora lub administratora.
+
+Powód odrzucenia:
+{REASON}
+
+{EMAIL_SIG}

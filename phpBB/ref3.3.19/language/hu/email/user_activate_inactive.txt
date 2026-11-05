@@ -1,0 +1,7 @@
+Subject: Deaktivált azonosító
+
+Kedves {USERNAME}!
+
+Az azonosítód a "{SITENAME}" oldalon deaktiválásra került, valószínűleg a profilodban történt változások miatt. Ahhoz, hogy újra aktív legyen, egy adminisztrátornak aktiválnia kell azt. Amint ez megtörténik, küldünk egy újabb értesítést.
+
+{EMAIL_SIG}

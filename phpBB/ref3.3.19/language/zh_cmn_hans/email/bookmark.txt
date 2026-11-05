@@ -1,0 +1,20 @@
+Subject: 回复 - “{TOPIC_TITLE}”
+
+您好 {USERNAME}，
+
+在您上次访问“{SITENAME}”论坛后，您所收藏的一个主题“{TOPIC_TITLE}” 有了一个新回帖。在您访问该主题前不会再有通知。
+
+如果您想查看最新帖子，点下面的链接:
+{U_NEWEST_POST}
+
+如果您想查看主题，点下面的链接:
+{U_TOPIC}
+
+如果您想查看论坛，点下面的链接:
+{U_FORUM}
+
+如果您不想再收到所收藏主题回复的通知，请在这儿更新您的通知设置:
+
+{U_NOTIFICATION_SETTINGS}
+
+{EMAIL_SIG}

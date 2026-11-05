@@ -1,0 +1,10 @@
+Subject: Téma elutasítva - "{TOPIC_TITLE}"
+
+Kedves {USERNAME}!
+
+A "{SITENAME}" oldalon az általad nyitott "{TOPIC_TITLE}" témát egy moderátor vagy egy adminisztrátor elutasította.
+
+Az elutasítás oka a következő:
+{REASON}
+
+{EMAIL_SIG}

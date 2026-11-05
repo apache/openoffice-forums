@@ -1,0 +1,29 @@
+<!-- IF S_SIMPLE_MESSAGE -->
+	<!-- INCLUDE simple_header.html -->
+<!-- ELSE -->
+	<!-- INCLUDE overall_header.html -->
+<!-- ENDIF -->
+
+<div class="panel" id="message">
+	<div class="inner">
+	<h2 class="message-title">{MESSAGE_TITLE}</h2>
+	{% if RETURN_LINK and RETURN_LINK_TITLE %}
+	<p>{MESSAGE_TEXT}<br><br>{{ lang(RETURN_LINK_TITLE, '<a href="' ~ RETURN_LINK ~ '">', '</a>') }}</p>
+	{% else  %}
+	<p>{MESSAGE_TEXT}</p>
+	{% endif %}
+	<!-- IF SCRIPT_NAME == "search" and not S_BOARD_DISABLED and not S_NO_SEARCH and L_RETURN_TO_SEARCH_ADV -->
+		<p>
+			<a href="{U_SEARCH}" class="arrow-{S_CONTENT_FLOW_BEGIN}" accesskey="r">
+				<i class="icon fa-angle-{S_CONTENT_FLOW_BEGIN} fa-fw icon-black" aria-hidden="true"></i><span>{L_GO_TO_SEARCH_ADV}</span>
+			</a>
+		</p>
+	<!-- ENDIF -->
+	</div>
+</div>
+
+<!-- IF S_SIMPLE_MESSAGE -->
+	<!-- INCLUDE simple_footer.html -->
+<!-- ELSE -->
+	<!-- INCLUDE overall_footer.html -->
+<!-- ENDIF -->

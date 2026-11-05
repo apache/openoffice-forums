@@ -1,0 +1,21 @@
+Subject: "{SITENAME}" - Gửi Email giới thiệu chủ đề
+
+Chào bạn, "{TO_USERNAME}"
+
+Email này được gửi đến bạn từ website "{SITENAME}" bởi thành viên "{FROM_USERNAME}" muốn giới thiệu với bạn về chủ đề dưới đây:
+{TOPIC_NAME}
+
+Bạn có thể xem chủ đề này tại đây:
+{U_TOPIC}
+
+Nội dung Email mà "{FROM_USERNAME}" gửi đến bạn được đính kèm bên dưới. Cần lưu ý rằng việc gửi những Email giới thiệu như thế này không cần được xem xét hay chấp nhận bởi quản trị viên của website. Vì thế, nếu bạn cảm thấy bị làm phiền bởi những Email như thế này từ website chúng tôi, hãy liên hệ ngay với người quản trị theo địa chỉ Email dưới đây:
+
+{BOARD_CONTACT}
+
+Hãy nhớ đính kèm bản sao của Email này, đặc biệt là phần tiêu đề Email khi bạn liên hệ với người quản trị qua địa chỉ Email trên.
+
+Nội dung Email gửi cho bạn như sau:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+{MESSAGE}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

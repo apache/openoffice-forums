@@ -1,0 +1,13 @@
+Subject: Nuovo argomento in “{FORUM_NAME}”
+
+Ciao {USERNAME},
+
+Il forum "{FORUM_NAME}" ha ricevuto un nuovo argomento "{TOPIC_TITLE}" <!-- IF AUTHOR_NAME != '' --> da {AUTHOR_NAME} <!-- ENDIF --> dalla tua ultima visita a "{SITENAME} ". Non verranno più inviate notifiche finché non visiterai il forum.
+
+{U_FORUM}
+
+Se non desideri più seguire questo forum, fai clic sul seguente link:
+
+{U_STOP_WATCHING_FORUM}
+
+{EMAIL_SIG}

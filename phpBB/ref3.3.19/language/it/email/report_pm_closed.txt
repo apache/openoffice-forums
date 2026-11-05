@@ -1,0 +1,13 @@
+Subject: Rapporto messaggio privato chiuso - "{SUBJECT}"
+
+Ciao {USERNAME},
+
+La segnalazione che hai presentato sul messaggio privato "{SUBJECT}" di "{AUTHOR_NAME}" in "{SITENAME}" è stata gestita da un moderatore o da un amministratore. Il rapporto è stato successivamente chiuso. Se hai ulteriori domande, contatta {CLOSER_NAME} con un messaggio privato.
+
+È possibile visualizzare il messaggio privato segnalato cliccando sul seguente collegamento:
+
+{U_VIEW_MESSAGE}
+
+Hai richiesto di essere avvisato per questo evento, ricorda che puoi sempre scegliere di non essere avvisato della chiusura di segnalazioni di messaggi privati, modificando l'impostazione appropriata nel tuo profilo.
+
+{EMAIL_SIG}

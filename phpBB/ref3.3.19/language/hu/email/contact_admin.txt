@@ -1,0 +1,23 @@
+
+Kedves {TO_USERNAME}!
+
+Azt az e-mailt a "{SITENAME}" fórum kapcsolat oldalán keresztül küldték.
+
+<!-- IF S_IS_REGISTERED -->
+Az üzenetet a fórum egyik felhasználója küldte.
+Felhasználónév: {FROM_USERNAME}
+E-mail cím: {FROM_EMAIL_ADDRESS}
+IP cím: {FROM_IP_ADDRESS}
+Profil: {U_FROM_PROFILE}
+<!-- ELSE -->
+Az üzenetet egy látogató küldte, aki a következő adatokat adta meg:
+Név: {FROM_USERNAME}
+E-mail cím: {FROM_EMAIL_ADDRESS}
+IP cím: {FROM_IP_ADDRESS}
+<!-- ENDIF -->
+
+
+Az üzenet a következő:
+~~~~~~~~~~~~~~~~~~~~~~
+
+{MESSAGE}

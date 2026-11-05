@@ -1,0 +1,9 @@
+Subject: Su cuenta ha sido desactivada
+
+Hola {USERNAME},
+
+Su cuenta en “{SITENAME}” ha sido desactivada, probablemente debido a cambios hechos en su perfil.
+La Administración del Sitio deberá activarla antes de que pueda identificarse de nuevo.
+Recibirá otra notificación cuando esto ocurra.
+
+{EMAIL_SIG}

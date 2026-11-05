@@ -1,0 +1,11 @@
+Subject: Nuevo tema en - “{FORUM_NAME}”
+
+Hola {USERNAME},
+
+El foro “{FORUM_NAME}” recibió una nueva respuesta al tema “{TOPIC_TITLE}”<!-- IF AUTHOR_NAME != '' --> por {AUTHOR_NAME}<!-- ENDIF --> desde su última visita a “{SITENAME}”. No se enviarán más notificaciones hasta que visite el foro.
+{U_FORUM}
+
+Si ya no desea seguir este foro, haga clic en el siguiente enlace:
+{U_STOP_WATCHING_FORUM}
+
+{EMAIL_SIG}

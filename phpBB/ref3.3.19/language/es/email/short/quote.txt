@@ -1,0 +1,13 @@
+Subject: Citado en - “{TOPIC_TITLE}”
+
+Hola {USERNAME},
+
+“{AUTHOR_NAME}” le ha citado en este tema “{TOPIC_TITLE}” de “{SITENAME}”.
+
+Si quiere ver el nuevo mensaje donde se le cita, haga clic en el siguiente enlace:
+{U_VIEW_POST}
+
+Si usted ya no desea recibir información sobre las respuestas que le citan, por favor, actualice la configuración de notificaciones aquí:
+{U_NOTIFICATION_SETTINGS}
+
+{EMAIL_SIG}

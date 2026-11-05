@@ -1,0 +1,13 @@
+Subject: phpBB 發送電子郵件已正確配置
+
+親愛的 {USERNAME} 您好：
+
+恭喜！如果您收到此電子郵件，那麼表示由 phpBB 發送電子郵件已正確配置。
+
+<!-- IF MESSAGE -->
+{MESSAGE}
+
+<!-- ENDIF -->
+如果您需要幫助，請訪問 phpBB 支援討論區 - https://www.phpbb.com/community/
+
+{EMAIL_SIG}

@@ -1,0 +1,14 @@
+Subject: Dostępna jest krytyczna aktualizacja zabezpieczeń phpBB {NEW_VERSION} dla "{SITENAME}"
+
+Witaj {USERNAME},
+
+Informujemy, że opublikowano krytyczną aktualizację zabezpieczeń dla Twojej instalacji phpBB, którą należy natychmiast zainstalować.
+
+Twoja obecna wersja to {CURRENT_VERSION}, a dostępna jest już nowa wersja zawierająca krytyczne poprawki bezpieczeństwa. Zalecamy natychmiastową aktualizację forum do najnowszej dostępnej wersji {NEW_VERSION}, aby zapewnić bezpieczeństwo i ochronę instalacji.
+
+Szczegóły dotyczące wydania można sprawdzić w panelu administracyjnym Twojej instalacji phpBB.
+{U_BOARD}
+
+Aby uzyskać pomoc dotyczącą procesu aktualizacji, zapoznaj się z dokumentacją lub odwiedź fora pomocy technicznej phpBB.
+
+{EMAIL_SIG}

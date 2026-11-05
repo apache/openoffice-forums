@@ -1,0 +1,13 @@
+Subject: 檢舉已結案 -「{POST_SUBJECT}」
+
+親愛的 {USERNAME} 您好：
+
+您在「{SITENAME}」針對主題「{TOPIC_TITLE}」中作者「{AUTHOR_NAME}」的文章「{POST_SUBJECT}」所提出的檢舉已經被版主或管理員處理。該檢舉隨後結案。如果您有其他疑問，請以私訊聯絡 {CLOSER_NAME}。
+
+您可以經由點擊以下連結來查看您檢舉的文章：
+
+{U_VIEW_POST}
+
+您已要求通知您此事件，請記住，您隨時可以經由更改個人資料中的適當設定，來選擇不通知已結案的文章檢舉。
+
+{EMAIL_SIG}

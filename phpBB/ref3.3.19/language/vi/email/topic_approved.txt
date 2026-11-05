@@ -1,0 +1,10 @@
+Subject: Chủ đề được chấp nhận - "{TOPIC_TITLE}"
+
+Chào bạn, "{USERNAME}"
+
+Bạn nhận được thông báo này bởi vì chủ đề của bạn "{TOPIC_TITLE}" trong website "{SITENAME}" đã được chấp nhận bởi một điều hành viên hoặc quản trị viên của website.
+
+Nếu bạn muốn xem chủ đề này, hãy bấm vào liên kết dưới đây:
+{U_VIEW_TOPIC}
+
+{EMAIL_SIG}

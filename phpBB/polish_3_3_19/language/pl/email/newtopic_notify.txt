@@ -1,0 +1,15 @@
+Subject: Nowy wątek na forum „{FORUM_NAME}”
+List-Unsubscribe: <{U_STOP_WATCHING_FORUM}>
+
+Witaj {USERNAME}!
+
+Na forum „{FORUM_NAME}” na witrynie „{SITENAME}” od czasu Twojej ostatniej wizyty, pojawił się nowy temat „{TOPIC_TITLE}”<!-- IF AUTHOR_NAME !== '' --> założony przez {AUTHOR_NAME}<!-- ENDIF -->. Kolejne powiadomienie o zmianach na forum zostanie wysyłane, dopiero gdy zapoznasz się z tym postem.
+{U_FORUM}
+
+Możesz zobaczyć ten temat, klikając poniższy odnośnik:
+{U_TOPIC}
+
+Jeśli nie chcesz już obserwować tego forum, kliknij odnośnik:
+{U_STOP_WATCHING_FORUM}
+
+{EMAIL_SIG}

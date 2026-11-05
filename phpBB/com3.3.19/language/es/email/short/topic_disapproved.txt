@@ -1,0 +1,11 @@
+Subject: Tema no aprobado - “{TOPIC_TITLE}”
+
+Hola {USERNAME},
+
+Su tema “{TOPIC_TITLE}” en “{SITENAME}” fue desaprobado por un Moderador o Administrador.
+
+No fue aprobado por esta razón:
+
+{REASON}
+
+{EMAIL_SIG}
