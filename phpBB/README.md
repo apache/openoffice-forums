@@ -1,28 +1,18 @@
 Here is the process and scripts being used to upgrade from 3.3.7 to 3.3.19 which should work for further updates to 3.3.x
 
-The preparation scripts are run after:
-
-```bash
-sudo su -
-su phpbb
-cd /x1/var_lib_phpBB
-```
-
-Change the version numbers as necessary. Make sure from phpbb.com that there are no unusual tasks to migrate to this version.
-
 ## Initial setup
 
-- Setup the standard OpenOffice images and static languages directory that every forum gets.
+  The `aoo-setup` directory was created from various sources especially the 3.3.7 installation.
 
-  ```bash
-  bash aoo-setup.sh
-  ```
+  It contains our standard set of images plus some languages which either are not frequently updated or are no longer offered.
 
-  The `aoo-setup` directory is created from various sources especially the 3.3.7 installation.
+## Preparing to install a release
 
-## Preparing a release
+Change the version numbers as necessary. Make sure from phpbb.com that there are no unusual tasks to migrate to the new version.
 
-- Handle updated langauge packages. Perform these steps for each that has an update.
+- Download the new version of phpBB into the directory.
+
+- Prepare updated language packages. Perform these steps for each that has an update.
 
   1. Download the archive and save it in the directory.
 
@@ -34,8 +24,6 @@ Change the version numbers as necessary. Make sure from phpbb.com that there are
 
   3. Edit `aoo-assemble.sh` bash scripts to copy from the updated language package version.
 
-- Download the phpBB-3.3.19.zip and transfer to this directory.
-
 - Assemble the new installation directories for the OpenOffice forums.
 
   ```bash
@@ -46,6 +34,12 @@ Change the version numbers as necessary. Make sure from phpbb.com that there are
 
   1. `ref3.3.19` - the release with our languages and images included
   2. `com3.3.19` - The `ref` with the `aoo-changes.patch` applied.
+
+- Update the GitHub repository.
+
+  1. `git add` or equivalent.
+  2. `git commit` or equivalent.
+  3. `git [ush` or equivalent.
 
 ## Backup
 
