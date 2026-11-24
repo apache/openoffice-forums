@@ -9,11 +9,6 @@
 * For full copyright and license information, please see
 * the docs/CREDITS.txt file.
 *
-* Mod 01 TE 06 Apr 20009
-*	 Support for FR forum's custom Signature field on registration.  This functionality
-*	 is enabled if the system_config variable subject_validation is defined.  This field
-*	 is a match pattern which is used as the validation criterion for the Subject field.
-*	 This pattern must succeed for the Subject field to be accepted.
 * Mod 02 AP 20 Apr 2014
 *        Set mail notification to on by default.
 *        https://issues.apache.org/jira/browse/INFRA-7286
@@ -200,10 +195,6 @@ function user_add($user_row, $cp_data = false, $notifications_data = null)
 	{
 		return false;
 	}
-	if (isset($config['subject_validation']) && !isset($user_row['user_sig']))          //+ *** Mod 01 ***
-	{
-		return false;
-	}                                                                                   //- *** Mod 01 ***
 
 	$username_clean = utf8_clean_string($user_row['username']);
 
@@ -263,7 +254,7 @@ function user_add($user_row, $cp_data = false, $notifications_data = null)
 		'user_allow_viewemail'	=> 1,
 		'user_allow_massemail'	=> 1,
 
-		'user_sig'					=> isset($config['subject_validation']) ? $user_row['user_sig'] : '',   //  *** Mod 01 ***
+		'user_sig'					=> '',
 		'user_sig_bbcode_uid'		=> '',
 		'user_sig_bbcode_bitfield'	=> '',
 

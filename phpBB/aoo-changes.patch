@@ -1,6 +1,6 @@
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/files/.htaccess com3319/files/.htaccess
---- ref3319/files/.htaccess	2026-09-24 15:18:30.000000000 +0000
-+++ com3319/files/.htaccess	1970-01-01 00:00:00.000000000 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/files/.htaccess com3.3.19/files/.htaccess
+--- ref3.3.19/files/.htaccess	2026-09-24 15:18:30.000000000 +0000
++++ com3.3.19/files/.htaccess	1970-01-01 00:00:00.000000000 +0000
 @@ -1,25 +0,0 @@
 -# With Apache 2.4 the "Order, Deny" syntax has been deprecated and moved from
 -# module mod_authz_host to a new module called mod_access_compat (which may be
@@ -27,9 +27,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
 -		Require all denied
 -	</IfModule>
 -</IfModule>
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/files/index.htm com3319/files/index.htm
---- ref3319/files/index.htm	2026-09-24 15:18:30.000000000 +0000
-+++ com3319/files/index.htm	1970-01-01 00:00:00.000000000 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/files/index.htm com3.3.19/files/index.htm
+--- ref3.3.19/files/index.htm	2026-09-24 15:18:30.000000000 +0000
++++ com3.3.19/files/index.htm	1970-01-01 00:00:00.000000000 +0000
 @@ -1,10 +0,0 @@
 -<html>
 -<head>
@@ -41,34 +41,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
 -
 -</body>
 -</html>
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/includes/functions_display.php com3319/includes/functions_display.php
---- ref3319/includes/functions_display.php	2026-09-24 15:18:30.000000000 +0000
-+++ com3319/includes/functions_display.php	2026-11-01 20:44:52.007226577 +0000
-@@ -617,20 +617,21 @@
- 			'FORUM_NAME'			=> $row['forum_name'],
- 			'FORUM_DESC'			=> generate_text_for_display($row['forum_desc'], $row['forum_desc_uid'], $row['forum_desc_bitfield'], $row['forum_desc_options']),
- 			'TOPICS'				=> $row['forum_topics'],
- 			$l_post_click_count		=> $post_click_count,
- 			'FORUM_IMG_STYLE'		=> $folder_image,
- 			'FORUM_FOLDER_IMG'		=> $user->img($folder_image, $folder_alt),
- 			'FORUM_FOLDER_IMG_ALT'	=> isset($user->lang[$folder_alt]) ? $user->lang[$folder_alt] : '',
- 			'FORUM_IMAGE'			=> ($row['forum_image']) ? '<img src="' . $phpbb_root_path . $row['forum_image'] . '" alt="' . $user->lang[$folder_alt] . '" />' : '',
- 			'FORUM_IMAGE_SRC'		=> ($row['forum_image']) ? $phpbb_root_path . $row['forum_image'] : '',
- 			'LAST_POST_SUBJECT'		=> $last_post_subject,
-+			'LAST_POST_SHORTENED_SUBJECT'	=> (utf8_strlen($last_post_subject) > 26) ? truncate_string($last_post_subject, 25) . "\xE2\x80\xA6" : $last_post_subject,
- 			'LAST_POST_SUBJECT_TRUNCATED'	=> $last_post_subject_truncated,
- 			'LAST_POST_TIME'		=> $last_post_time,
- 			'LAST_POST_TIME_RFC3339'=> $last_post_time_rfc3339,
- 			'LAST_POSTER'			=> get_username_string('username', $row['forum_last_poster_id'], $row['forum_last_poster_name'], $row['forum_last_poster_colour']),
- 			'LAST_POSTER_COLOUR'	=> get_username_string('colour', $row['forum_last_poster_id'], $row['forum_last_poster_name'], $row['forum_last_poster_colour']),
- 			'LAST_POSTER_FULL'		=> get_username_string('full', $row['forum_last_poster_id'], $row['forum_last_poster_name'], $row['forum_last_poster_colour']),
- 			'MODERATORS'			=> $moderators_list,
- 			'SUBFORUMS'				=> $s_subforums_list,
- 
- 			'L_SUBFORUM_STR'		=> $l_subforums,
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/includes/functions.php com3319/includes/functions.php
---- ref3319/includes/functions.php	2026-09-24 15:18:30.000000000 +0000
-+++ com3319/includes/functions.php	2026-11-01 20:48:26.892764076 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/includes/functions.php com3.3.19/includes/functions.php
+--- ref3.3.19/includes/functions.php	2026-09-24 15:18:30.000000000 +0000
++++ com3.3.19/includes/functions.php	2026-11-24 19:36:41.348375435 +0000
 @@ -2345,20 +2345,30 @@
  		if ($user->data['is_registered'])
  		{
@@ -123,10 +98,35 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
  		$http_headers += array(
  			// application/xhtml+xml not used because of IE
  			'Content-type' => 'text/html; charset=UTF-8',
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/includes/functions_user.php com3319/includes/functions_user.php
---- ref3319/includes/functions_user.php	2026-09-24 15:18:30.000000000 +0000
-+++ com3319/includes/functions_user.php	2026-11-01 20:53:22.975832088 +0000
-@@ -2,20 +2,29 @@
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/includes/functions_display.php com3.3.19/includes/functions_display.php
+--- ref3.3.19/includes/functions_display.php	2026-09-24 15:18:30.000000000 +0000
++++ com3.3.19/includes/functions_display.php	2026-11-24 19:36:41.344481191 +0000
+@@ -617,20 +617,21 @@
+ 			'FORUM_NAME'			=> $row['forum_name'],
+ 			'FORUM_DESC'			=> generate_text_for_display($row['forum_desc'], $row['forum_desc_uid'], $row['forum_desc_bitfield'], $row['forum_desc_options']),
+ 			'TOPICS'				=> $row['forum_topics'],
+ 			$l_post_click_count		=> $post_click_count,
+ 			'FORUM_IMG_STYLE'		=> $folder_image,
+ 			'FORUM_FOLDER_IMG'		=> $user->img($folder_image, $folder_alt),
+ 			'FORUM_FOLDER_IMG_ALT'	=> isset($user->lang[$folder_alt]) ? $user->lang[$folder_alt] : '',
+ 			'FORUM_IMAGE'			=> ($row['forum_image']) ? '<img src="' . $phpbb_root_path . $row['forum_image'] . '" alt="' . $user->lang[$folder_alt] . '" />' : '',
+ 			'FORUM_IMAGE_SRC'		=> ($row['forum_image']) ? $phpbb_root_path . $row['forum_image'] : '',
+ 			'LAST_POST_SUBJECT'		=> $last_post_subject,
++			'LAST_POST_SHORTENED_SUBJECT'	=> (utf8_strlen($last_post_subject) > 26) ? truncate_string($last_post_subject, 25) . "\xE2\x80\xA6" : $last_post_subject,
+ 			'LAST_POST_SUBJECT_TRUNCATED'	=> $last_post_subject_truncated,
+ 			'LAST_POST_TIME'		=> $last_post_time,
+ 			'LAST_POST_TIME_RFC3339'=> $last_post_time_rfc3339,
+ 			'LAST_POSTER'			=> get_username_string('username', $row['forum_last_poster_id'], $row['forum_last_poster_name'], $row['forum_last_poster_colour']),
+ 			'LAST_POSTER_COLOUR'	=> get_username_string('colour', $row['forum_last_poster_id'], $row['forum_last_poster_name'], $row['forum_last_poster_colour']),
+ 			'LAST_POSTER_FULL'		=> get_username_string('full', $row['forum_last_poster_id'], $row['forum_last_poster_name'], $row['forum_last_poster_colour']),
+ 			'MODERATORS'			=> $moderators_list,
+ 			'SUBFORUMS'				=> $s_subforums_list,
+ 
+ 			'L_SUBFORUM_STR'		=> $l_subforums,
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/includes/functions_user.php com3.3.19/includes/functions_user.php
+--- ref3.3.19/includes/functions_user.php	2026-09-24 15:18:30.000000000 +0000
++++ com3.3.19/includes/functions_user.php	2026-11-24 19:43:13.210806851 +0000
+@@ -2,20 +2,24 @@
  /**
  *
  * This file is part of the phpBB Forum Software package.
@@ -137,11 +137,6 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
  * For full copyright and license information, please see
  * the docs/CREDITS.txt file.
  *
-+* Mod 01 TE 06 Apr 20009
-+*	 Support for FR forum's custom Signature field on registration.  This functionality
-+*	 is enabled if the system_config variable subject_validation is defined.  This field
-+*	 is a match pattern which is used as the validation criterion for the Subject field.
-+*	 This pattern must succeed for the Subject field to be accepted.
 +* Mod 02 AP 20 Apr 2014
 +*        Set mail notification to on by default.
 +*        https://issues.apache.org/jira/browse/INFRA-7286
@@ -156,32 +151,7 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
  	exit;
  }
  
-@@ -184,20 +193,24 @@
- */
- function user_add($user_row, $cp_data = false, $notifications_data = null)
- {
- 	global $db, $config;
- 	global $phpbb_dispatcher, $phpbb_container;
- 
- 	if (empty($user_row['username']) || !isset($user_row['group_id']) || !isset($user_row['user_email']) || !isset($user_row['user_type']))
- 	{
- 		return false;
- 	}
-+	if (isset($config['subject_validation']) && !isset($user_row['user_sig']))          //+ *** Mod 01 ***
-+	{
-+		return false;
-+	}                                                                                   //- *** Mod 01 ***
- 
- 	$username_clean = utf8_clean_string($user_row['username']);
- 
- 	if (empty($username_clean))
- 	{
- 		return false;
- 	}
- 
- 	$sql_ary = array(
- 		'username'			=> $user_row['username'],
-@@ -235,29 +248,29 @@
+@@ -235,21 +239,21 @@
  		'user_avatar_type'		=> '',
  		'user_avatar_width'		=> 0,
  		'user_avatar_height'	=> 0,
@@ -201,176 +171,12 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
  		'user_allow_viewemail'	=> 1,
  		'user_allow_massemail'	=> 1,
  
--		'user_sig'					=> '',
-+		'user_sig'					=> isset($config['subject_validation']) ? $user_row['user_sig'] : '',   //  *** Mod 01 ***
+ 		'user_sig'					=> '',
  		'user_sig_bbcode_uid'		=> '',
  		'user_sig_bbcode_bitfield'	=> '',
- 
- 		'user_form_salt'			=> unique_id(),
- 	);
- 
- 	// Now fill the sql array with not required variables
- 	foreach ($additional_vars as $key => $default_value)
- 	{
- 		$sql_ary[$key] = (isset($user_row[$key])) ? $user_row[$key] : $default_value;
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/includes/ucp/ucp_register.php com3319/includes/ucp/ucp_register.php
---- ref3319/includes/ucp/ucp_register.php	2026-09-24 15:18:30.000000000 +0000
-+++ com3319/includes/ucp/ucp_register.php	2026-11-01 21:05:22.548774847 +0000
-@@ -2,20 +2,26 @@
- /**
- *
- * This file is part of the phpBB Forum Software package.
- *
- * @copyright (c) phpBB Limited <https://www.phpbb.com>
- * @license GNU General Public License, version 2 (GPL-2.0)
- *
- * For full copyright and license information, please see
- * the docs/CREDITS.txt file.
- *
-+* Mod 01 TE 06 Apr 20009 
-+*	 Support for FR forum's custom Signature field on registration.  This functionality
-+*	 is enabled if the system_config variable subject_validation is defined.  This field
-+*	 is a match pattern which is used as the validation criterion for the Subject field.
-+*	 This pattern must succede for the Subject field to be accepted.
-+*
- */
- 
- /**
- * @ignore
- */
- if (!defined('IN_PHPBB'))
- {
- 	exit;
- }
- 
-@@ -38,20 +44,21 @@
- 		{
- 			trigger_error('UCP_REGISTER_DISABLE');
- 		}
- 
- 		$coppa			= $request->is_set('coppa_yes') ? 1 : ($request->is_set('coppa_no') ? 0 : false);
- 		$coppa			= $request->is_set('coppa') ? $request->variable('coppa', 0) : $coppa;
- 		$agreed			= $request->variable('agreed', false);
- 		$submit			= $request->is_set_post('submit');
- 		$change_lang	= $request->variable('change_lang', '');
- 		$user_lang		= $request->variable('lang', $user->lang_name);
-+		$subject_reqd		= isset($config['subject_validation']);									//  *** Mod 01 ***
- 
- 		if ($agreed && !check_form_key('ucp_register'))
- 		{
- 			$agreed = false;
- 		}
- 
- 		if ($coppa !== false && !check_form_key('ucp_register'))
- 		{
- 			$coppa = false;
- 		}
-@@ -260,36 +267,45 @@
- 		*							or did the user press submit
- 		* @var	array	data		Array with current ucp registration data
- 		* @since 3.1.4-RC1
- 		*/
- 		$vars = array('submit', 'data');
- 		extract($phpbb_dispatcher->trigger_event('core.ucp_register_data_before', compact($vars)));
- 
- 		// Check and initialize some variables if needed
- 		if ($submit)
- 		{
--			$error = validate_data($data, array(
-+			$error_validation = array(															//	*** Mod 01 ***
- 				'username'			=> array(
- 					array('string', false, $config['min_name_chars'], $config['max_name_chars']),
- 					array('username', '')),
- 				'new_password'		=> array(
- 					array('string', false, $config['min_pass_chars'], 0),
- 					array('password')),
- 				'password_confirm'	=> array('string', false, $config['min_pass_chars'], 0),
- 				'email'				=> array(
- 					array('string', false, 6, 60),
- 					array('user_email')),
- 				'tz'				=> array('timezone'),
- 				'lang'				=> array('language_iso_name'),
--			));
-+			);
-+
-+           		if ($subject_reqd)                                                                  //+ *** Mod 01 ***
-+           		{
-+				$error_validation['user_sig'] = array(
-+				 	array('string', false, 0, $config['max_sig_chars']),
-+				 	array('match', false, $config['subject_validation']),
-+				 );
-+		   	}
-+		   $error = validate_data($data, $error_validation);								   //- *** Mod 01 ***	  
- 
--			if (!check_form_key('ucp_register'))
-+		   	if (!check_form_key('ucp_register'))
- 			{
- 				$error[] = $user->lang['FORM_INVALID'];
- 			}
- 
- 			// Replace "error" strings with their real, localised form
- 			$error = array_map(array($user, 'lang'), $error);
- 
- 			if ($config['enable_confirm'])
- 			{
- 				$vc_response = $captcha->validate($data);
-@@ -387,20 +403,21 @@
- 					'group_id'					=> (int) $group_id,
- 					'user_timezone'				=> $data['tz'],
- 					'user_lang'					=> $data['lang'],
- 					'user_type'					=> $user_type,
- 					'user_actkey'				=> $user_actkey,
- 					'user_actkey_expiration'	=> $user::get_token_expiration(),
- 					'user_ip'					=> $user->ip,
- 					'user_regdate'				=> time(),
- 					'user_inactive_reason'		=> $user_inactive_reason,
- 					'user_inactive_time'		=> $user_inactive_time,
-+					'user_sig'		=> $data['user_sig'],
- 				);
- 
- 				if ($config['new_member_post_limit'])
- 				{
- 					$user_row['user_new'] = 1;
- 				}
- 				/**
- 				* Add into $user_row before user_add
- 				*
- 				* user_add allows adding more data into the users table
-@@ -636,29 +653,31 @@
- 			ORDER BY lang_english_name';
- 		$result = $db->sql_query($sql);
- 		$lang_row = (array) $db->sql_fetchrowset($result);
- 		$db->sql_freeresult($result);
- 
- 		$template_vars = array(
- 			'USERNAME'			=> $data['username'],
- 			'PASSWORD'			=> $data['new_password'],
- 			'PASSWORD_CONFIRM'	=> $data['password_confirm'],
- 			'EMAIL'				=> $data['email'],
-+			'SIGNATURE'			=> $data['user_sig'],
- 
- 			'L_REG_COND'				=> $l_reg_cond,
- 			'L_USERNAME_EXPLAIN'		=> $user->lang($config['allow_name_chars'] . '_EXPLAIN', $user->lang('CHARACTERS_XY', (int) $config['min_name_chars']), $user->lang('CHARACTERS_XY', (int) $config['max_name_chars'])),
- 			'L_PASSWORD_EXPLAIN'		=> $user->lang($config['pass_complex'] . '_EXPLAIN', $user->lang('CHARACTERS_XY', (int) $config['min_pass_chars'])),
- 
- 			'S_LANG_OPTIONS'	=> (count($lang_row) > 1) ? language_select($data['lang'], $lang_row) : '',
- 			'S_TZ_PRESELECT'	=> !$submit,
- 			'S_CONFIRM_REFRESH'	=> ($config['enable_confirm'] && $config['confirm_refresh']) ? true : false,
- 			'S_REGISTRATION'	=> true,
-+ 			'S_SIGNATURE'		=> true,
- 			'S_COPPA'			=> $coppa,
- 			'S_UCP_ACTION'		=> append_sid("{$phpbb_root_path}ucp.$phpEx", 'mode=register'),
- 
- 			'COOKIE_NAME'		=> $config['cookie_name'],
- 			'COOKIE_PATH'		=> $config['cookie_path'],
- 		);
- 
- 		$tpl_name = 'ucp_register';
- 
- 		/**
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/index.php com3319/index.php
---- ref3319/index.php	2026-09-24 15:18:30.000000000 +0000
-+++ com3319/index.php	2026-11-02 04:08:59.484324585 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/index.php com3.3.19/index.php
+--- ref3.3.19/index.php	2026-09-24 15:18:30.000000000 +0000
++++ com3.3.19/index.php	2026-11-24 19:36:48.839962464 +0000
 @@ -204,30 +204,42 @@
  	* @var	array	birthdays		Array with the users birthdays data
  	* @var	array	rows			Array with the birthdays SQL query result
@@ -414,9 +220,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
  	'U_MARK_FORUMS'		=> ($user->data['is_registered'] || $config['load_anon_lastread']) ? append_sid("{$phpbb_root_path}index.$phpEx", 'hash=' . generate_link_hash('global') . '&amp;mark=forums&amp;mark_time=' . time()) : '',
  	'U_MCP'				=> ($auth->acl_get('m_') || $auth->acl_getf_global('m_')) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=main&amp;mode=front', true, $user->session_id) : '')
  );
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/ca/common.php com3319/language/ca/common.php
---- ref3319/language/ca/common.php	2026-09-24 21:00:58.000000000 +0000
-+++ com3319/language/ca/common.php	2026-11-02 02:02:58.580742763 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/language/ca/common.php com3.3.19/language/ca/common.php
+--- ref3.3.19/language/ca/common.php	2026-11-24 19:02:34.837412614 +0000
++++ com3.3.19/language/ca/common.php	2026-11-24 19:36:48.861628111 +0000
 @@ -1466,11 +1466,21 @@
  		'D d M Y, g:i a'		=> 'dl 01 gen 2007, 1:37 pm', //'D M d, Y g:i a'		=> 'dl gen 01, 2007 1:37 pm',
  		//'F jS, Y, g:i a'		=> 'gener 1er, 2007, 1:37 pm',
@@ -439,9 +245,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
 + 	'WRONG_DATA_USER_SIG' => 'Firma no válida, ejemplos válidos incluyen:<br />OpenOffice 3.1 en Windows Vista / NeoOffice 2.2.3 con MacOS 10.4 / OpenOffice 2.4 en Ubuntu 9.04',
 +
  ));
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/en/common.php com3319/language/en/common.php
---- ref3319/language/en/common.php	2026-09-24 15:18:30.000000000 +0000
-+++ com3319/language/en/common.php	2026-11-02 01:55:57.216738951 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/language/en/common.php com3.3.19/language/en/common.php
+--- ref3.3.19/language/en/common.php	2026-09-24 15:18:30.000000000 +0000
++++ com3.3.19/language/en/common.php	2026-11-24 19:36:48.890864005 +0000
 @@ -1466,11 +1466,22 @@
  		'D M d, Y g:i a'		=> 'Mon Jan 01, 2007 1:37 pm',
  		'F jS, Y, g:i a'		=> 'January 1st, 2007, 1:37 pm',
@@ -465,9 +271,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
 +         'WRONG_DATA_USER_SIG' => 'Invalid signature, valid examples include:<br />OpenOffice 3.1 on Windows Vista / NeoOffice 2.2.3 with MacOS 10.4 / OpenOffice 2.4 on Ubuntu 9.04',
 +
  ));
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/en/help/faq.php com3319/language/en/help/faq.php
---- ref3319/language/en/help/faq.php	2026-09-24 15:18:30.000000000 +0000
-+++ com3319/language/en/help/faq.php	2026-11-02 02:07:45.900127259 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/language/en/help/faq.php com3.3.19/language/en/help/faq.php
+--- ref3.3.19/language/en/help/faq.php	2026-09-24 15:18:30.000000000 +0000
++++ com3.3.19/language/en/help/faq.php	2026-11-24 19:36:48.893384837 +0000
 @@ -176,11 +176,16 @@
  	'HELP_FAQ_USERSETTINGS_HIDE_ONLINE_ANSWER'	=> 'Within your User Control Panel, under “Board preferences”, you will find the option <em>Hide your online status</em>. Enable this option and you will only appear to the administrators, moderators and yourself. You will be counted as a hidden user.',
  	'HELP_FAQ_USERSETTINGS_HIDE_ONLINE_QUESTION'	=> 'How do I prevent my username appearing in the online user listings?',
@@ -485,9 +291,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
 + 	'HELP_FAQ_AOO_HOW_TO_ASK'			=> 'How do I ask a question?',
 + 	'HELP_FAQ_AOO_HOW'				=> '<strong>Please read the <a href="/en/forum/viewtopic.php?t=166">Survival Guide</a> before you post</strong>. These guidelines and rules help the community to make the most of this forum. The remainder of <em>this</em> FAQ coverts general issues to do with the using phpBB3.',
  ));
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/en_us/common.php com3319/language/en_us/common.php
---- ref3319/language/en_us/common.php	2026-09-24 22:48:12.000000000 +0000
-+++ com3319/language/en_us/common.php	2026-11-02 01:49:02.568926810 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/language/en_us/common.php com3.3.19/language/en_us/common.php
+--- ref3.3.19/language/en_us/common.php	2026-11-24 19:02:34.711267543 +0000
++++ com3.3.19/language/en_us/common.php	2026-11-24 19:36:48.897438367 +0000
 @@ -1468,11 +1468,22 @@
  		'D M d, Y g:i a'		=> 'Mon Jan 01, 2007 1:37 pm',
  		'F jS, Y, g:i a'		=> 'January 1st, 2007, 1:37 pm',
@@ -511,9 +317,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
 + 	'WRONG_DATA_USER_SIG' => 'Invalid signature, valid examples include:<br />OpenOffice 3.1 on Windows Vista / NeoOffice 2.2.3 with MacOS 10.4 / OpenOffice 2.4 on Ubuntu 9.04', 
 +
  ));
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/es/common.php com3319/language/es/common.php
---- ref3319/language/es/common.php	2026-04-27 20:16:10.000000000 +0000
-+++ com3319/language/es/common.php	2026-11-02 02:06:00.243144155 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/language/es/common.php com3.3.19/language/es/common.php
+--- ref3.3.19/language/es/common.php	2026-11-24 19:02:36.145738336 +0000
++++ com3.3.19/language/es/common.php	2026-11-24 19:36:48.901271072 +0000
 @@ -1462,11 +1462,22 @@
  		'M jS, y, H:i'		=> 'Ene 1ro, 07, 13:37',
  		'D M d, Y g:i a'	=> 'Lun Ene 01, 2007 1:37 pm',
@@ -537,9 +343,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
 + 	'WRONG_DATA_USER_SIG' => 'Firma no válida, ejemplos válidos incluyen:<br />OpenOffice 3.1 en Windows Vista / NeoOffice 2.2.3 con MacOS 10.4 / OpenOffice 2.4 en Ubuntu 9.04', 
 +
  ));
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/fr/acp/common.php com3319/language/fr/acp/common.php
---- ref3319/language/fr/acp/common.php	2026-09-24 19:48:50.000000000 +0000
-+++ com3319/language/fr/acp/common.php	2026-11-02 04:02:23.196388902 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/language/fr/acp/common.php com3.3.19/language/fr/acp/common.php
+--- ref3.3.19/language/fr/acp/common.php	2026-11-24 19:02:35.450672272 +0000
++++ com3.3.19/language/fr/acp/common.php	2026-11-24 19:36:48.904799537 +0000
 @@ -320,21 +320,21 @@
  	'UCP'                => 'Panneau de contrôle utilisateur',
  	'URL_INVALID'        => 'L’adresse indiquée pour le paramètre « %1$s » est invalide.',
@@ -563,9 +369,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
  ]);
  
  // Logs
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/fr/common.php com3319/language/fr/common.php
---- ref3319/language/fr/common.php	2026-09-24 19:48:50.000000000 +0000
-+++ com3319/language/fr/common.php	2026-11-02 02:02:08.927891898 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/language/fr/common.php com3.3.19/language/fr/common.php
+--- ref3.3.19/language/fr/common.php	2026-11-24 19:02:35.452983551 +0000
++++ com3.3.19/language/fr/common.php	2026-11-24 19:36:48.908690948 +0000
 @@ -1469,11 +1469,23 @@
  		'M jS, \'y, H:i'   => 'janv. 1er, ’07, 13:37',
  		'D M d, Y g:i a'   => 'lun. janv. 01, 2007 1:37 pm',
@@ -590,9 +396,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
 + 	'WRONG_DATA_USER_SIG'   => 'Signature invalide, quelques exemples corrects :<br />OpenOffice 2.4 sous Windows XP / NeoOffice 2.2.3 sous MacOS 10.4 / OpenOffice 2.3 sous Ubuntu Gutsy',
 +
  ]);
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/fr/help/faq.php com3319/language/fr/help/faq.php
---- ref3319/language/fr/help/faq.php	2026-09-24 19:48:50.000000000 +0000
-+++ com3319/language/fr/help/faq.php	2026-11-02 02:08:21.120400456 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/language/fr/help/faq.php com3.3.19/language/fr/help/faq.php
+--- ref3.3.19/language/fr/help/faq.php	2026-11-24 19:02:35.457858683 +0000
++++ com3.3.19/language/fr/help/faq.php	2026-11-24 19:36:48.910652340 +0000
 @@ -176,11 +176,16 @@
  	'HELP_FAQ_USERSETTINGS_HIDE_ONLINE_ANSWER'       => 'Dans le panneau de contrôle utilisateur, section « Préférences du forum », activez l’option « Masquer ma présence ». Vous ne serez alors visible que des administrateurs, des modérateurs et de vous-même, et serez comptabilisé comme utilisateur invisible.',
  	'HELP_FAQ_USERSETTINGS_HIDE_ONLINE_QUESTION'     => 'Comment puis-je masquer mon nom d’utilisateur de la liste des utilisateurs en ligne ?',
@@ -610,9 +416,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
 + 	'HELP_FAQ_AOO_HOW_TO_ASK'			 => 'Comment poser une question ?',
 + 	'HELP_FAQ_AOO_HOW'				 => '<strong>Dans un premier temps, merci de lire notre <a href="/fr/forum/ftopic35311.html">mode d\'emploi</a>.</strong>',
  ]);
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/fr/mcp.php com3319/language/fr/mcp.php
---- ref3319/language/fr/mcp.php	2026-09-24 19:48:50.000000000 +0000
-+++ com3319/language/fr/mcp.php	2026-11-02 02:10:56.325336319 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/language/fr/mcp.php com3.3.19/language/fr/mcp.php
+--- ref3.3.19/language/fr/mcp.php	2026-11-24 19:02:35.458188169 +0000
++++ com3.3.19/language/fr/mcp.php	2026-11-24 19:36:48.912383199 +0000
 @@ -403,23 +403,23 @@
  	'USER_CANNOT_REPORT'        => 'Vous n’êtes pas autorisé à signaler les messages de ce forum.',
  	'USER_FEEDBACK_ADDED'       => 'La remarque a été ajoutée sur l’utilisateur.',
@@ -640,9 +446,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
  			'SPAM'      => 'Publicité indésirable',
  			'OFF_TOPIC' => 'Hors-sujet',
  			'OTHER'     => 'Autre',
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/hu/common.php com3319/language/hu/common.php
---- ref3319/language/hu/common.php	2022-03-19 09:14:05.000000000 +0000
-+++ com3319/language/hu/common.php	2026-11-02 02:04:59.114447549 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/language/hu/common.php com3.3.19/language/hu/common.php
+--- ref3.3.19/language/hu/common.php	2026-11-24 19:02:34.772234853 +0000
++++ com3.3.19/language/hu/common.php	2026-11-24 19:36:48.916026285 +0000
 @@ -1451,11 +1451,21 @@
  		'|Y. M j.| G:i'			=> '2007. jan. 1. 13:37 [Relatív napok]',
  		'|Y. F j.| G:i'			=> '2007. január 1. 13:37 [Relatív napok]',
@@ -665,9 +471,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
 + 	'WRONG_DATA_USER_SIG' => 'Érvénytelen aláírás, érvényes példák:<br />OpenOffice 3.1 a Windows Vista -án / NeoOffice 2.2.3 a MacOS 10.4 -en / OpenOffice 2.4 az Ubuntu 9.04 -en', 
 +
  ));
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/ja/common.php com3319/language/ja/common.php
---- ref3319/language/ja/common.php	2026-09-25 03:30:38.000000000 +0000
-+++ com3319/language/ja/common.php	2026-11-02 01:59:07.083842714 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/language/ja/common.php com3.3.19/language/ja/common.php
+--- ref3.3.19/language/ja/common.php	2026-11-24 19:02:35.475771233 +0000
++++ com3.3.19/language/ja/common.php	2026-11-24 19:36:48.919623997 +0000
 @@ -1440,13 +1440,24 @@
  	),
  
@@ -695,9 +501,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
 + 	'WRONG_DATA_USER_SIG' => '無効な署名, 有効な例: OpenOffice 3.1 on Windows Vista / NeoOffice 2.2.3 with MacOS 10.4 / OpenOffice 2.4 on Ubuntu 9.04',
 +
  ));
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/nl/common.php com3319/language/nl/common.php
---- ref3319/language/nl/common.php	2023-02-17 18:47:50.000000000 +0000
-+++ com3319/language/nl/common.php	2026-11-02 02:03:51.709553004 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/language/nl/common.php com3.3.19/language/nl/common.php
+--- ref3.3.19/language/nl/common.php	2026-11-24 19:02:35.439368823 +0000
++++ com3.3.19/language/nl/common.php	2026-11-24 19:36:48.922715018 +0000
 @@ -1459,11 +1459,21 @@
  		'D M d, Y g:i a'		=> 'Ma Jan 01, 2007 1:37 pm',
  		'F jS, Y, g:i a'		=> 'Januari 1ste, 2007, 1:37 pm',
@@ -720,9 +526,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
 +  	'WRONG_DATA_USER_SIG'	=> 'Foutieve ondertekening, voorbeelden van een goede ondertekening zijn:<br />OpenOffice 3.1 op Windows Vista / NeoOffice 2.2.3 met MacOS 10.4 / OpenOffice 2.4 op Ubuntu 9.04', 
 +
  ));
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/nl/help/faq.php com3319/language/nl/help/faq.php
---- ref3319/language/nl/help/faq.php	2023-02-17 18:47:50.000000000 +0000
-+++ com3319/language/nl/help/faq.php	2026-11-02 02:09:00.264675707 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/language/nl/help/faq.php com3.3.19/language/nl/help/faq.php
+--- ref3.3.19/language/nl/help/faq.php	2026-11-24 19:02:35.446291912 +0000
++++ com3.3.19/language/nl/help/faq.php	2026-11-24 19:36:48.924690244 +0000
 @@ -176,11 +176,16 @@
  	'HELP_FAQ_USERSETTINGS_HIDE_ONLINE_ANSWER'	=> 'In het gebruikerspaneel onder "foruminstellingen", vind je de optie <em>Verberg mijn online status</em>. Als je deze optie activeert zul je onzichtbaar zijn voor iedereen, behalve voor beheerders, moderators en jezelf.',
  	'HELP_FAQ_USERSETTINGS_HIDE_ONLINE_QUESTION'	=> 'Hoe kan ik onzichtbaar zijn in de online gebruikers lijst?',
@@ -740,9 +546,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
 + 	'HELP_FAQ_AOO_HOW_TO_ASK'			=> 'Hoe stel ik een vraag?',
 + 	'HELP_FAQ_AOO_HOW'				=> '<strong>Lees eerst het gedeelte <a href="/nl/forum/viewtopic.php?f=1&t=2">Lees dit eerst</a> voordat u een vraag stelt</strong>. Deze richtlijnen en regels helpen de gemeenschap om het meeste uit dit forum te halen. De rest van <em>deze</em> FAQ behandelt algemene problemen die te maken hebben met het gebruiken van phpBB3.',
  ));
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/pl/common.php com3319/language/pl/common.php
---- ref3319/language/pl/common.php	2026-09-26 09:58:32.000000000 +0000
-+++ com3319/language/pl/common.php	2026-11-02 01:53:51.265916909 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/language/pl/common.php com3.3.19/language/pl/common.php
+--- ref3.3.19/language/pl/common.php	2026-11-24 19:02:35.520312431 +0000
++++ com3.3.19/language/pl/common.php	2026-11-24 19:36:48.927587147 +0000
 @@ -1490,11 +1490,22 @@
  		'd F Y, H:i'			=> '01 stycznia 2014, 17:37',
  		'l d M Y, H:i'			=> 'poniedziałek 01 sty 2014, 17:37',
@@ -766,9 +572,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
 + 	'WRONG_DATA_USER_SIG' => 'Niepoprawny wpis. Oto kilka poprawnych przykładów:<br />OpenOffice 3.1 na Windows Vista / NeoOffice 2.2.3, MacOS 10.4 / OpenOffice 2.4 pod Ubuntu 9.04',
 +
  ));
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/vi/common.php com3319/language/vi/common.php
---- ref3319/language/vi/common.php	2021-08-18 00:09:36.000000000 +0000
-+++ com3319/language/vi/common.php	2026-11-02 01:54:42.465430226 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/language/vi/common.php com3.3.19/language/vi/common.php
+--- ref3.3.19/language/vi/common.php	2026-11-24 19:02:34.781656546 +0000
++++ com3.3.19/language/vi/common.php	2026-11-24 19:36:48.930355929 +0000
 @@ -1447,11 +1447,21 @@
  		'M d, \'y, H:i'		=> 'Tháng 1 01, \'07, 13:37', // Replaced 'jS' by 'd' for Vietnamese
  		'D M d, Y g:i a'	=> 'Thứ 2 Tháng 1 01, 2007 1:37 pm',
@@ -791,9 +597,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
 + 	'WRONG_DATA_USER_SIG'	=> 'Chữ ký không hợp lệ. Ví dụ hợp lệ: OpenOffice 3.1 trên Windows Vista / NeoOffice 2.2.3 với MacOS 10.4 / OpenOffice 2.4 trên Ubuntu 9.04',
 +
  ));
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/zh_cmn_hans/common.php com3319/language/zh_cmn_hans/common.php
---- ref3319/language/zh_cmn_hans/common.php	2022-03-18 09:39:24.000000000 +0000
-+++ com3319/language/zh_cmn_hans/common.php	2026-11-02 01:51:24.139386911 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/language/zh_cmn_hans/common.php com3.3.19/language/zh_cmn_hans/common.php
+--- ref3.3.19/language/zh_cmn_hans/common.php	2026-11-24 19:02:34.790386393 +0000
++++ com3.3.19/language/zh_cmn_hans/common.php	2026-11-24 19:36:48.933118169 +0000
 @@ -1428,12 +1428,21 @@
          'Y年 M j日 g:i a'		=> '2007年 1月 1日 1:37 pm',
          'Y年 M j日 D g:i a'	=> '2007年 1月 1日 周一 1:37 pm',
@@ -816,9 +622,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
 + 	'WRONG_DATA_USER_SIG' => '无效的签名，有效示例：<br />OpenOffice 3.1 on Windows Vista / NeoOffice 2.2.3 with MacOS 10.4 / OpenOffice 2.4 on Ubuntu 9.04', 
  
  ));
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/zh_cmn_hant/common.php com3319/language/zh_cmn_hant/common.php
---- ref3319/language/zh_cmn_hant/common.php	2022-03-18 12:32:42.000000000 +0000
-+++ com3319/language/zh_cmn_hant/common.php	2026-11-02 01:59:56.333102029 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/language/zh_cmn_hant/common.php com3.3.19/language/zh_cmn_hant/common.php
+--- ref3.3.19/language/zh_cmn_hant/common.php	2026-11-24 19:02:34.799204737 +0000
++++ com3.3.19/language/zh_cmn_hant/common.php	2026-11-24 19:36:48.935828412 +0000
 @@ -1429,11 +1429,21 @@
  		'D M j日, Y年 g:i a'      => '週一 1月 1日, 2007年 1:37 pm',
  		'F 第j天, Y年, g:i a'      => '一月 第j天, 2007年, 1:37 pm',
@@ -841,9 +647,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
 + 	'WRONG_DATA_USER_SIG' => '无效的签名，有效示例：<br />OpenOffice 3.1 on Windows Vista / NeoOffice 2.2.3 with MacOS 10.4 / OpenOffice 2.4 on Ubuntu 9.04', 
 +
  ));
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/phpbb/db/driver/mysqli.php com3319/phpbb/db/driver/mysqli.php
---- ref3319/phpbb/db/driver/mysqli.php	2026-09-24 15:18:30.000000000 +0000
-+++ com3319/phpbb/db/driver/mysqli.php	2026-11-02 02:17:04.022317847 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/phpbb/db/driver/mysqli.php com3.3.19/phpbb/db/driver/mysqli.php
+--- ref3.3.19/phpbb/db/driver/mysqli.php	2026-09-24 15:18:30.000000000 +0000
++++ com3.3.19/phpbb/db/driver/mysqli.php	2026-11-24 19:36:48.936551471 +0000
 @@ -79,48 +79,50 @@
  			 * See https://wiki.php.net/rfc/mysqli_default_errmode
  			 * Since phpBB implements own SQL errors handling, explicitly set it back to MYSQLI_REPORT_OFF
@@ -921,9 +727,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
  
  	/**
  	* {@inheritDoc}
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/phpbb/help/controller/faq.php com3319/phpbb/help/controller/faq.php
---- ref3319/phpbb/help/controller/faq.php	2026-09-24 15:18:30.000000000 +0000
-+++ com3319/phpbb/help/controller/faq.php	2026-11-02 02:19:43.390396673 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/phpbb/help/controller/faq.php com3.3.19/phpbb/help/controller/faq.php
+--- ref3.3.19/phpbb/help/controller/faq.php	2026-09-24 15:18:30.000000000 +0000
++++ com3.3.19/phpbb/help/controller/faq.php	2026-11-24 19:36:48.937245822 +0000
 @@ -24,20 +24,29 @@
  	public function display()
  	{
@@ -954,9 +760,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
  				'HELP_FAQ_LOGIN_CANNOT_LOGIN_QUESTION' => 'HELP_FAQ_LOGIN_CANNOT_LOGIN_ANSWER',
  				'HELP_FAQ_LOGIN_CANNOT_LOGIN_ANYMORE_QUESTION' => 'HELP_FAQ_LOGIN_CANNOT_LOGIN_ANYMORE_ANSWER',
  				'HELP_FAQ_LOGIN_LOST_PASSWORD_QUESTION' => 'HELP_FAQ_LOGIN_LOST_PASSWORD_ANSWER',
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/posting.php com3319/posting.php
---- ref3319/posting.php	2026-09-24 15:18:30.000000000 +0000
-+++ com3319/posting.php	2026-11-02 02:24:29.170231432 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/posting.php com3.3.19/posting.php
+--- ref3.3.19/posting.php	2026-09-24 15:18:30.000000000 +0000
++++ com3.3.19/posting.php	2026-11-24 19:36:48.940083727 +0000
 @@ -1925,20 +1925,28 @@
  {
  	$s_hidden_fields .= build_hidden_fields($captcha->get_hidden_fields());
@@ -1008,9 +814,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
  	&& $auth->acl_get('f_poll', $forum_id))
  {
  	$page_data = array_merge($page_data, array(
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/rediredtToForum.php com3319/rediredtToForum.php
---- ref3319/rediredtToForum.php	1970-01-01 00:00:00.000000000 +0000
-+++ com3319/rediredtToForum.php	2022-05-01 13:55:28.000000000 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/rediredtToForum.php com3.3.19/rediredtToForum.php
+--- ref3.3.19/rediredtToForum.php	1970-01-01 00:00:00.000000000 +0000
++++ com3.3.19/rediredtToForum.php	2026-11-24 19:36:48.940480339 +0000
 @@ -0,0 +1,12 @@
 +<?php
 +        if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
@@ -1024,9 +830,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
 +        header('Location: '.$uri.'/'.$lang.'/forum');
 +        exit;
 +?>
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/styles/prosilver/template/forum_fn.js com3319/styles/prosilver/template/forum_fn.js
---- ref3319/styles/prosilver/template/forum_fn.js	2026-09-24 15:18:30.000000000 +0000
-+++ com3319/styles/prosilver/template/forum_fn.js	2026-11-02 02:28:29.713895935 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/styles/prosilver/template/forum_fn.js com3.3.19/styles/prosilver/template/forum_fn.js
+--- ref3.3.19/styles/prosilver/template/forum_fn.js	2026-09-24 15:18:30.000000000 +0000
++++ com3.3.19/styles/prosilver/template/forum_fn.js	2026-11-24 19:36:48.941536012 +0000
 @@ -187,20 +187,30 @@
  		s.addRange(r);
  	}
@@ -1058,9 +864,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
  	'use strict';
  
  	// Keycode is array down or up?
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/styles/prosilver/template/forumlist_body.html com3319/styles/prosilver/template/forumlist_body.html
---- ref3319/styles/prosilver/template/forumlist_body.html	2026-09-24 15:18:30.000000000 +0000
-+++ com3319/styles/prosilver/template/forumlist_body.html	2026-11-02 02:30:43.133660013 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/styles/prosilver/template/forumlist_body.html com3.3.19/styles/prosilver/template/forumlist_body.html
+--- ref3.3.19/styles/prosilver/template/forumlist_body.html	2026-09-24 15:18:30.000000000 +0000
++++ com3.3.19/styles/prosilver/template/forumlist_body.html	2026-11-24 19:36:48.942142366 +0000
 @@ -86,21 +86,21 @@
  								</a>
  							<!-- ELSEIF forumrow.U_UNAPPROVED_POSTS -->
@@ -1084,9 +890,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
  								<br /><time datetime="{forumrow.LAST_POST_TIME_RFC3339}">{forumrow.LAST_POST_TIME}</time>
  							<!-- ELSE -->
  							{% if forumrow.U_UNAPPROVED_TOPICS %}
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/styles/prosilver/template/overall_footer.html com3319/styles/prosilver/template/overall_footer.html
---- ref3319/styles/prosilver/template/overall_footer.html	2026-09-24 15:18:30.000000000 +0000
-+++ com3319/styles/prosilver/template/overall_footer.html	2026-11-02 03:51:32.010374440 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/styles/prosilver/template/overall_footer.html com3.3.19/styles/prosilver/template/overall_footer.html
+--- ref3.3.19/styles/prosilver/template/overall_footer.html	2026-09-24 15:18:30.000000000 +0000
++++ com3.3.19/styles/prosilver/template/overall_footer.html	2026-11-24 19:36:48.942711555 +0000
 @@ -1,48 +1,57 @@
  		<!-- EVENT overall_footer_content_after -->
  	</div>
@@ -1147,9 +953,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
  		<a href="#" class="alert_close">
  			<i class="icon fa-times-circle fa-fw" aria-hidden="true"></i>
  		</a>
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/styles/prosilver/template/overall_header.html com3319/styles/prosilver/template/overall_header.html
---- ref3319/styles/prosilver/template/overall_header.html	2026-09-24 15:18:30.000000000 +0000
-+++ com3319/styles/prosilver/template/overall_header.html	2026-11-02 02:40:16.726242630 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/styles/prosilver/template/overall_header.html com3.3.19/styles/prosilver/template/overall_header.html
+--- ref3.3.19/styles/prosilver/template/overall_header.html	2026-09-24 15:18:30.000000000 +0000
++++ com3.3.19/styles/prosilver/template/overall_header.html	2026-11-24 19:36:48.943284286 +0000
 @@ -1,18 +1,18 @@
  <!DOCTYPE html>
  <html dir="{S_CONTENT_DIRECTION}" lang="{S_USER_LANG}">
@@ -1204,9 +1010,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
  				</fieldset>
  				</form>
  			</div>
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/styles/prosilver/template/posting_buttons.html com3319/styles/prosilver/template/posting_buttons.html
---- ref3319/styles/prosilver/template/posting_buttons.html	2026-09-24 15:18:30.000000000 +0000
-+++ com3319/styles/prosilver/template/posting_buttons.html	2026-11-02 02:42:10.524460243 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/styles/prosilver/template/posting_buttons.html com3.3.19/styles/prosilver/template/posting_buttons.html
+--- ref3.3.19/styles/prosilver/template/posting_buttons.html	2026-09-24 15:18:30.000000000 +0000
++++ com3.3.19/styles/prosilver/template/posting_buttons.html	2026-11-24 19:36:48.943812560 +0000
 @@ -57,21 +57,21 @@
  	<button type="button" class="button button-icon-only bbcode-list" accesskey="l" name="addbbcode10" value="List" onclick="bbstyle(10)" title="{L_BBCODE_L_HELP}">
  		<i class="icon fa-list fa-fw" aria-hidden="true"></i>
@@ -1230,9 +1036,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
  	<!-- ENDIF -->
  	<!-- IF S_BBCODE_FLASH -->
  	<button type="button" class="button button-icon-only bbcode-flash" accesskey="d" name="addbbcode18" value="Flash" onclick="bbstyle(18)" title="{L_BBCODE_D_HELP}">
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/styles/prosilver/template/posting_editor.html com3319/styles/prosilver/template/posting_editor.html
---- ref3319/styles/prosilver/template/posting_editor.html	2026-09-24 15:18:30.000000000 +0000
-+++ com3319/styles/prosilver/template/posting_editor.html	2026-11-02 02:46:21.459532619 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/styles/prosilver/template/posting_editor.html com3.3.19/styles/prosilver/template/posting_editor.html
+--- ref3.3.19/styles/prosilver/template/posting_editor.html	2026-09-24 15:18:30.000000000 +0000
++++ com3.3.19/styles/prosilver/template/posting_editor.html	2026-11-24 19:36:48.944472246 +0000
 @@ -99,21 +99,21 @@
  
  	<!-- IF not S_SHOW_DRAFTS and not $SIG_EDIT eq 1 -->
@@ -1256,9 +1062,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
  
  	<!-- IF not S_PRIVMSGS and not S_SHOW_DRAFTS and not $SIG_EDIT eq 1 -->
  		<div id="tabs" class="tabs sub-panels" data-show-panel="<!-- IF SHOW_PANEL -->{SHOW_PANEL}<!-- ELSE -->options-panel<!-- ENDIF -->" role="tablist">
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/styles/prosilver/template/posting_layout.html com3319/styles/prosilver/template/posting_layout.html
---- ref3319/styles/prosilver/template/posting_layout.html	2026-09-24 15:18:30.000000000 +0000
-+++ com3319/styles/prosilver/template/posting_layout.html	2026-11-02 02:47:46.570673916 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/styles/prosilver/template/posting_layout.html com3.3.19/styles/prosilver/template/posting_layout.html
+--- ref3.3.19/styles/prosilver/template/posting_layout.html	2026-09-24 15:18:30.000000000 +0000
++++ com3.3.19/styles/prosilver/template/posting_layout.html	2026-11-24 19:36:48.945108808 +0000
 @@ -38,20 +38,21 @@
  
  <!-- IF S_POST_REVIEW --><!-- INCLUDE posting_review.html --><!-- ENDIF -->
@@ -1281,9 +1087,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
  <!-- IF S_SHOW_ATTACH_BOX and FILTERS --><!-- INCLUDE posting_attach_body.html --><!-- ENDIF -->
  
  <!-- IF S_SHOW_POLL_BOX or S_POLL_DELETE --><!-- INCLUDE posting_poll_body.html --><!-- ENDIF -->
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/styles/prosilver/template/search_body.html com3319/styles/prosilver/template/search_body.html
---- ref3319/styles/prosilver/template/search_body.html	2026-09-24 15:18:30.000000000 +0000
-+++ com3319/styles/prosilver/template/search_body.html	2026-11-02 02:49:41.946564449 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/styles/prosilver/template/search_body.html com3.3.19/styles/prosilver/template/search_body.html
+--- ref3.3.19/styles/prosilver/template/search_body.html	2026-09-24 15:18:30.000000000 +0000
++++ com3.3.19/styles/prosilver/template/search_body.html	2026-11-24 19:36:48.945677706 +0000
 @@ -56,22 +56,22 @@
  		<dd><label for="sf4"><input type="radio" name="sf" id="sf4" value="firstpost" /> {L_SEARCH_FIRST_POST}</label></dd>
  	</dl>
@@ -1309,9 +1115,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
  		</dd>
  	</dl>
  	<dl>
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/styles/prosilver/template/ucp_register.html com3319/styles/prosilver/template/ucp_register.html
---- ref3319/styles/prosilver/template/ucp_register.html	2026-09-24 15:18:30.000000000 +0000
-+++ com3319/styles/prosilver/template/ucp_register.html	2026-11-02 02:52:26.503534339 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/styles/prosilver/template/ucp_register.html com3.3.19/styles/prosilver/template/ucp_register.html
+--- ref3.3.19/styles/prosilver/template/ucp_register.html	2026-09-24 15:18:30.000000000 +0000
++++ com3.3.19/styles/prosilver/template/ucp_register.html	2026-11-24 19:36:48.946198688 +0000
 @@ -59,20 +59,28 @@
  	<!-- EVENT ucp_register_options_before -->
  	{% if S_LANG_OPTIONS %}
@@ -1341,9 +1147,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
  			<!-- IF profile_fields.ERROR --><br /><span class="error">{profile_fields.ERROR}</span><!-- ENDIF --></dt>
  			<dd>{profile_fields.FIELD}</dd>
  		</dl>
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/styles/prosilver/template/viewtopic_body.html com3319/styles/prosilver/template/viewtopic_body.html
---- ref3319/styles/prosilver/template/viewtopic_body.html	2026-09-24 15:18:30.000000000 +0000
-+++ com3319/styles/prosilver/template/viewtopic_body.html	2026-11-02 02:54:13.498482032 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/styles/prosilver/template/viewtopic_body.html com3.3.19/styles/prosilver/template/viewtopic_body.html
+--- ref3.3.19/styles/prosilver/template/viewtopic_body.html	2026-09-24 15:18:30.000000000 +0000
++++ com3.3.19/styles/prosilver/template/viewtopic_body.html	2026-11-24 19:36:48.947088575 +0000
 @@ -152,21 +152,21 @@
  				<!-- IF not postrow.U_POST_AUTHOR --><strong>{postrow.POST_AUTHOR_FULL}</strong><!-- ELSE -->{postrow.POST_AUTHOR_FULL}<!-- ENDIF -->
  				<!-- EVENT viewtopic_body_post_author_after -->
@@ -1367,9 +1173,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
  		<!-- BEGIN custom_fields -->
  			<!-- IF not postrow.custom_fields.S_PROFILE_CONTACT -->
  				<dd class="profile-custom-field profile-{postrow.custom_fields.PROFILE_FIELD_IDENT}"><strong>{postrow.custom_fields.PROFILE_FIELD_NAME}{L_COLON}</strong> {postrow.custom_fields.PROFILE_FIELD_VALUE}</dd>
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/styles/prosilver/theme/bidi.css com3319/styles/prosilver/theme/bidi.css
---- ref3319/styles/prosilver/theme/bidi.css	2026-09-24 15:18:30.000000000 +0000
-+++ com3319/styles/prosilver/theme/bidi.css	2026-11-02 02:55:54.141095011 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/styles/prosilver/theme/bidi.css com3.3.19/styles/prosilver/theme/bidi.css
+--- ref3.3.19/styles/prosilver/theme/bidi.css	2026-09-24 15:18:30.000000000 +0000
++++ com3.3.19/styles/prosilver/theme/bidi.css	2026-11-24 19:36:48.948035085 +0000
 @@ -513,21 +513,21 @@
  
  .rtl blockquote cite {
@@ -1393,9 +1199,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
  /* Attachments
  ----------------------------------------*/
  .rtl .attachbox {
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/styles/prosilver/theme/colours.css com3319/styles/prosilver/theme/colours.css
---- ref3319/styles/prosilver/theme/colours.css	2026-09-24 15:18:30.000000000 +0000
-+++ com3319/styles/prosilver/theme/colours.css	2026-11-02 03:03:09.659203354 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/styles/prosilver/theme/colours.css com3.3.19/styles/prosilver/theme/colours.css
+--- ref3.3.19/styles/prosilver/theme/colours.css	2026-09-24 15:18:30.000000000 +0000
++++ com3.3.19/styles/prosilver/theme/colours.css	2026-11-24 19:36:48.949123798 +0000
 @@ -82,32 +82,34 @@
  ---------------------------------------- */
  .wrap {
@@ -1511,9 +1317,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
  	border-color: #C9D2D8;
  }
  
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/styles/prosilver/theme/common.css com3319/styles/prosilver/theme/common.css
---- ref3319/styles/prosilver/theme/common.css	2026-09-24 15:18:30.000000000 +0000
-+++ com3319/styles/prosilver/theme/common.css	2026-11-02 03:47:44.992013091 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/styles/prosilver/theme/common.css com3.3.19/styles/prosilver/theme/common.css
+--- ref3.3.19/styles/prosilver/theme/common.css	2026-09-24 15:18:30.000000000 +0000
++++ com3.3.19/styles/prosilver/theme/common.css	2026-11-24 19:36:48.949909230 +0000
 @@ -160,45 +160,82 @@
  .page-footer {
  	clear: both;
@@ -1623,9 +1429,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
  
  .small {
  	font-size: 0.9em !important;
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/styles/prosilver/theme/content.css com3319/styles/prosilver/theme/content.css
---- ref3319/styles/prosilver/theme/content.css	2026-09-24 15:18:30.000000000 +0000
-+++ com3319/styles/prosilver/theme/content.css	2026-11-02 03:06:53.565863778 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/styles/prosilver/theme/content.css com3.3.19/styles/prosilver/theme/content.css
+--- ref3.3.19/styles/prosilver/theme/content.css	2026-09-24 15:18:30.000000000 +0000
++++ com3.3.19/styles/prosilver/theme/content.css	2026-11-24 19:36:48.950632039 +0000
 @@ -508,51 +508,59 @@
  	float: right;
  	font-weight: normal;
@@ -1692,9 +1498,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
  	margin: 5px 5px 5px 0;
  	padding: 6px;
  	border: 1px dashed transparent;
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/viewforum.php com3319/viewforum.php
---- ref3319/viewforum.php	2026-09-24 15:18:30.000000000 +0000
-+++ com3319/viewforum.php	2026-11-02 03:11:25.941833277 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/viewforum.php com3.3.19/viewforum.php
+--- ref3.3.19/viewforum.php	2026-09-24 15:18:30.000000000 +0000
++++ com3.3.19/viewforum.php	2026-11-24 19:36:48.952276984 +0000
 @@ -172,21 +172,21 @@
  	$config['topics_per_page'] = $forum_data['forum_topics_per_page'];
  }
@@ -1718,9 +1524,9 @@ diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=
  * @var	int		forum_id		The forum ID
  * @var	int		start			Start offset used to calculate the page
  * @since 3.2.2-RC1
-diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/viewtopic.php com3319/viewtopic.php
---- ref3319/viewtopic.php	2026-09-24 15:18:30.000000000 +0000
-+++ com3319/viewtopic.php	2026-11-02 03:12:34.676619979 +0000
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3.3.19/viewtopic.php com3.3.19/viewtopic.php
+--- ref3.3.19/viewtopic.php	2026-09-24 15:18:30.000000000 +0000
++++ com3.3.19/viewtopic.php	2026-11-24 19:36:48.955022184 +0000
 @@ -2401,21 +2401,21 @@
  {
  	$request->overwrite('f', $forum_id);

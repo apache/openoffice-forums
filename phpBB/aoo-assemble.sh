@@ -96,5 +96,8 @@ cd  com${1}
 
 # patch
 patch -p1 < ../aoo-changes.patch
+# the patch deletes the contents of files/ - some versions of patch (macOS) leave
+# zero-length files and the directory behind, so remove the directory explicitly
+rm -rf files
 # keep the config.php already in each deployment directory
 rm config.php

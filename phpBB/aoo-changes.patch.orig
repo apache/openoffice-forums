@@ -1,0 +1,1746 @@
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/files/.htaccess com3319/files/.htaccess
+--- ref3319/files/.htaccess	2026-09-24 15:18:30.000000000 +0000
++++ com3319/files/.htaccess	1970-01-01 00:00:00.000000000 +0000
+@@ -1,25 +0,0 @@
+-# With Apache 2.4 the "Order, Deny" syntax has been deprecated and moved from
+-# module mod_authz_host to a new module called mod_access_compat (which may be
+-# disabled) and a new "Require" syntax has been introduced to mod_authz_core.
+-# We could just conditionally provide both versions, but unfortunately Apache
+-# does not explicitly tell us its version if the module mod_version is not
+-# available. In this case, we check for the availability of module
+-# mod_authz_core (which should be on 2.4 or higher only) as a best guess.
+-<IfModule mod_version.c>
+-	<IfVersion < 2.4>
+-		Order Allow,Deny
+-		Deny from All
+-	</IfVersion>
+-	<IfVersion >= 2.4>
+-		Require all denied
+-	</IfVersion>
+-</IfModule>
+-<IfModule !mod_version.c>
+-	<IfModule !mod_authz_core.c>
+-		Order Allow,Deny
+-		Deny from All
+-	</IfModule>
+-	<IfModule mod_authz_core.c>
+-		Require all denied
+-	</IfModule>
+-</IfModule>
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/files/index.htm com3319/files/index.htm
+--- ref3319/files/index.htm	2026-09-24 15:18:30.000000000 +0000
++++ com3319/files/index.htm	1970-01-01 00:00:00.000000000 +0000
+@@ -1,10 +0,0 @@
+-<html>
+-<head>
+-<title></title>
+-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+-</head>
+-
+-<body bgcolor="#FFFFFF" text="#000000">
+-
+-</body>
+-</html>
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/includes/functions_display.php com3319/includes/functions_display.php
+--- ref3319/includes/functions_display.php	2026-09-24 15:18:30.000000000 +0000
++++ com3319/includes/functions_display.php	2026-11-01 20:44:52.007226577 +0000
+@@ -617,20 +617,21 @@
+ 			'FORUM_NAME'			=> $row['forum_name'],
+ 			'FORUM_DESC'			=> generate_text_for_display($row['forum_desc'], $row['forum_desc_uid'], $row['forum_desc_bitfield'], $row['forum_desc_options']),
+ 			'TOPICS'				=> $row['forum_topics'],
+ 			$l_post_click_count		=> $post_click_count,
+ 			'FORUM_IMG_STYLE'		=> $folder_image,
+ 			'FORUM_FOLDER_IMG'		=> $user->img($folder_image, $folder_alt),
+ 			'FORUM_FOLDER_IMG_ALT'	=> isset($user->lang[$folder_alt]) ? $user->lang[$folder_alt] : '',
+ 			'FORUM_IMAGE'			=> ($row['forum_image']) ? '<img src="' . $phpbb_root_path . $row['forum_image'] . '" alt="' . $user->lang[$folder_alt] . '" />' : '',
+ 			'FORUM_IMAGE_SRC'		=> ($row['forum_image']) ? $phpbb_root_path . $row['forum_image'] : '',
+ 			'LAST_POST_SUBJECT'		=> $last_post_subject,
++			'LAST_POST_SHORTENED_SUBJECT'	=> (utf8_strlen($last_post_subject) > 26) ? truncate_string($last_post_subject, 25) . "\xE2\x80\xA6" : $last_post_subject,
+ 			'LAST_POST_SUBJECT_TRUNCATED'	=> $last_post_subject_truncated,
+ 			'LAST_POST_TIME'		=> $last_post_time,
+ 			'LAST_POST_TIME_RFC3339'=> $last_post_time_rfc3339,
+ 			'LAST_POSTER'			=> get_username_string('username', $row['forum_last_poster_id'], $row['forum_last_poster_name'], $row['forum_last_poster_colour']),
+ 			'LAST_POSTER_COLOUR'	=> get_username_string('colour', $row['forum_last_poster_id'], $row['forum_last_poster_name'], $row['forum_last_poster_colour']),
+ 			'LAST_POSTER_FULL'		=> get_username_string('full', $row['forum_last_poster_id'], $row['forum_last_poster_name'], $row['forum_last_poster_colour']),
+ 			'MODERATORS'			=> $moderators_list,
+ 			'SUBFORUMS'				=> $s_subforums_list,
+ 
+ 			'L_SUBFORUM_STR'		=> $l_subforums,
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/includes/functions.php com3319/includes/functions.php
+--- ref3319/includes/functions.php	2026-09-24 15:18:30.000000000 +0000
++++ com3319/includes/functions.php	2026-11-01 20:48:26.892764076 +0000
+@@ -2345,20 +2345,30 @@
+ 		if ($user->data['is_registered'])
+ 		{
+ 			$phpbb_log->add('admin', $user->data['user_id'], $user->ip, 'LOG_ADMIN_AUTH_FAIL');
+ 		}
+ 		send_status_line(403, 'Forbidden');
+ 		trigger_error('NO_AUTH_ADMIN');
+ 	}
+ 
+ 	if (empty($err) && ($request->is_set_post('login') || ($request->is_set('login') && $request->variable('login', '') == 'external')))
+ 	{
++		// ---- custom start
++		// Short-circuit logon hack attempt
++
++		if ( !isset( $_POST['sid']) ) {
++			error_log("phpBB login hack " . $user->ip . ' '. $result['status'] . ' ' . str_replace( "\n", " ", var_export( $_POST, true ) ), 0 ); 
++			header( 'Location: ucp.php?mode=login' );
++			exit;
++		}
++		// ---- custom end
++
+ 		// Get credential
+ 		if ($admin)
+ 		{
+ 			$credential = $request->variable('credential', '');
+ 
+ 			if (strspn($credential, 'abcdef0123456789') !== strlen($credential) || strlen($credential) != 32)
+ 			{
+ 				if ($user->data['is_registered'])
+ 				{
+ 					$phpbb_log->add('admin', $user->data['user_id'], $user->ip, 'LOG_ADMIN_AUTH_FAIL');
+@@ -4168,20 +4178,22 @@
+ 		'T_SUPER_TEMPLATE_NAME'	=> rawurlencode((isset($user->style['style_parent_tree']) && $user->style['style_parent_tree']) ? $user->style['style_parent_tree'] : $user->style['style_path']),
+ 		'T_IMAGES'				=> 'images',
+ 		'T_SMILIES'				=> $config['smilies_path'],
+ 		'T_AVATAR'				=> $config['avatar_path'],
+ 		'T_AVATAR_GALLERY'		=> $config['avatar_gallery_path'],
+ 		'T_ICONS'				=> $config['icons_path'],
+ 		'T_RANKS'				=> $config['ranks_path'],
+ 		'T_UPLOAD'				=> $config['upload_path'],
+ 
+ 		'SITE_LOGO_IMG'			=> $user->img('site_logo'),
++		'OOO_FOOTER_HOOK'		=> (isset($config['ooo_footer_hook'])) ? $config['ooo_footer_hook'] : '',
++		'OOO_META_OTHER'		=> (isset($config['ooo_meta_other'])) ? $config['ooo_meta_other'] : '',
+ 	));
+ 
+ 	$http_headers = array();
+ 
+ 	if ($send_headers)
+ 	{
+ 		// An array of http headers that phpBB will set. The following event may override these.
+ 		$http_headers += array(
+ 			// application/xhtml+xml not used because of IE
+ 			'Content-type' => 'text/html; charset=UTF-8',
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/includes/functions_user.php com3319/includes/functions_user.php
+--- ref3319/includes/functions_user.php	2026-09-24 15:18:30.000000000 +0000
++++ com3319/includes/functions_user.php	2026-11-01 20:53:22.975832088 +0000
+@@ -2,20 +2,29 @@
+ /**
+ *
+ * This file is part of the phpBB Forum Software package.
+ *
+ * @copyright (c) phpBB Limited <https://www.phpbb.com>
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ * For full copyright and license information, please see
+ * the docs/CREDITS.txt file.
+ *
++* Mod 01 TE 06 Apr 20009
++*	 Support for FR forum's custom Signature field on registration.  This functionality
++*	 is enabled if the system_config variable subject_validation is defined.  This field
++*	 is a match pattern which is used as the validation criterion for the Subject field.
++*	 This pattern must succeed for the Subject field to be accepted.
++* Mod 02 AP 20 Apr 2014
++*        Set mail notification to on by default.
++*        https://issues.apache.org/jira/browse/INFRA-7286
++*
+ */
+ 
+ /**
+ * @ignore
+ */
+ if (!defined('IN_PHPBB'))
+ {
+ 	exit;
+ }
+ 
+@@ -184,20 +193,24 @@
+ */
+ function user_add($user_row, $cp_data = false, $notifications_data = null)
+ {
+ 	global $db, $config;
+ 	global $phpbb_dispatcher, $phpbb_container;
+ 
+ 	if (empty($user_row['username']) || !isset($user_row['group_id']) || !isset($user_row['user_email']) || !isset($user_row['user_type']))
+ 	{
+ 		return false;
+ 	}
++	if (isset($config['subject_validation']) && !isset($user_row['user_sig']))          //+ *** Mod 01 ***
++	{
++		return false;
++	}                                                                                   //- *** Mod 01 ***
+ 
+ 	$username_clean = utf8_clean_string($user_row['username']);
+ 
+ 	if (empty($username_clean))
+ 	{
+ 		return false;
+ 	}
+ 
+ 	$sql_ary = array(
+ 		'username'			=> $user_row['username'],
+@@ -235,29 +248,29 @@
+ 		'user_avatar_type'		=> '',
+ 		'user_avatar_width'		=> 0,
+ 		'user_avatar_height'	=> 0,
+ 		'user_new_privmsg'		=> 0,
+ 		'user_unread_privmsg'	=> 0,
+ 		'user_last_privmsg'		=> 0,
+ 		'user_message_rules'	=> 0,
+ 		'user_full_folder'		=> PRIVMSGS_NO_BOX,
+ 		'user_emailtime'		=> 0,
+ 
+-		'user_notify'			=> 0,
++		'user_notify'			=> 1,                                       // *** Mod 02 ***
+ 		'user_notify_pm'		=> 1,
+ 		'user_notify_type'		=> NOTIFY_EMAIL,
+ 		'user_allow_pm'			=> 1,
+ 		'user_allow_viewonline'	=> 1,
+ 		'user_allow_viewemail'	=> 1,
+ 		'user_allow_massemail'	=> 1,
+ 
+-		'user_sig'					=> '',
++		'user_sig'					=> isset($config['subject_validation']) ? $user_row['user_sig'] : '',   //  *** Mod 01 ***
+ 		'user_sig_bbcode_uid'		=> '',
+ 		'user_sig_bbcode_bitfield'	=> '',
+ 
+ 		'user_form_salt'			=> unique_id(),
+ 	);
+ 
+ 	// Now fill the sql array with not required variables
+ 	foreach ($additional_vars as $key => $default_value)
+ 	{
+ 		$sql_ary[$key] = (isset($user_row[$key])) ? $user_row[$key] : $default_value;
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/includes/ucp/ucp_register.php com3319/includes/ucp/ucp_register.php
+--- ref3319/includes/ucp/ucp_register.php	2026-09-24 15:18:30.000000000 +0000
++++ com3319/includes/ucp/ucp_register.php	2026-11-01 21:05:22.548774847 +0000
+@@ -2,20 +2,26 @@
+ /**
+ *
+ * This file is part of the phpBB Forum Software package.
+ *
+ * @copyright (c) phpBB Limited <https://www.phpbb.com>
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ * For full copyright and license information, please see
+ * the docs/CREDITS.txt file.
+ *
++* Mod 01 TE 06 Apr 20009 
++*	 Support for FR forum's custom Signature field on registration.  This functionality
++*	 is enabled if the system_config variable subject_validation is defined.  This field
++*	 is a match pattern which is used as the validation criterion for the Subject field.
++*	 This pattern must succede for the Subject field to be accepted.
++*
+ */
+ 
+ /**
+ * @ignore
+ */
+ if (!defined('IN_PHPBB'))
+ {
+ 	exit;
+ }
+ 
+@@ -38,20 +44,21 @@
+ 		{
+ 			trigger_error('UCP_REGISTER_DISABLE');
+ 		}
+ 
+ 		$coppa			= $request->is_set('coppa_yes') ? 1 : ($request->is_set('coppa_no') ? 0 : false);
+ 		$coppa			= $request->is_set('coppa') ? $request->variable('coppa', 0) : $coppa;
+ 		$agreed			= $request->variable('agreed', false);
+ 		$submit			= $request->is_set_post('submit');
+ 		$change_lang	= $request->variable('change_lang', '');
+ 		$user_lang		= $request->variable('lang', $user->lang_name);
++		$subject_reqd		= isset($config['subject_validation']);									//  *** Mod 01 ***
+ 
+ 		if ($agreed && !check_form_key('ucp_register'))
+ 		{
+ 			$agreed = false;
+ 		}
+ 
+ 		if ($coppa !== false && !check_form_key('ucp_register'))
+ 		{
+ 			$coppa = false;
+ 		}
+@@ -260,36 +267,45 @@
+ 		*							or did the user press submit
+ 		* @var	array	data		Array with current ucp registration data
+ 		* @since 3.1.4-RC1
+ 		*/
+ 		$vars = array('submit', 'data');
+ 		extract($phpbb_dispatcher->trigger_event('core.ucp_register_data_before', compact($vars)));
+ 
+ 		// Check and initialize some variables if needed
+ 		if ($submit)
+ 		{
+-			$error = validate_data($data, array(
++			$error_validation = array(															//	*** Mod 01 ***
+ 				'username'			=> array(
+ 					array('string', false, $config['min_name_chars'], $config['max_name_chars']),
+ 					array('username', '')),
+ 				'new_password'		=> array(
+ 					array('string', false, $config['min_pass_chars'], 0),
+ 					array('password')),
+ 				'password_confirm'	=> array('string', false, $config['min_pass_chars'], 0),
+ 				'email'				=> array(
+ 					array('string', false, 6, 60),
+ 					array('user_email')),
+ 				'tz'				=> array('timezone'),
+ 				'lang'				=> array('language_iso_name'),
+-			));
++			);
++
++           		if ($subject_reqd)                                                                  //+ *** Mod 01 ***
++           		{
++				$error_validation['user_sig'] = array(
++				 	array('string', false, 0, $config['max_sig_chars']),
++				 	array('match', false, $config['subject_validation']),
++				 );
++		   	}
++		   $error = validate_data($data, $error_validation);								   //- *** Mod 01 ***	  
+ 
+-			if (!check_form_key('ucp_register'))
++		   	if (!check_form_key('ucp_register'))
+ 			{
+ 				$error[] = $user->lang['FORM_INVALID'];
+ 			}
+ 
+ 			// Replace "error" strings with their real, localised form
+ 			$error = array_map(array($user, 'lang'), $error);
+ 
+ 			if ($config['enable_confirm'])
+ 			{
+ 				$vc_response = $captcha->validate($data);
+@@ -387,20 +403,21 @@
+ 					'group_id'					=> (int) $group_id,
+ 					'user_timezone'				=> $data['tz'],
+ 					'user_lang'					=> $data['lang'],
+ 					'user_type'					=> $user_type,
+ 					'user_actkey'				=> $user_actkey,
+ 					'user_actkey_expiration'	=> $user::get_token_expiration(),
+ 					'user_ip'					=> $user->ip,
+ 					'user_regdate'				=> time(),
+ 					'user_inactive_reason'		=> $user_inactive_reason,
+ 					'user_inactive_time'		=> $user_inactive_time,
++					'user_sig'		=> $data['user_sig'],
+ 				);
+ 
+ 				if ($config['new_member_post_limit'])
+ 				{
+ 					$user_row['user_new'] = 1;
+ 				}
+ 				/**
+ 				* Add into $user_row before user_add
+ 				*
+ 				* user_add allows adding more data into the users table
+@@ -636,29 +653,31 @@
+ 			ORDER BY lang_english_name';
+ 		$result = $db->sql_query($sql);
+ 		$lang_row = (array) $db->sql_fetchrowset($result);
+ 		$db->sql_freeresult($result);
+ 
+ 		$template_vars = array(
+ 			'USERNAME'			=> $data['username'],
+ 			'PASSWORD'			=> $data['new_password'],
+ 			'PASSWORD_CONFIRM'	=> $data['password_confirm'],
+ 			'EMAIL'				=> $data['email'],
++			'SIGNATURE'			=> $data['user_sig'],
+ 
+ 			'L_REG_COND'				=> $l_reg_cond,
+ 			'L_USERNAME_EXPLAIN'		=> $user->lang($config['allow_name_chars'] . '_EXPLAIN', $user->lang('CHARACTERS_XY', (int) $config['min_name_chars']), $user->lang('CHARACTERS_XY', (int) $config['max_name_chars'])),
+ 			'L_PASSWORD_EXPLAIN'		=> $user->lang($config['pass_complex'] . '_EXPLAIN', $user->lang('CHARACTERS_XY', (int) $config['min_pass_chars'])),
+ 
+ 			'S_LANG_OPTIONS'	=> (count($lang_row) > 1) ? language_select($data['lang'], $lang_row) : '',
+ 			'S_TZ_PRESELECT'	=> !$submit,
+ 			'S_CONFIRM_REFRESH'	=> ($config['enable_confirm'] && $config['confirm_refresh']) ? true : false,
+ 			'S_REGISTRATION'	=> true,
++ 			'S_SIGNATURE'		=> true,
+ 			'S_COPPA'			=> $coppa,
+ 			'S_UCP_ACTION'		=> append_sid("{$phpbb_root_path}ucp.$phpEx", 'mode=register'),
+ 
+ 			'COOKIE_NAME'		=> $config['cookie_name'],
+ 			'COOKIE_PATH'		=> $config['cookie_path'],
+ 		);
+ 
+ 		$tpl_name = 'ucp_register';
+ 
+ 		/**
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/index.php com3319/index.php
+--- ref3319/index.php	2026-09-24 15:18:30.000000000 +0000
++++ com3319/index.php	2026-11-02 04:08:59.484324585 +0000
+@@ -204,30 +204,42 @@
+ 	* @var	array	birthdays		Array with the users birthdays data
+ 	* @var	array	rows			Array with the birthdays SQL query result
+ 	* @since 3.1.7-RC1
+ 	*/
+ 	$vars = array('birthdays', 'rows');
+ 	extract($phpbb_dispatcher->trigger_event('core.index_modify_birthdays_list', compact($vars)));
+ 
+ 	$template->assign_block_vars_array('birthdays', $birthdays);
+ }
+ 
++$limit_post_count = ( (time() - $user->data['user_lastvisit']) > (7 * 86400) );
++$post_count_time = $limit_post_count ? ( time() - (7 * 86400) ) :
++									   $user->data['user_lastvisit'];
++$sql = 'SELECT COUNT(post_time) as count
++		FROM ' . POSTS_TABLE . '
++		WHERE post_time > ' . $post_count_time ;
++
++$result		= $db->sql_query($sql);
++$post_count	= ($limit_post_count ? '>' : '' ) . $db->sql_fetchfield('count', false, $result);
++$db->sql_freeresult($result); 
++
+ $controller_helper = $phpbb_container->get('controller.helper');
+ // Assign index specific vars
+ $template->assign_vars(array(
+ 	'TOTAL_POSTS'	=> $user->lang('TOTAL_POSTS_COUNT', (int) $config['num_posts']),
+ 	'TOTAL_TOPICS'	=> $user->lang('TOTAL_TOPICS', (int) $config['num_topics']),
+ 	'TOTAL_USERS'	=> $user->lang('TOTAL_USERS', (int) $config['num_users']),
+ 	'NEWEST_USER'	=> $user->lang('NEWEST_USER', get_username_string('full', $config['newest_user_id'], $config['newest_username'], $config['newest_user_colour'])),
+ 
+ 	'LEGEND'		=> $legend,
+ 	'BIRTHDAY_LIST'	=> (empty($birthday_list)) ? '' : implode($user->lang['COMMA_SEPARATOR'], $birthday_list),
++	'NEW_POST_COUNT' => $post_count ,
+ 
+ 	'S_LOGIN_ACTION'			=> append_sid("{$phpbb_root_path}ucp.$phpEx", 'mode=login'),
+ 	'U_SEND_PASSWORD'           => ($config['email_enable'] && $config['allow_password_reset']) ? $controller_helper->route('phpbb_ucp_forgot_password_controller') : '',
+ 	'S_DISPLAY_BIRTHDAY_LIST'	=> $show_birthdays,
+ 	'S_INDEX'					=> true,
+ 
+ 	'U_CANONICAL'		=> generate_board_url() . '/',
+ 	'U_MARK_FORUMS'		=> ($user->data['is_registered'] || $config['load_anon_lastread']) ? append_sid("{$phpbb_root_path}index.$phpEx", 'hash=' . generate_link_hash('global') . '&amp;mark=forums&amp;mark_time=' . time()) : '',
+ 	'U_MCP'				=> ($auth->acl_get('m_') || $auth->acl_getf_global('m_')) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=main&amp;mode=front', true, $user->session_id) : '')
+ );
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/ca/common.php com3319/language/ca/common.php
+--- ref3319/language/ca/common.php	2026-09-24 21:00:58.000000000 +0000
++++ com3319/language/ca/common.php	2026-11-02 02:02:58.580742763 +0000
+@@ -1466,11 +1466,21 @@
+ 		'D d M Y, g:i a'		=> 'dl 01 gen 2007, 1:37 pm', //'D M d, Y g:i a'		=> 'dl gen 01, 2007 1:37 pm',
+ 		//'F jS, Y, g:i a'		=> 'gener 1er, 2007, 1:37 pm',
+ 		'|d M Y|, H:i'			=> 'Avui, 13:37 / 01 gen 2007, 13:37',
+ 		//'|F jS, Y|, g:i a'		=> 'Avui, 1:37 pm / gener 1er, 2007, 1:37 pm',
+ 	),
+ 
+ 	// The default dateformat which will be used on new installs in this language
+ 	// Translators should change this if a the usual date format is different
+ 	'default_dateformat'	=> 'd M Y, H:i', // 01 gen 2007, 13:37
+ 
++ 	'OOO_FG_REQUEST' => '<strong>Por favor, lea la <a href="viewtopic.php?t=%s">Guía de supervivencia</a> antes de publicar su mensaje</strong>. Estas guías y reglas ayudan a la comunidad de OpenOffice a obtener el máximo de este foro y sirven también para evitar innecesarias repeticiones de preguntas que han sido formuladas previamente y para las que puede haber ya una respuesta', 
++ 	'OOO_GET_OPENOFFICE' => 'Obtenga OpenOffice', 
++ 	'OOO_GET_OOO_URI' => 'https://www.openoffice.org/download/', 
++ 	'OOO_POLICIES_PREAMBLE' => 'Por cualquier uso de este sitio web usted acepta las siguientes', 
++ 	'OOO_POLICIES_ANCHOR' => '<a href="https://openoffice.org/terms_of_use">Políticas y términos de uso</a>', 
++ 	'OOO_META_KEYWORDS' => 'Foro de OpenOffice, Ayuda de OpenOffice, Soporte de OpenOffice, Configuración, Resolución de problemas, Documentación, Código abierto, Oficina, Paquete de oficina, OpenOffice, OpenOffice.org, StarOffice, Writer, Calc, Impress, Draw, Math, Base, Guía didáctica', 
++ 	'OOO_META_DESCRIPTION' => 'Foro de discusión de la comunidad de usuarios del paquete de oficina OpenOffice', 
++ 	'SIGNATURE_REQUIRED' => 'Incluya su versión de OpenOffice y el sistema operativo en el cual está instalado', 
++ 	'WRONG_DATA_USER_SIG' => 'Firma no válida, ejemplos válidos incluyen:<br />OpenOffice 3.1 en Windows Vista / NeoOffice 2.2.3 con MacOS 10.4 / OpenOffice 2.4 en Ubuntu 9.04',
++
+ ));
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/en/common.php com3319/language/en/common.php
+--- ref3319/language/en/common.php	2026-09-24 15:18:30.000000000 +0000
++++ com3319/language/en/common.php	2026-11-02 01:55:57.216738951 +0000
+@@ -1466,11 +1466,22 @@
+ 		'D M d, Y g:i a'		=> 'Mon Jan 01, 2007 1:37 pm',
+ 		'F jS, Y, g:i a'		=> 'January 1st, 2007, 1:37 pm',
+ 		'|d M Y|, H:i'			=> 'Today, 13:37 / 01 Jan 2007, 13:37',
+ 		'|F jS, Y|, g:i a'		=> 'Today, 1:37 pm / January 1st, 2007, 1:37 pm',
+ 	),
+ 
+ 	// The default dateformat which will be used on new installs in this language
+ 	// Translators should change this if a the usual date format is different
+ 	'default_dateformat'	=> 'D M d, Y g:i a', // Mon Jan 01, 2007 1:37 pm
+ 
++ 	'OOO_LOGO' => 'logo_forum_en.png',
++         'OOO_FG_REQUEST' => '<strong>Please read the <a href="viewtopic.php?t=%s">Survival Guide</a> before you post</strong>. These guidelines and rules help the OpenOffice community to make the most of this forum, and help avoid unnecessary repetition of questions which have previously been asked and already answered',
++         'OOO_GET_OPENOFFICE' => 'Get OpenOffice',
++         'OOO_GET_OOO_URI' => 'https://www.openoffice.org/download/',
++         'OOO_POLICIES_PREAMBLE' => 'By any use of this Website, you agree to be bound by these ',
++         'OOO_POLICIES_ANCHOR' => '<a href="https://openoffice.org/terms_of_use">Policies and Terms of Use</a>',
++         'OOO_META_KEYWORDS' => 'OpenOffice Forum, OpenOffice Help, OpenOffice Support, Setup, Troubleshooting, Documentation, Open Source, Office, Office Suite, OpenOffice, OpenOffice.org, StarOffice, Writer, Calc, Impress, Draw, Math, Base, Tutorial',
++         'OOO_META_DESCRIPTION' => 'User Community discussion forum about the OpenOffice Office Suite application',
++         'SIGNATURE_REQUIRED' => 'Include your OpenOffice version and the Operating System that it is installed on',
++         'WRONG_DATA_USER_SIG' => 'Invalid signature, valid examples include:<br />OpenOffice 3.1 on Windows Vista / NeoOffice 2.2.3 with MacOS 10.4 / OpenOffice 2.4 on Ubuntu 9.04',
++
+ ));
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/en/help/faq.php com3319/language/en/help/faq.php
+--- ref3319/language/en/help/faq.php	2026-09-24 15:18:30.000000000 +0000
++++ com3319/language/en/help/faq.php	2026-11-02 02:07:45.900127259 +0000
+@@ -176,11 +176,16 @@
+ 	'HELP_FAQ_USERSETTINGS_HIDE_ONLINE_ANSWER'	=> 'Within your User Control Panel, under “Board preferences”, you will find the option <em>Hide your online status</em>. Enable this option and you will only appear to the administrators, moderators and yourself. You will be counted as a hidden user.',
+ 	'HELP_FAQ_USERSETTINGS_HIDE_ONLINE_QUESTION'	=> 'How do I prevent my username appearing in the online user listings?',
+ 	'HELP_FAQ_USERSETTINGS_LANGUAGE_ANSWER'	=> 'Either the administrator has not installed your language or nobody has translated this board into your language. Try asking a board administrator if they can install the language pack you need. If the language pack does not exist, feel free to create a new translation. More information can be found at the <a href="https://www.phpbb.com/">phpBB</a>&reg; website.',
+ 	'HELP_FAQ_USERSETTINGS_LANGUAGE_QUESTION'	=> 'My language is not in the list!',
+ 	'HELP_FAQ_USERSETTINGS_RANK_ANSWER'	=> 'Ranks, which appear below your username, indicate the number of posts you have made or identify certain users, e.g. moderators and administrators. In general, you cannot directly change the wording of any board ranks as they are set by the board administrator. Please do not abuse the board by posting unnecessarily just to increase your rank. Most boards will not tolerate this and the moderator or administrator will simply lower your post count.',
+ 	'HELP_FAQ_USERSETTINGS_RANK_QUESTION'	=> 'What is my rank and how do I change it?',
+ 	'HELP_FAQ_USERSETTINGS_SERVERTIME_ANSWER'	=> 'If you are sure you have set the timezone correctly and the time is still incorrect, then the time stored on the server clock is incorrect. Please notify an administrator to correct the problem.',
+ 	'HELP_FAQ_USERSETTINGS_SERVERTIME_QUESTION'	=> 'I changed the timezone and the time is still wrong!',
+ 	'HELP_FAQ_USERSETTINGS_TIMEZONE_ANSWER'	=> 'It is possible the time displayed is from a timezone different from the one you are in. If this is the case, visit your User Control Panel and change your timezone to match your particular area, e.g. London, Paris, New York, Sydney, etc. Please note that changing the timezone, like most settings, can only be done by registered users. If you are not registered, this is a good time to do so.',
+ 	'HELP_FAQ_USERSETTINGS_TIMEZONE_QUESTION'	=> 'The times are not correct!',
++ 	'HELP_FAQ_AOO_SPECIFIC'				=> 'OpenOffice.org Community Forum Specific Issues',
++ 	'HELP_FAQ_AOO_WHERE_CAN_I_FIND'			=> 'Where can I find FAQs relating specifically to OpenOffice.org products?',
++ 	'HELP_FAQ_AOO_WHERE'				=> 'We don\'t maintain an FAQ per se, but you is you start with our <a href="/en/forum/viewtopic.php?t=166">Survival Guide</a>, this will explain how to go about using the forum.  You will also find specific tutorials in the <a href="/en/forum/viewforum.php?f=74">Tutorials</a> forum.  You can also use the <a href="https://wiki.openoffice.org/wiki/">OpenOffice wiki</a> as a knowledge source.',
++ 	'HELP_FAQ_AOO_HOW_TO_ASK'			=> 'How do I ask a question?',
++ 	'HELP_FAQ_AOO_HOW'				=> '<strong>Please read the <a href="/en/forum/viewtopic.php?t=166">Survival Guide</a> before you post</strong>. These guidelines and rules help the community to make the most of this forum. The remainder of <em>this</em> FAQ coverts general issues to do with the using phpBB3.',
+ ));
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/en_us/common.php com3319/language/en_us/common.php
+--- ref3319/language/en_us/common.php	2026-09-24 22:48:12.000000000 +0000
++++ com3319/language/en_us/common.php	2026-11-02 01:49:02.568926810 +0000
+@@ -1468,11 +1468,22 @@
+ 		'D M d, Y g:i a'		=> 'Mon Jan 01, 2007 1:37 pm',
+ 		'F jS, Y, g:i a'		=> 'January 1st, 2007, 1:37 pm',
+ 		'|d M Y|, H:i'			=> 'Today, 13:37 / 01 Jan 2007, 13:37',
+ 		'|F jS, Y|, g:i a'		=> 'Today, 1:37 pm / January 1st, 2007, 1:37 pm',
+ 	),
+ 
+ 	// The default dateformat which will be used on new installs in this language
+ 	// Translators should change this if a the usual date format is different
+ 	'default_dateformat'	=> 'D M d, Y g:i a', // Mon Jan 01, 2007 1:37 pm
+ 
++ 	'OOO_LOGO' => 'logo_forum_en.png',
++ 	'OOO_FG_REQUEST' => '<strong>Please read the <a href="viewtopic.php?t=%s">Survival Guide</a> before you post</strong>. These guidelines and rules help the OpenOffice community to make the most of this forum, and help avoid unnecessary repetition of questions which have previously been asked and already answered', 
++ 	'OOO_GET_OPENOFFICE' => 'Get OpenOffice', 
++ 	'OOO_GET_OOO_URI' => 'https://www.openoffice.org/download/', 
++ 	'OOO_POLICIES_PREAMBLE' => 'By any use of this Website, you agree to be bound by these ', 
++ 	'OOO_POLICIES_ANCHOR' => '<a href="https://openoffice.org/terms_of_use">Policies and Terms of Use</a>', 
++ 	'OOO_META_KEYWORDS' => 'OpenOffice Forum, OpenOffice Help, OpenOffice Support, Setup, Troubleshooting, Documentation, Open Source, Office, Office Suite, OpenOffice, OpenOffice.org, StarOffice, Writer, Calc, Impress, Draw, Math, Base, Tutorial', 
++ 	'OOO_META_DESCRIPTION' => 'User Community discussion forum about the OpenOffice Office Suite application', 
++ 	'SIGNATURE_REQUIRED' => 'Include your OpenOffice version and the Operating System that it is installed on', 
++ 	'WRONG_DATA_USER_SIG' => 'Invalid signature, valid examples include:<br />OpenOffice 3.1 on Windows Vista / NeoOffice 2.2.3 with MacOS 10.4 / OpenOffice 2.4 on Ubuntu 9.04', 
++
+ ));
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/es/common.php com3319/language/es/common.php
+--- ref3319/language/es/common.php	2026-04-27 20:16:10.000000000 +0000
++++ com3319/language/es/common.php	2026-11-02 02:06:00.243144155 +0000
+@@ -1462,11 +1462,22 @@
+ 		'M jS, y, H:i'		=> 'Ene 1ro, 07, 13:37',
+ 		'D M d, Y g:i a'	=> 'Lun Ene 01, 2007 1:37 pm',
+ 		'F jS, Y, g:i a'	=> 'Enero 1ro, 2007, 1:37 pm',
+ 		'|d M Y|, H:i'		=> 'Hoy, 13:37 / 01 Ene 2007, 13:37',
+ 		'|F jS, Y|, g:i a'	=> 'Hoy, 1:37 pm / 1ro de Enero, 2007, 1:37 pm',
+ 	),
+ 
+ 	// The default dateformat which will be used on new installs in this language
+ 	// Translators should change this if a the usual date format is different
+ 	'default_dateformat'	=> 'D, d M Y, H:i', // Mié, 10 Mar 2010, 23:26
++
++ 	'OOO_FG_REQUEST' => '<strong>Por favor, lea la <a href="viewtopic.php?t=%s">Guía de supervivencia</a> antes de publicar su mensaje</strong>. Estas guías y reglas ayudan a la comunidad de OpenOffice a obtener el máximo de este foro y sirven también para evitar innecesarias repeticiones de preguntas que han sido formuladas previamente y para las que puede haber ya una respuesta', 
++ 	'OOO_GET_OPENOFFICE' => 'Obtenga OpenOffice', 
++ 	'OOO_GET_OOO_URI' => 'https://www.openoffice.org/es/descargar/', 
++ 	'OOO_POLICIES_PREAMBLE' => 'Por cualquier uso de este sitio web usted acepta las siguientes', 
++ 	'OOO_POLICIES_ANCHOR' => '<a href="https://openoffice.org/terms_of_use">Políticas y términos de uso</a>', 
++ 	'OOO_META_KEYWORDS' => 'Foro de OpenOffice, Ayuda de OpenOffice, Soporte de OpenOffice, Configuración, Resolución de problemas, Documentación, Código abierto, Oficina, Paquete de oficina, OpenOffice, OpenOffice.org, StarOffice, Writer, Calc, Impress, Draw, Math, Base, Guía didáctica', 
++ 	'OOO_META_DESCRIPTION' => 'Foro de discusión de la comunidad de usuarios del paquete de oficina OpenOffice', 
++ 	'SIGNATURE_REQUIRED' => 'Incluya su versión de OpenOffice y el sistema operativo en el cual está instalado', 
++ 	'WRONG_DATA_USER_SIG' => 'Firma no válida, ejemplos válidos incluyen:<br />OpenOffice 3.1 en Windows Vista / NeoOffice 2.2.3 con MacOS 10.4 / OpenOffice 2.4 en Ubuntu 9.04', 
++
+ ));
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/fr/acp/common.php com3319/language/fr/acp/common.php
+--- ref3319/language/fr/acp/common.php	2026-09-24 19:48:50.000000000 +0000
++++ com3319/language/fr/acp/common.php	2026-11-02 04:02:23.196388902 +0000
+@@ -320,21 +320,21 @@
+ 	'UCP'                => 'Panneau de contrôle utilisateur',
+ 	'URL_INVALID'        => 'L’adresse indiquée pour le paramètre « %1$s » est invalide.',
+ 	'URL_SCHEME_INVALID' => 'Le schéma « %2$s » indiqué dans le paramètre « %1$s » est invalide. Il doit commencer par un caractère latin, suivi de caractères alphanumériques, de tirets ou de points.',
+ 	'USERNAMES_EXPLAIN'  => 'Saisissez chaque nom d’utilisateur sur une nouvelle ligne.',
+ 	'USER_CONTROL_PANEL' => 'Panneau de contrôle utilisateur',
+ 
+ 	'UPDATE_NEEDED'     => 'Le forum n’est pas à jour.',
+ 	'UPDATE_NOT_NEEDED' => 'Le forum est à jour.',
+ 	'UPDATES_AVAILABLE' => 'Mises à jour disponibles :',
+ 
+-	'WARNING' => 'Avertissement',
++	'WARNING' => 'Attention !',
+ ]);
+ 
+ // PHP info
+ $lang = array_merge($lang, [
+ 	'ACP_PHP_INFO_EXPLAIN' => 'Depuis cette page, vous pouvez consulter les informations sur la version de PHP installée sur votre serveur. Elles incluent les modules chargés, les variables disponibles et les paramètres par défaut. Ces informations sont utiles pour diagnostiquer des problèmes côté serveur. Notez que certains hébergeurs limitent leur affichage pour des raisons de sécurité. Il est déconseillé de divulguer ces informations, sauf si elles sont explicitement demandées par un membre de <a href="https://www.phpbb.com/about/team/">notre équipe</a> (en anglais) sur les forums d’assistance.', //www.phpbb.com/about/team/">membres de notre équipe</a> (en anglais) sur les forums d’assistance.',
+ 
+ 	'NO_PHPINFO_AVAILABLE' => 'Impossible d’afficher les informations sur votre configuration de PHP : la fonction « phpinfo() » a été désactivée pour des raisons de sécurité.',
+ ]);
+ 
+ // Logs
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/fr/common.php com3319/language/fr/common.php
+--- ref3319/language/fr/common.php	2026-09-24 19:48:50.000000000 +0000
++++ com3319/language/fr/common.php	2026-11-02 02:02:08.927891898 +0000
+@@ -1469,11 +1469,23 @@
+ 		'M jS, \'y, H:i'   => 'janv. 1er, ’07, 13:37',
+ 		'D M d, Y g:i a'   => 'lun. janv. 01, 2007 1:37 pm',
+ 		'F jS, Y, g:i a'   => 'janvier 1er, 2007, 1:37 pm',
+ 		'|d M Y|, H:i'     => 'Aujourd’hui, 13:37 / 01 janv. 2007, 13:37',
+ 		'|F jS, Y|, g:i a' => 'Aujourd’hui, 1:37 pm / janv. 1er, 2007, 1:37 pm',
+ 	],
+ 
+ 	// The default dateformat which will be used on new installs in this language
+ 	// Translators should change this if a the usual date format is different
+ 	'default_dateformat' => 'd F Y, H:i', // 01 January 2007, 13:37
++
++ 	'OOO_LOGO' => 'logo_forum_fr.png',
++ 	'OOO_FG_REQUEST' => '<strong>Merci de lire nos <a href="viewtopic.php?t=%s">règles d\'utilisation</a> avant de poster</strong>. Le respect de ces règles est obligatoire afin de vous permettre d\'obtenir de l\'aide dans de bonnes conditions.', 
++ 	'OOO_GET_OPENOFFICE' => 'Télécharger OpenOffice', 
++ 	'OOO_GET_OOO_URI' => 'https://www.openoffice.org/fr/Telecharger/', 
++ 	'OOO_POLICIES_PREAMBLE' => 'En utilisant ce site, vous en acceptez ses', 
++ 	'OOO_POLICIES_ANCHOR' => '<a href="https://openoffice.org/terms_of_use">conditions d\'utilisation</a> <small>(en anglais)</small>', 
++ 	'OOO_META_KEYWORDS' => 'Open Office, OpenOffice Forum, OpenOffice aide, OpenOffice Support, installation, problème, Documentation, Open Source, Office, Office Suite, OpenOffice, OpenOffice.org, StarOffice, NeoOffice, Writer, Calc, Impress, Draw, Math, Base, Tutoriel, macro, programmation', 
++ 	'OOO_META_DESCRIPTION' => 'Forum francophone pour OpenOffice NeoOffice et StarOffice', 
++ 	'SIGNATURE_REQUIRED' => 'Indiquez la version d’OpenOffice et le système d’exploitation sur lequel il tourne',
++ 	'WRONG_DATA_USER_SIG'   => 'Signature invalide, quelques exemples corrects :<br />OpenOffice 2.4 sous Windows XP / NeoOffice 2.2.3 sous MacOS 10.4 / OpenOffice 2.3 sous Ubuntu Gutsy',
++
+ ]);
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/fr/help/faq.php com3319/language/fr/help/faq.php
+--- ref3319/language/fr/help/faq.php	2026-09-24 19:48:50.000000000 +0000
++++ com3319/language/fr/help/faq.php	2026-11-02 02:08:21.120400456 +0000
+@@ -176,11 +176,16 @@
+ 	'HELP_FAQ_USERSETTINGS_HIDE_ONLINE_ANSWER'       => 'Dans le panneau de contrôle utilisateur, section « Préférences du forum », activez l’option « Masquer ma présence ». Vous ne serez alors visible que des administrateurs, des modérateurs et de vous-même, et serez comptabilisé comme utilisateur invisible.',
+ 	'HELP_FAQ_USERSETTINGS_HIDE_ONLINE_QUESTION'     => 'Comment puis-je masquer mon nom d’utilisateur de la liste des utilisateurs en ligne ?',
+ 	'HELP_FAQ_USERSETTINGS_LANGUAGE_ANSWER'          => 'Votre langue n’a peut-être pas été installée sur le forum, ou le logiciel n’a pas encore été traduit dans votre langue. Demandez à un administrateur s’il peut installer la langue souhaitée. Si la traduction n’existe pas, vous pouvez vous porter volontaire pour la démarrer. Pour plus d’informations, rendez-vous sur <a href="https://www.phpbb.com/">le site web de phpBB</a>&reg; (en anglais).',
+ 	'HELP_FAQ_USERSETTINGS_LANGUAGE_QUESTION'        => 'Ma langue n’apparaît pas dans la liste !',
+ 	'HELP_FAQ_USERSETTINGS_RANK_ANSWER'              => 'Les rangs, affichés sous votre nom d’utilisateur, indiquent votre activité (selon votre nombre de messages publiés) ou identifient certains utilisateurs particuliers, comme les administrateurs et les modérateurs. En général, seul un administrateur peut modifier les libellés des rangs. Merci de ne pas abuser de ce système en publiant inutilement pour faire monter votre rang : beaucoup de forums ne le tolèrent pas, et un administrateur ou un modérateur peut sanctionner ce comportement en réduisant votre compteur de messages.',
+ 	'HELP_FAQ_USERSETTINGS_RANK_QUESTION'            => 'Quel est mon rang et comment puis-je le modifier ?',
+ 	'HELP_FAQ_USERSETTINGS_SERVERTIME_ANSWER'        => 'Si vous êtes certain d’avoir correctement réglé le fuseau horaire mais que l’heure reste incorrecte, l’horloge du serveur est probablement déréglée. Contactez un administrateur pour signaler ce problème.',
+ 	'HELP_FAQ_USERSETTINGS_SERVERTIME_QUESTION'      => 'J’ai réglé le fuseau horaire mais l’heure n’est toujours pas correcte !',
+ 	'HELP_FAQ_USERSETTINGS_TIMEZONE_ANSWER'          => 'L’heure affichée correspond peut-être à un fuseau horaire différent du vôtre. Dans ce cas, rendez-vous dans le panneau de contrôle utilisateur et réglez le fuseau horaire correspondant à votre zone (Paris, Londres, New York, Sydney, etc.). Le réglage du fuseau horaire, comme la plupart des paramètres, n’est accessible qu’aux utilisateurs inscrits. Si ce n’est pas votre cas, c’est l’occasion de vous inscrire.',
+ 	'HELP_FAQ_USERSETTINGS_TIMEZONE_QUESTION'        => 'L’heure n’est pas correcte !',
++ 	'HELP_FAQ_AOO_SPECIFIC' 			=> 'Forum OpenOffice et problèmes spécifiques',
++ 	'HELP_FAQ_AOO_WHERE_CAN_I_FIND' 		=> 'Où puis-je trouver une FAQ dédiée aux modules de la suite OpenOffice ?',
++ 	'HELP_FAQ_AOO_WHERE' 				=> 'La plupart des réponses se trouvent en faisant une recherche par ce <a href="/fr/forum/viewtopic.php?t=32629">formulaire</a> mais vous pouvez trouver d\'autres informations détaillées sur cette <a href="https://www.openoffice.org/fr/Documentation/">page</a>.',
++ 	'HELP_FAQ_AOO_HOW_TO_ASK'			 => 'Comment poser une question ?',
++ 	'HELP_FAQ_AOO_HOW'				 => '<strong>Dans un premier temps, merci de lire notre <a href="/fr/forum/ftopic35311.html">mode d\'emploi</a>.</strong>',
+ ]);
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/fr/mcp.php com3319/language/fr/mcp.php
+--- ref3319/language/fr/mcp.php	2026-09-24 19:48:50.000000000 +0000
++++ com3319/language/fr/mcp.php	2026-11-02 02:10:56.325336319 +0000
+@@ -403,23 +403,23 @@
+ 	'USER_CANNOT_REPORT'        => 'Vous n’êtes pas autorisé à signaler les messages de ce forum.',
+ 	'USER_FEEDBACK_ADDED'       => 'La remarque a été ajoutée sur l’utilisateur.',
+ 	'USER_WARNING_ADDED'        => 'L’utilisateur a été averti.',
+ 
+ 	'VIEW_DETAILS' => 'Consulter les informations',
+ 	'VIEW_PM'      => 'Consulter le message privé',
+ 	'VIEW_POST'    => 'Consulter le message',
+ 
+ 	'WARNED_USERS'         => 'Utilisateurs avertis',
+ 	'WARNED_USERS_EXPLAIN' => 'Cette page liste les utilisateurs avertis dont la période d’avertissement n’a pas encore expiré.',
+-	'WARNING_PM_BODY'      => 'Ce qui suit est un avertissement émis à votre encontre par un administrateur ou un modérateur de ce forum.[quote]%s[/quote]',
+-	'WARNING_PM_SUBJECT'   => 'Avertissement',
+-	'WARNING_POST_DEFAULT' => 'Ce qui suit est un avertissement concernant le message suivant, que vous avez publié : %s .',
++ 	'WARNING_PM_BODY'       => 'Ce qui suit vous a été adressé par un administrateur ou un modérateur.[quote]%s[/quote]',
++ 	'WARNING_PM_SUBJECT'    => 'Attention',
++ 	'WARNING_POST_DEFAULT'  => 'Ceci est un message concernant ce sujet que vous avez posté: %s .',
+ 	'NO_WARNINGS'          => 'Aucun avertissement.',
+ 
+ 	'YOU_SELECTED_TOPIC' => 'Vous avez sélectionné le sujet numéro %d : %s.',
+ 
+ 	'report_reasons' => [
+ 		'TITLE' => [
+ 			'WAREZ'     => 'Contenu illicite',
+ 			'SPAM'      => 'Publicité indésirable',
+ 			'OFF_TOPIC' => 'Hors-sujet',
+ 			'OTHER'     => 'Autre',
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/hu/common.php com3319/language/hu/common.php
+--- ref3319/language/hu/common.php	2022-03-19 09:14:05.000000000 +0000
++++ com3319/language/hu/common.php	2026-11-02 02:04:59.114447549 +0000
+@@ -1451,11 +1451,21 @@
+ 		'|Y. M j.| G:i'			=> '2007. jan. 1. 13:37 [Relatív napok]',
+ 		'|Y. F j.| G:i'			=> '2007. január 1. 13:37 [Relatív napok]',
+ 		'|Y. M j., D| G:i'		=> '2007. jan. 1., szer. 13:37 [Relatív napok]',
+ 		'|Y. F j., l| G:i'		=> '2007. január 1., szerda 13:37 [Relatív napok]',
+ 	),
+ 
+ 	// The default dateformat which will be used on new installs in this language
+ 	// Translators should change this if a the usual date format is different
+ 	'default_dateformat'	=> '|Y.m.d.| H:i',
+ 
++	'OOO_FG_REQUEST' => '<strong>Kérem olvassa le <a href="viewtopic.php?t=%s">+Útmutató+a+fórum+használatához </a> mielőtt új témát indít</strong>. Ezek az útmutatók és szabályok az OpenOffice közösséget segíti e fórumban, segít megelőzni a már megválaszolt kérdések megismétlését. ', 
++ 	'OOO_GET_OPENOFFICE' => 'OpenOffice letöltése', 
++ 	'OOO_GET_OOO_URI' => 'https://www.openoffice.org/download/', 
++ 	'OOO_POLICIES_PREAMBLE' => 'Ezen oldalak bármilyen használatakor egyetért az alábbi ', 
++ 	'OOO_POLICIES_ANCHOR' => '<a href="https://openoffice.org/terms_of_use">Alapelvek és felhasználási feltételek</a>', 
++ 	'OOO_META_KEYWORDS' => 'OpenOffice Fórum, OpenOffice Súgó, OpenOffice Támogatás, Telepítés, Hibaelhárítás, Dokumentáció, Nyílt forráskód, Office, Irodai programcsomag, OpenOffice, OpenOffice.org, StarOffice, Writer, Calc, Impress, Draw, Math, Base, Leírás', 
++ 	'OOO_META_DESCRIPTION' => 'OpenOffice irodai programcsomag használatának megvitatása a felhasználói fórumban ', 
++ 	'SIGNATURE_REQUIRED' => 'Állítsa be az OpenOffice változatának számát és az operációs rendszer', 
++ 	'WRONG_DATA_USER_SIG' => 'Érvénytelen aláírás, érvényes példák:<br />OpenOffice 3.1 a Windows Vista -án / NeoOffice 2.2.3 a MacOS 10.4 -en / OpenOffice 2.4 az Ubuntu 9.04 -en', 
++
+ ));
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/ja/common.php com3319/language/ja/common.php
+--- ref3319/language/ja/common.php	2026-09-25 03:30:38.000000000 +0000
++++ com3319/language/ja/common.php	2026-11-02 01:59:07.083842714 +0000
+@@ -1440,13 +1440,24 @@
+ 	),
+ 
+ 	// The value is only an example and will get replaced by the current time on view
+ 	'dateformats'	=> array(
+ 		'Y年M月d日(D) H:i'		=> '2021年1月01日(月) 13:37',
+ 		'Y年M月d日(D) g:i a'		=> '2021年1月01日(月) 1:37 pm',
+ 	),
+ 
+ 	// The default dateformat which will be used on new installs in this language
+ 	// Translators should change this if a the usual date format is different
+-	'default_dateformat'	=> 'D M d, Y g:i a', // Mon Jan 01, 2007 1:37 pm
+-	//'default_dateformat'	=> 'Y年M月d日(D) H:i', // 2007年1月01日(月) 13:37
++ 	//'default_dateformat'	=> 'D M d, Y g:i a', // Mon Jan 01, 2007 1:37 pm
++ 	'default_dateformat'	=> 'Y年M月d日(D) H:i', // 2007年1月01日(月) 13:37
++
++ 	'OOO_FG_REQUEST' => '<a href="viewtopic.php?t=%s">フォーラム利用者ガイド</a>を<strong>投稿する前に読んでくださ い</strong>。利用者ガイドに書かれている指針やきまりに従えば、このコミュニティーフォーラムを最大限有効に利用することができま す。またすでに出された質問や回答が不必要に繰り返されることがなくなります。', 
++ 	'OOO_GET_OPENOFFICE' => 'OpenOffice をダウンロードしよう。', 
++ 	'OOO_GET_OOO_URI' => 'https://www.openoffice.org/ja/download/', 
++ 	'OOO_POLICIES_PREAMBLE' => 'このウェブサイトの利用により、あなたはこの条項に同意したとみなされます。', 
++ 	'OOO_POLICIES_ANCHOR' => '<a href="https://openoffice.org/terms_of_use">利用条件</a>', 
++ 	'OOO_META_KEYWORDS' => 'OpenOffice フォーラム, OpenOffice ヘルプ, OpenOffice サポート, セットアップ, トラブルシューティング, ドキュメント, オープンソース, オフィス, オフィススイート, OpenOffice, OpenOffice.org, StarOffice, Writer, Calc, Impress, Draw, Math, Base, チュートリアル', 
++ 	'OOO_META_DESCRIPTION' => 'User Community discussion forum about the OpenOffice オフィススイート アプリケーションのユーザーコミュニティフォーラム', 
++ 	'SIGNATURE_REQUIRED' => 'OpenOffice のバージョンと OpenOffice をインストールしたオペレーティングシステムを書いてください', 
++ 	'WRONG_DATA_USER_SIG' => '無効な署名, 有効な例: OpenOffice 3.1 on Windows Vista / NeoOffice 2.2.3 with MacOS 10.4 / OpenOffice 2.4 on Ubuntu 9.04',
++
+ ));
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/nl/common.php com3319/language/nl/common.php
+--- ref3319/language/nl/common.php	2023-02-17 18:47:50.000000000 +0000
++++ com3319/language/nl/common.php	2026-11-02 02:03:51.709553004 +0000
+@@ -1459,11 +1459,21 @@
+ 		'D M d, Y g:i a'		=> 'Ma Jan 01, 2007 1:37 pm',
+ 		'F jS, Y, g:i a'		=> 'Januari 1ste, 2007, 1:37 pm',
+ 		'|d M Y|, H:i'			=> 'Vandaag, 13:37 / 01 Jan 2007, 13:37',
+ 		'|F jS, Y|, g:i a'		=> 'Vandaag, 1:37 pm / Januari 1ste, 2007, 1:37 pm',
+ 	),
+ 
+ 	// The default dateformat which will be used on new installs in this language
+ 	// Translators should change this if a the usual date format is different
+ 	'default_dateformat'	=> 'd M Y, H:i', // 01 Jan 2007, 13:37
+ 
++  	'OOO_FG_REQUEST'		=> '<strong>Lees alsjeblieft de <a href="viewtopic.php?t=%s">Lees dit eerst! Aanwijzingen voor het plaatsen van berichten</a> voordat je een bericht plaatst</strong>. Deze aanwijzingen en regels zijn bedoeld om de gemeenschap van gebruikers van OpenOffice het uiterste uit dit forum te laten halen en kunnen helpen voorkomen dat vragen die al gesteld en beantwoord zijn onnodig opnieuw gesteld worden', 
++  	'OOO_GET_OPENOFFICE'	=> 'Download', 
++  	'OOO_GET_OOO_URI'		=> 'https://www.openoffice.org/download/', 
++  	'OOO_POLICIES_PREAMBLE' => 'Je verklaart door dit forum te gebruiken, op welke wijze ook, dat je instemt met deze ', 
++  	'OOO_POLICIES_ANCHOR'	=> '<a href="https://openoffice.org/terms_of_use">gebruiksvoorwaarden</a>', 
++  	'OOO_META_KEYWORDS'		=> 'OpenOffice Forum, OpenOffice Help, OpenOffice Support, Setup, Troubleshooting, Documentatie, Open Source, Office, Office Suite, OpenOffice, OpenOffice.org, StarOffice, Writer, Calc, Impress, Draw, Math, Base, Tutorial', 
++  	'OOO_META_DESCRIPTION'	=> 'Gemeenschapsforum voor het bespreken van de OpenOffice Office Suite applicatie', 
++  	'SIGNATURE_REQUIRED'	=> 'Neem ook de versie van OpenOffice en het besturingssysteem dat geïnstalleerd is op', 
++  	'WRONG_DATA_USER_SIG'	=> 'Foutieve ondertekening, voorbeelden van een goede ondertekening zijn:<br />OpenOffice 3.1 op Windows Vista / NeoOffice 2.2.3 met MacOS 10.4 / OpenOffice 2.4 op Ubuntu 9.04', 
++
+ ));
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/nl/help/faq.php com3319/language/nl/help/faq.php
+--- ref3319/language/nl/help/faq.php	2023-02-17 18:47:50.000000000 +0000
++++ com3319/language/nl/help/faq.php	2026-11-02 02:09:00.264675707 +0000
+@@ -176,11 +176,16 @@
+ 	'HELP_FAQ_USERSETTINGS_HIDE_ONLINE_ANSWER'	=> 'In het gebruikerspaneel onder "foruminstellingen", vind je de optie <em>Verberg mijn online status</em>. Als je deze optie activeert zul je onzichtbaar zijn voor iedereen, behalve voor beheerders, moderators en jezelf.',
+ 	'HELP_FAQ_USERSETTINGS_HIDE_ONLINE_QUESTION'	=> 'Hoe kan ik onzichtbaar zijn in de online gebruikers lijst?',
+ 	'HELP_FAQ_USERSETTINGS_LANGUAGE_ANSWER'	=> 'De meest voorkomende reden hiervoor is dat de beheerder je taal niet geïnstalleerd heeft, of dat nog niemand het forum in je taal vertaald heeft. Je kunt altijd aan de beheerder vragen of hij het talenpakket, dat je nodig hebt, wil installeren. Indien het nog niet bestaat, mag je gerust de vertaling maken. Meer informatie hieromtrent kan gevonden worden op de website van phpBB Limited (de link staat onderaan iedere pagina).',
+ 	'HELP_FAQ_USERSETTINGS_LANGUAGE_QUESTION'	=> 'Mijn taal zit niet in de lijst!',
+ 	'HELP_FAQ_USERSETTINGS_RANK_ANSWER'	=> 'Rangen, welke verschijnen onder je gebruikersnaam, geven een indicatie over het aantal berchten dat je hebt gemaakt of om bepaalde gebruikers te identificeren, bijv. moderators en beheerders. Over het algemeen kun je je rang niet wijzigen, aangezien ze ingesteld worden door een beheerder. Nu moet je natuurlijk het forum niet beginnen te spammen met onzinnig veel berichten, gewoon voor een hogere rang. Dit heeft zelfs mogelijk het tegenovergestelde effect, een beheerder of moderator kunnen je berichten aantal doen dalen.',
+ 	'HELP_FAQ_USERSETTINGS_RANK_QUESTION'	=> 'Wat is mijn rang en hoe verander ik mijn rang?',
+ 	'HELP_FAQ_USERSETTINGS_SERVERTIME_ANSWER'	=> 'Als je zeker bent dat je de correcte tijdzone en zomertijd goed hebt ingevuld en de tijd is nog steeds anders, is waarschijnlijk de tijd op de server verkeerd ingesteld en zullen de beheerders een aanpassing moeten doen.',
+ 	'HELP_FAQ_USERSETTINGS_SERVERTIME_QUESTION'	=> 'Ik wijzigde de tijdzone, maar de tijd is nog steeds verkeerd!',
+ 	'HELP_FAQ_USERSETTINGS_TIMEZONE_ANSWER'	=> 'Het is mogelijk dat de tijd die gegeven wordt van een andere tijdzone is dan waarin jij woont. Als dit het geval is, moet je naar het gebruikerspaneel gaan en je tijdzone veranderen in een bepaald gebied (vb: Amsterdam, New York, Sydney, enz.). Wees er bewust van dat het veranderen van de tijdzone, zoals de meeste instellingen, alleen gedaan kunnen worden door geregistreerde gebruikers. Als je nog niet geregistreerd bent is dit een goed moment om dit te doen.',
+ 	'HELP_FAQ_USERSETTINGS_TIMEZONE_QUESTION'	=> 'De tijden zijn niet correct!',
++ 	'HELP_FAQ_AOO_SPECIFIC'				=> 'OpenOffice gemeenschap Forum Specifieke problemen',
++ 	'HELP_FAQ_AOO_WHERE_CAN_I_FIND'			=> 'Waar vind ik FAQ\'s die specifiek een relatie hebben met producten van OpenOffice?',
++ 	'HELP_FAQ_AOO_WHERE'				=> 'We onderhouden niet per se een FAQ, maar het beste is als u begint met <a href="/nl/forum/viewtopic.php?f=1&t=2">Lees dit eerst</a>, wat u zal uitleggen hoe het forum te gebruiken.  U kunt ook specifieke handleidingen vinden in het forum <a href="/nl/forum/viewforum.php?f=4">Tutorials</a>.  U kunt ook de <a href="https://wiki.openoffice.org/wiki/NL/Main_Page">OpenOffice wiki</a> gebruiken als een kennisbron.',
++ 	'HELP_FAQ_AOO_HOW_TO_ASK'			=> 'Hoe stel ik een vraag?',
++ 	'HELP_FAQ_AOO_HOW'				=> '<strong>Lees eerst het gedeelte <a href="/nl/forum/viewtopic.php?f=1&t=2">Lees dit eerst</a> voordat u een vraag stelt</strong>. Deze richtlijnen en regels helpen de gemeenschap om het meeste uit dit forum te halen. De rest van <em>deze</em> FAQ behandelt algemene problemen die te maken hebben met het gebruiken van phpBB3.',
+ ));
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/pl/common.php com3319/language/pl/common.php
+--- ref3319/language/pl/common.php	2026-09-26 09:58:32.000000000 +0000
++++ com3319/language/pl/common.php	2026-11-02 01:53:51.265916909 +0000
+@@ -1490,11 +1490,22 @@
+ 		'd F Y, H:i'			=> '01 stycznia 2014, 17:37',
+ 		'l d M Y, H:i'			=> 'poniedziałek 01 sty 2014, 17:37',
+ 		'D d M Y, H:i'			=> 'pon 01 sty 2014, 17:37',
+ 		'd F Y, H:i - D'		=> '01 stycznia 2014, 17:37 - pon'
+ 	),
+ 
+ 	// The default dateformat which will be used on new installs in this language
+ 	// Translators should change this if a the usual date format is different
+ 	'default_dateformat'	=> 'd M Y, G:i', // 01 sty 2014, 7:37
+ 
++ 	'OOO_FG_REQUEST' => '<strong>Zanim wyślesz swój pierwszy post, zapoznaj się z<a href="viewtopic.php?t=%s">Zasady redagowania wypowiedzi</a></strong>. Stosowanie się do nich ułatwi korzystanie z forum i pozwoli wyeliminować
++ +powtarzające się pytania dotyczące dawno już rozstrzygniętych problemów. Jest też wyrazem szacunku dla współuczestników forum.',
++ 	'OOO_GET_OPENOFFICE' => 'Pobierz OpenOffice', 
++ 	'OOO_GET_OOO_URI' => 'https://www.openoffice.org/download/', 
++ 	'OOO_POLICIES_PREAMBLE' => 'Korzystanie z tej witryny oznacza Twoją akceptację dla jej', 
++ 	'OOO_POLICIES_ANCHOR' => '<a href="https://openoffice.org/terms_of_use">zasad użytkowania</a>', 
++ 	'OOO_META_KEYWORDS' => 'forum OpenOffice, pomoc OpenOffice, instalacja OpenOffice, dokumentacja OpenOffice, Open Source, pakiet biurowy, Office, OpenOffice, OpenOffice, OpenOffice.org, StarOffice, Writer, Calc, Impress, Draw, Math, Base', 
++ 	'OOO_META_DESCRIPTION' => 'Forum dyskusyjne społeczności użytkowników pakietu biurowego OpenOffice', 
++ 	'SIGNATURE_REQUIRED' => 'Wpisz wersję pakietu OpenOffice i nazwę systemu operacyjnego, z jakich korzystasz', 
++ 	'WRONG_DATA_USER_SIG' => 'Niepoprawny wpis. Oto kilka poprawnych przykładów:<br />OpenOffice 3.1 na Windows Vista / NeoOffice 2.2.3, MacOS 10.4 / OpenOffice 2.4 pod Ubuntu 9.04',
++
+ ));
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/vi/common.php com3319/language/vi/common.php
+--- ref3319/language/vi/common.php	2021-08-18 00:09:36.000000000 +0000
++++ com3319/language/vi/common.php	2026-11-02 01:54:42.465430226 +0000
+@@ -1447,11 +1447,21 @@
+ 		'M d, \'y, H:i'		=> 'Tháng 1 01, \'07, 13:37', // Replaced 'jS' by 'd' for Vietnamese
+ 		'D M d, Y g:i a'	=> 'Thứ 2 Tháng 1 01, 2007 1:37 pm',
+ 		'F d, Y, g:i a'		=> 'Tháng một 01, 2007, 1:37 pm', // Replaced 'jS' by 'd' for Vietnamese
+ 		'|F d, Y|, g:i a'	=> 'Hôm nay, 1:37 pm / Tháng một 01, 2007, 1:37 pm' // Replaced 'jS' by 'd' for Vietnamese
+ 	),
+ 
+ 	// The default dateformat which will be used on new installs in this language
+ 	// Translators should change this if a the usual date format is different
+ 	'default_dateformat'	=> 'D d/m/y G:i', // Mon 01 Jan, 2007 1:37 pm
+ 
++ 	'OOO_FG_REQUEST'		=> '<strong>Vui lòng xem qua <a href="viewtopic.php?t=%s">Hướng dẫn sử dụng</a> trước khi bạn gửi bài</strong>. Những hướng dẫn và các quy định này giúp cho cộng đồng OpenOffice đạt tối đa hiệu quả của diễn đàn, và tránh những câu hỏi đã được trả lời nhiều lần.', 
++ 	'OOO_GET_OPENOFFICE'	=> 'Tải OpenOffice', 
++ 	'OOO_GET_OOO_URI'		=> 'https://www.openoffice.org/download/', 
++ 	'OOO_POLICIES_PREAMBLE' => 'Khi sử dụng trang mạng này, bạn đồng ý tuân theo các điều kiện sau', 
++ 	'OOO_POLICIES_ANCHOR'	=> '<a href="https://openoffice.org/terms_of_use">Điều khoản sử dụng (tiếng Anh)</a>', 
++ 	'OOO_META_KEYWORDS'		=> 'Diễn đàn OpenOffice, Trợ giúp OpenOffice, Hỗ trợ OpenOffice, Cài đặt, Lỗi, Tài liệu, Nguồn mở, Văn phòng, Ứng dụng văn phòng, OpenOffice, OpenOffice.org, StarOffice, Writer, Calc, Impress, Draw, Math, Base, Hướng dẫn', 
++ 	'OOO_META_DESCRIPTION'	=> 'Diễn đàn cộng đồng người dùng bộ ứng dụng văn phòng OpenOffice', 
++ 	'SIGNATURE_REQUIRED'	=> 'Xin cho biết phiên bản của OpenOffice và hệ điều hành được dùng trên', 
++ 	'WRONG_DATA_USER_SIG'	=> 'Chữ ký không hợp lệ. Ví dụ hợp lệ: OpenOffice 3.1 trên Windows Vista / NeoOffice 2.2.3 với MacOS 10.4 / OpenOffice 2.4 trên Ubuntu 9.04',
++
+ ));
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/zh_cmn_hans/common.php com3319/language/zh_cmn_hans/common.php
+--- ref3319/language/zh_cmn_hans/common.php	2022-03-18 09:39:24.000000000 +0000
++++ com3319/language/zh_cmn_hans/common.php	2026-11-02 01:51:24.139386911 +0000
+@@ -1428,12 +1428,21 @@
+         'Y年 M j日 g:i a'		=> '2007年 1月 1日 1:37 pm',
+         'Y年 M j日 D g:i a'	=> '2007年 1月 1日 周一 1:37 pm',
+         'Y年 M j日 l g:i a'	=> '2007年 1月 1日 星期一 1:37 pm',
+         'Y年 M j日 H:i l'		=> '2007年 1月 1日 13:37 星期一',
+         '|Y年 M j日| H:i'		=> '2007年 1月 1日 13:37 [今天、昨天]',
+ 	),
+ 
+ 	// The default dateformat which will be used on new installs in this language
+ 	// Translators should change this if a the usual date format is different
+ 	'default_dateformat'	=> '|Y年 M j日| H:i', // 2007-01-01 13:37
++ 	'OOO_FG_REQUEST' => '<strong>在您发帖前请阅读<a href="viewtopic.php?t=%s">生存指南</a></strong>。这些指南和规则帮助 OpenOffice 社区能够充分利用这个论坛，避免不必要的问题 重复，这些问题之前已有答复 ', 
++ 	'OOO_GET_OPENOFFICE' => '获取 OpenOffice', 
++ 	'OOO_GET_OOO_URI' => 'https://www.openoffice.org/download/', 
++ 	'OOO_POLICIES_PREAMBLE' => '无论以何种方式使用本网站，您同意遵循这些 ', 
++ 	'OOO_POLICIES_ANCHOR' => '<a href="https://openoffice.org/terms_of_use">规定和使用条款</a>', 
++ 	'OOO_META_KEYWORDS' => 'OpenOffice Forum, OpenOffice Help, OpenOffice Support, Setup, Troubleshooting, Documentation, Open Source, Office, Office Suite, OpenOffice, OpenOffice.org, StarOffice, Writer, Calc, Impress, Draw, Math, Base, Tutorial', 
++ 	'OOO_META_DESCRIPTION' => '关于 OpenOffice 办公应用软件的用户社区论坛 ', 
++ 	'SIGNATURE_REQUIRED' => '包含您所安装的 OpenOffice 版本和操作系统 ', 
++ 	'WRONG_DATA_USER_SIG' => '无效的签名，有效示例：<br />OpenOffice 3.1 on Windows Vista / NeoOffice 2.2.3 with MacOS 10.4 / OpenOffice 2.4 on Ubuntu 9.04', 
+ 
+ ));
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/language/zh_cmn_hant/common.php com3319/language/zh_cmn_hant/common.php
+--- ref3319/language/zh_cmn_hant/common.php	2022-03-18 12:32:42.000000000 +0000
++++ com3319/language/zh_cmn_hant/common.php	2026-11-02 01:59:56.333102029 +0000
+@@ -1429,11 +1429,21 @@
+ 		'D M j日, Y年 g:i a'      => '週一 1月 1日, 2007年 1:37 pm',
+ 		'F 第j天, Y年, g:i a'      => '一月 第j天, 2007年, 1:37 pm',
+ 		'|j日 M Y年|, H:i'            => '今天, 13:37 / 1日 1月 2007年, 13:37',
+ 		'|F 第j天, Y年|, g:i a'        => '今天, 1:37 pm / 一月 第j天, 2007年, 1:37 pm',
+ 	),
+ 
+ 	// The default dateformat which will be used on new installs in this language
+ 	// Translators should change this if a the usual date format is different
+ 	'default_dateformat'    => 'Y年 M j日, H:i', // 2007年 1月 1日, 13:37
+ 
++ 	'OOO_FG_REQUEST' => '<strong>在您发帖前请阅读<a href="viewtopic.php?t=%s">生存指南</a></strong>。这些指南和规则帮助 OpenOffice 社区能够充分利用这个论坛，避免不必要的问题重复，这些问题之前已有答复 ', 
++ 	'OOO_GET_OPENOFFICE' => '获取 OpenOffice', 
++ 	'OOO_GET_OOO_URI' => 'https://www.openoffice.org/download/', 
++ 	'OOO_POLICIES_PREAMBLE' => '无论以何种方式使用本网站，您同意遵循这些 ', 
++ 	'OOO_POLICIES_ANCHOR' => '<a href="https://openoffice.org/terms_of_use">规定和使用条款</a>', 
++ 	'OOO_META_KEYWORDS' => 'OpenOffice Forum, OpenOffice Help, OpenOffice Support, Setup, Troubleshooting, Documentation, Open Source, Office, Office Suite, OpenOffice, OpenOffice.org, StarOffice, Writer, Calc, Impress, Draw, Math, Base, Tutorial', 
++ 	'OOO_META_DESCRIPTION' => '关于 OpenOffice 办公应用软件的用户社区论坛 ', 
++ 	'SIGNATURE_REQUIRED' => '包含您所安装的 OpenOffice 版本和操作系统 ', 
++ 	'WRONG_DATA_USER_SIG' => '无效的签名，有效示例：<br />OpenOffice 3.1 on Windows Vista / NeoOffice 2.2.3 with MacOS 10.4 / OpenOffice 2.4 on Ubuntu 9.04', 
++
+ ));
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/phpbb/db/driver/mysqli.php com3319/phpbb/db/driver/mysqli.php
+--- ref3319/phpbb/db/driver/mysqli.php	2026-09-24 15:18:30.000000000 +0000
++++ com3319/phpbb/db/driver/mysqli.php	2026-11-02 02:17:04.022317847 +0000
+@@ -79,48 +79,50 @@
+ 			 * See https://wiki.php.net/rfc/mysqli_default_errmode
+ 			 * Since phpBB implements own SQL errors handling, explicitly set it back to MYSQLI_REPORT_OFF
+ 			 */
+ 			mysqli_report(MYSQLI_REPORT_OFF);
+ 
+ 			@mysqli_query($this->db_connect_id, "SET NAMES 'utf8'");
+ 
+ 			// enforce strict mode on databases that support it
+ 			if (version_compare($this->sql_server_info(true), '5.0.2', '>='))
+ 			{
+-				$result = @mysqli_query($this->db_connect_id, 'SELECT @@session.sql_mode AS sql_mode');
+-				if ($result)
+-				{
+-					$row = mysqli_fetch_assoc($result);
+-					mysqli_free_result($result);
+-
+-					$modes = array_map('trim', explode(',', $row['sql_mode']));
+-				}
+-				else
+-				{
+-					$modes = array();
+-				}
++				//$result = @mysqli_query($this->db_connect_id, 'SELECT @@session.sql_mode AS sql_mode');
++				//if ($result)
++				//{
++				//	$row = mysqli_fetch_assoc($result);
++				//	mysqli_free_result($result);
++
++				//	$modes = array_map('trim', explode(',', $row['sql_mode']));
++				//}
++				//else
++				//{
++				//	$modes = array();
++				//}
+ 
+ 				// TRADITIONAL includes STRICT_ALL_TABLES and STRICT_TRANS_TABLES
+-				if (!in_array('TRADITIONAL', $modes))
+-				{
+-					if (!in_array('STRICT_ALL_TABLES', $modes))
+-					{
+-						$modes[] = 'STRICT_ALL_TABLES';
+-					}
+-
+-					if (!in_array('STRICT_TRANS_TABLES', $modes))
+-					{
+-						$modes[] = 'STRICT_TRANS_TABLES';
+-					}
+-				}
+-
+-				$mode = implode(',', $modes);
++				//if (!in_array('TRADITIONAL', $modes))
++				//{
++				//	if (!in_array('STRICT_ALL_TABLES', $modes))
++				//	{
++				//		$modes[] = 'STRICT_ALL_TABLES';
++				//	}
++
++				//	if (!in_array('STRICT_TRANS_TABLES', $modes))
++				//	{
++				//		$modes[] = 'STRICT_TRANS_TABLES';
++				//	}
++				//}
++
++				//$mode = implode(',', $modes);
++ 				// AOO hack
++ 				$mode = 'STRICT_ALL_TABLES,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
+ 				@mysqli_query($this->db_connect_id, "SET SESSION sql_mode='{$mode}'");
+ 			}
+ 			return $this->db_connect_id;
+ 		}
+ 
+ 		return $this->sql_error('');
+ 	}
+ 
+ 	/**
+ 	* {@inheritDoc}
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/phpbb/help/controller/faq.php com3319/phpbb/help/controller/faq.php
+--- ref3319/phpbb/help/controller/faq.php	2026-09-24 15:18:30.000000000 +0000
++++ com3319/phpbb/help/controller/faq.php	2026-11-02 02:19:43.390396673 +0000
+@@ -24,20 +24,29 @@
+ 	public function display()
+ 	{
+ 		$this->language->add_lang('help/faq');
+ 
+ 		$this->template->assign_block_vars('navlinks', array(
+ 			'BREADCRUMB_NAME'	=> $this->language->lang('FAQ_EXPLAIN'),
+ 			'U_BREADCRUMB'		=> $this->helper->route('phpbb_help_faq_controller'),
+ 		));
+ 
+ 		$this->manager->add_block(
++			'HELP_FAQ_AOO_SPECIFIC',
++			false,
++			array(
++				'HELP_FAQ_AOO_WHERE_CAN_I_FIND' => 'HELP_FAQ_AOO_WHERE',
++				'HELP_FAQ_AOO_HOW_TO_ASK' => 'HELP_FAQ_AOO_HOW',
++			)
++		);
++
++		$this->manager->add_block(
+ 			'HELP_FAQ_BLOCK_LOGIN',
+ 			false,
+ 			array(
+ 				'HELP_FAQ_LOGIN_REGISTER_QUESTION' => 'HELP_FAQ_LOGIN_REGISTER_ANSWER',
+ 				'HELP_FAQ_LOGIN_COPPA_QUESTION' => 'HELP_FAQ_LOGIN_COPPA_ANSWER',
+ 				'HELP_FAQ_LOGIN_CANNOT_REGISTER_QUESTION' => 'HELP_FAQ_LOGIN_CANNOT_REGISTER_ANSWER',
+ 				'HELP_FAQ_LOGIN_REGISTER_CONFIRM_QUESTION' => 'HELP_FAQ_LOGIN_REGISTER_CONFIRM_ANSWER',
+ 				'HELP_FAQ_LOGIN_CANNOT_LOGIN_QUESTION' => 'HELP_FAQ_LOGIN_CANNOT_LOGIN_ANSWER',
+ 				'HELP_FAQ_LOGIN_CANNOT_LOGIN_ANYMORE_QUESTION' => 'HELP_FAQ_LOGIN_CANNOT_LOGIN_ANYMORE_ANSWER',
+ 				'HELP_FAQ_LOGIN_LOST_PASSWORD_QUESTION' => 'HELP_FAQ_LOGIN_LOST_PASSWORD_ANSWER',
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/posting.php com3319/posting.php
+--- ref3319/posting.php	2026-09-24 15:18:30.000000000 +0000
++++ com3319/posting.php	2026-11-02 02:24:29.170231432 +0000
+@@ -1925,20 +1925,28 @@
+ {
+ 	$s_hidden_fields .= build_hidden_fields($captcha->get_hidden_fields());
+ }
+ 
+ $form_enctype = (@ini_get('file_uploads') == '0' || strtolower(@ini_get('file_uploads')) == 'off' || !$config['allow_attachments'] || !$auth->acl_get('u_attach') || !$auth->acl_get('f_attach', $forum_id)) ? '' : ' enctype="multipart/form-data"';
+ add_form_key('posting');
+ 
+ /** @var \phpbb\controller\helper $controller_helper */
+ $controller_helper = $phpbb_container->get('controller.helper');
+ 
++$s_show_posting_url = '';
++if (($user->data['user_posts'] < 15) && 
++	 isset($user->lang['OOO_FG_REQUEST']) &&
++	 isset($config['ooo_fg_request']))
++{
++	$s_show_posting_url = sprintf($user->lang['OOO_FG_REQUEST'], $config['ooo_fg_request']);
++}
++
+ // Build array of variables for main posting page
+ $page_data = array(
+ 	'L_POST_A'					=> $page_title,
+ 	'L_ICON'					=> ($mode == 'reply' || $mode == 'quote' || ($mode == 'edit' && $post_id != $post_data['topic_first_post_id'])) ? $user->lang['POST_ICON'] : $user->lang['TOPIC_ICON'],
+ 	'L_MESSAGE_BODY_EXPLAIN'	=> $user->lang('MESSAGE_BODY_EXPLAIN', (int) $config['max_post_chars']),
+ 	'L_DELETE_POST_PERMANENTLY'	=> $user->lang('DELETE_POST_PERMANENTLY', 1),
+ 
+ 	'FORUM_NAME'			=> $post_data['forum_name'],
+ 	'FORUM_DESC'			=> ($post_data['forum_desc']) ? generate_text_for_display($post_data['forum_desc'], $post_data['forum_desc_uid'], $post_data['forum_desc_bitfield'], $post_data['forum_desc_options']) : '',
+ 	'TOPIC_TITLE'			=> censor_text($post_data['topic_title']),
+@@ -1995,20 +2003,21 @@
+ 
+ 	'S_BBCODE_IMG'			=> $img_status,
+ 	'S_BBCODE_URL'			=> $url_status,
+ 	'S_BBCODE_FLASH'		=> $flash_status,
+ 	'S_BBCODE_QUOTE'		=> $quote_status,
+ 
+ 	'S_POST_ACTION'			=> $s_action,
+ 	'S_HIDDEN_FIELDS'		=> $s_hidden_fields,
+ 	'S_ATTACH_DATA'			=> json_encode($message_parser->attachment_data),
+ 	'S_IN_POSTING'			=> true,
++	'S_SHOW_POSTING_GUIDE_URI'	=> $s_show_posting_url
+ );
+ 
+ // Build custom bbcodes array
+ display_custom_bbcodes();
+ 
+ // Poll entry
+ if (($mode == 'post' || ($mode == 'edit' && $post_id == $post_data['topic_first_post_id']/* && (!$post_data['poll_last_vote'] || $auth->acl_get('m_edit', $forum_id))*/))
+ 	&& $auth->acl_get('f_poll', $forum_id))
+ {
+ 	$page_data = array_merge($page_data, array(
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/rediredtToForum.php com3319/rediredtToForum.php
+--- ref3319/rediredtToForum.php	1970-01-01 00:00:00.000000000 +0000
++++ com3319/rediredtToForum.php	2022-05-01 13:55:28.000000000 +0000
+@@ -0,0 +1,12 @@
++<?php
++        if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
++                $uri = 'https://';
++        } else {
++                $uri = 'http://';
++        }
++        $uri .= $_SERVER['HTTP_HOST'];
++	preg_match('/\/(\w\w)\/?$/i', getcwd(), $matches);
++	$lang = $matches[1];
++        header('Location: '.$uri.'/'.$lang.'/forum');
++        exit;
++?>
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/styles/prosilver/template/forum_fn.js com3319/styles/prosilver/template/forum_fn.js
+--- ref3319/styles/prosilver/template/forum_fn.js	2026-09-24 15:18:30.000000000 +0000
++++ com3319/styles/prosilver/template/forum_fn.js	2026-11-02 02:28:29.713895935 +0000
+@@ -187,20 +187,30 @@
+ 		s.addRange(r);
+ 	}
+ 	// IE
+ 	else if (document.selection) {
+ 		r = document.body.createTextRange();
+ 		r.moveToElementText(e);
+ 		r.select();
+ 	}
+ }
+ 
++/**
++* Patch to expand / collapse code window
++**/
++
++function expandCode(aTag,flag)
++{
++	aTag.parentNode.parentNode.className = flag ? 'codeboxexp' : 'codebox';
++	return false;
++}
++
+ var inAutocomplete = false;
+ var lastKeyEntered = '';
+ 
+ /**
+ * Check event key
+ */
+ function phpbbCheckKey(event) {
+ 	'use strict';
+ 
+ 	// Keycode is array down or up?
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/styles/prosilver/template/forumlist_body.html com3319/styles/prosilver/template/forumlist_body.html
+--- ref3319/styles/prosilver/template/forumlist_body.html	2026-09-24 15:18:30.000000000 +0000
++++ com3319/styles/prosilver/template/forumlist_body.html	2026-11-02 02:30:43.133660013 +0000
+@@ -86,21 +86,21 @@
+ 								</a>
+ 							<!-- ELSEIF forumrow.U_UNAPPROVED_POSTS -->
+ 								<a href="{forumrow.U_UNAPPROVED_POSTS}" title="{L_POSTS_UNAPPROVED_FORUM}">
+ 									<i class="icon fa-question fa-fw icon-blue" aria-hidden="true"></i><span class="sr-only">{L_POSTS_UNAPPROVED_FORUM}</span>
+ 								</a>
+ 							<!-- ENDIF -->
+ 							<!-- IF forumrow.LAST_POST_TIME_RFC3339 -->
+ 								<dfn>{L_LAST_POST}</dfn>
+ 								<!-- IF forumrow.S_DISPLAY_SUBJECT -->
+ 									<!-- EVENT forumlist_body_last_post_title_prepend -->
+-									<a href="{forumrow.U_LAST_POST}" title="{forumrow.LAST_POST_SUBJECT}" class="lastsubject">{forumrow.LAST_POST_SUBJECT_TRUNCATED}</a> <br />
++ 								<a href="{forumrow.U_LAST_POST}" title="{forumrow.LAST_POST_SUBJECT}">{forumrow.LAST_POST_SHORTENED_SUBJECT}</a><br />
+ 								<!-- ENDIF -->
+ 									{L_POST_BY_AUTHOR} <!-- EVENT forumlist_body_last_poster_username_prepend -->{forumrow.LAST_POSTER_FULL}<!-- EVENT forumlist_body_last_poster_username_append -->
+ 								<!-- IF not S_IS_BOT -->
+ 									<a href="{forumrow.U_LAST_POST}" title="{L_VIEW_LATEST_POST}">
+ 										<i class="icon fa-external-link-square fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">{L_VIEW_LATEST_POST}</span>
+ 									</a>
+ 								<!-- ENDIF -->
+ 								<br /><time datetime="{forumrow.LAST_POST_TIME_RFC3339}">{forumrow.LAST_POST_TIME}</time>
+ 							<!-- ELSE -->
+ 							{% if forumrow.U_UNAPPROVED_TOPICS %}
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/styles/prosilver/template/overall_footer.html com3319/styles/prosilver/template/overall_footer.html
+--- ref3319/styles/prosilver/template/overall_footer.html	2026-09-24 15:18:30.000000000 +0000
++++ com3319/styles/prosilver/template/overall_footer.html	2026-11-02 03:51:32.010374440 +0000
+@@ -1,48 +1,57 @@
+ 		<!-- EVENT overall_footer_content_after -->
+ 	</div>
+ 
+ <!-- EVENT overall_footer_page_body_after -->
+ 
+ <div id="page-footer" class="page-footer" role="contentinfo">
+ 	<!-- INCLUDE navbar_footer.html -->
+ 
+ 	<div class="copyright">
++		<div class="column side">
++			<a class="asf_logo" href="https://www.apache.org/"><span class="asf_logo"></span></a>
++		</div>
++		<div class="column middle">
+ 		<!-- EVENT overall_footer_copyright_prepend -->
+ 		<p class="footer-row">
+ 			<span class="footer-copyright">{{ CREDIT_LINE }}</span>
+ 		</p>
+ 		<!-- IF TRANSLATION_INFO -->
+ 		<p class="footer-row">
+ 			<span class="footer-copyright">{{ TRANSLATION_INFO }}</span>
+ 		</p>
+ 		<!-- ENDIF -->
+ 		<!-- EVENT overall_footer_copyright_append -->
+ 		<p class="footer-row" role="menu">
+-			<a class="footer-link" href="{{ U_PRIVACY }}" title="{{ lang('PRIVACY_LINK') }}" role="menuitem">
++			<a class="footer-link" href="https://privacy.apache.org/policies/privacy-policy-public.html" title="{{ lang('PRIVACY_LINK') }}" role="menuitem">
+ 				<span class="footer-link-text">{{ lang('PRIVACY_LINK') }}</span>
+ 			</a>
+ 			|
+-			<a class="footer-link" href="{{ U_TERMS_USE }}" title="{{ lang('TERMS_LINK') }}" role="menuitem">
++			<a class="footer-link" href="https://openoffice.apache.org/terms.html" title="{{ lang('TERMS_LINK') }}" role="menuitem">
+ 				<span class="footer-link-text">{{ lang('TERMS_LINK') }}</span>
+ 			</a>
+ 		</p>
+ 		<!-- IF DEBUG_OUTPUT -->
+ 		<p class="footer-row">
+ 			<span class="footer-info">{{ DEBUG_OUTPUT }}</span>
+ 		</p>
+ 		<!-- ENDIF -->
+ 		<!-- IF U_ACP -->
+ 		<p class="footer-row">
+ 			<a class="footer-link text-strong" href="{{ U_ACP }}">{{ lang('ACP') }}</a>
+ 		</p>
+ 		<!-- ENDIF -->
++		</div>
++		<div class="column side">
++			{L_OOO_GET_OPENOFFICE}<br/>
++			<a class="aoo_download" href="https://openoffice.org/download/"><span class="aoo_download"></span></a>
++		</div>
+ 	</div>
+ 
+ 	<div id="darkenwrapper" class="darkenwrapper" data-ajax-error-title="{L_AJAX_ERROR_TITLE}" data-ajax-error-text="{L_AJAX_ERROR_TEXT}" data-ajax-error-text-abort="{L_AJAX_ERROR_TEXT_ABORT}" data-ajax-error-text-timeout="{L_AJAX_ERROR_TEXT_TIMEOUT}" data-ajax-error-text-parsererror="{L_AJAX_ERROR_TEXT_PARSERERROR}">
+ 		<div id="darken" class="darken">&nbsp;</div>
+ 	</div>
+ 
+ 	<div id="phpbb_alert" class="phpbb_alert" data-l-err="{L_ERROR}" data-l-timeout-processing-req="{L_TIMEOUT_PROCESSING_REQ}">
+ 		<a href="#" class="alert_close">
+ 			<i class="icon fa-times-circle fa-fw" aria-hidden="true"></i>
+ 		</a>
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/styles/prosilver/template/overall_header.html com3319/styles/prosilver/template/overall_header.html
+--- ref3319/styles/prosilver/template/overall_header.html	2026-09-24 15:18:30.000000000 +0000
++++ com3319/styles/prosilver/template/overall_header.html	2026-11-02 02:40:16.726242630 +0000
+@@ -1,18 +1,18 @@
+ <!DOCTYPE html>
+ <html dir="{S_CONTENT_DIRECTION}" lang="{S_USER_LANG}">
+ <head>
+ <meta charset="utf-8" />
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+ {META}
+-<title><!-- IF UNREAD_NOTIFICATIONS_COUNT -->({UNREAD_NOTIFICATIONS_COUNT}) <!-- ENDIF --><!-- IF not S_VIEWTOPIC and not S_VIEWFORUM -->{SITENAME} - <!-- ENDIF --><!-- IF S_IN_MCP -->{L_MCP} - <!-- ELSEIF S_IN_UCP -->{L_UCP} - <!-- ENDIF -->{PAGE_TITLE}<!-- IF S_VIEWTOPIC or S_VIEWFORUM --> - {SITENAME}<!-- ENDIF --></title>
++<title><!-- IF UNREAD_NOTIFICATIONS_COUNT -->({UNREAD_NOTIFICATIONS_COUNT}) <!-- ENDIF --><!-- IF not S_VIEWTOPIC and not S_VIEWFORUM -->{SITENAME} - <!-- ENDIF --><!-- IF S_IN_MCP -->{L_MCP} - <!-- ELSEIF S_IN_UCP -->{L_UCP} - <!-- ENDIF -->{SITENAME}<!-- IF S_VIEWTOPIC or S_VIEWFORUM --> - {PAGE_TITLE}<!-- ENDIF --></title>
+ 
+ <!-- IF S_ENABLE_FEEDS -->
+ 	<!-- IF S_ENABLE_FEEDS_OVERALL --><link rel="alternate" type="application/atom+xml" title="{L_FEED} - {SITENAME}" href="{{ path('phpbb_feed_index') }}"><!-- ENDIF -->
+ 	<!-- IF S_ENABLE_FEEDS_NEWS --><link rel="alternate" type="application/atom+xml" title="{L_FEED} - {L_FEED_NEWS}" href="{{ path('phpbb_feed_news') }}"><!-- ENDIF -->
+ 	<!-- IF S_ENABLE_FEEDS_FORUMS --><link rel="alternate" type="application/atom+xml" title="{L_FEED} - {L_ALL_FORUMS}" href="{{ path('phpbb_feed_forums') }}"><!-- ENDIF -->
+ 	<!-- IF S_ENABLE_FEEDS_TOPICS --><link rel="alternate" type="application/atom+xml" title="{L_FEED} - {L_FEED_TOPICS_NEW}" href="{{ path('phpbb_feed_topics') }}"><!-- ENDIF -->
+ 	<!-- IF S_ENABLE_FEEDS_TOPICS_ACTIVE --><link rel="alternate" type="application/atom+xml" title="{L_FEED} - {L_FEED_TOPICS_ACTIVE}" href="{{ path('phpbb_feed_topics_active') }}"><!-- ENDIF -->
+ 	<!-- IF S_ENABLE_FEEDS_FORUM and S_FORUM_ID --><link rel="alternate" type="application/atom+xml" title="{L_FEED} - {L_FORUM} - {FORUM_NAME}" href="{{ path('phpbb_feed_forum', { forum_id : S_FORUM_ID } ) }}"><!-- ENDIF -->
+ 	<!-- IF S_ENABLE_FEEDS_TOPIC and S_TOPIC_ID --><link rel="alternate" type="application/atom+xml" title="{L_FEED} - {L_TOPIC} - {TOPIC_TITLE}" href="{{ path('phpbb_feed_topic', { topic_id : S_TOPIC_ID } ) }}"><!-- ENDIF -->
+ 	<!-- EVENT overall_header_feeds -->
+@@ -80,31 +80,31 @@
+ 	<a id="top" class="top-anchor" accesskey="t"></a>
+ 	<div id="page-header">
+ 		<div class="headerbar" role="banner">
+ 		<!-- EVENT overall_header_headerbar_before -->
+ 			<div class="inner">
+ 
+ 			<div id="site-description" class="site-description">
+ 		<a id="logo" class="logo" href="{% if U_SITE_HOME %}{{ U_SITE_HOME }}{% else %}{{ U_INDEX }}{% endif %}" title="{% if U_SITE_HOME %}{{ L_SITE_HOME }}{% else %}{{ L_INDEX }}{% endif %}">
+ 					<span class="site_logo"></span>
+ 				</a>
+-				<h1>{SITENAME}</h1>
+-				<p>{SITE_DESCRIPTION}</p>
++				<p><br/>{SITE_DESCRIPTION}</p>
+ 				<p class="skiplink"><a href="#start_here">{L_SKIP}</a></p>
+ 			</div>
+ 
+ 			<!-- EVENT overall_header_searchbox_before -->
+ 			<!-- IF S_DISPLAY_SEARCH and not S_IN_SEARCH -->
+ 			<div id="search-box" class="search-box search-header" role="search">
+ 				<form action="{U_SEARCH}" method="get" id="search">
+ 				<fieldset>
+ 					<input name="keywords" id="keywords" type="search" maxlength="128" title="{L_SEARCH_KEYWORDS}" class="inputbox search tiny" size="20" value="{SEARCH_WORDS}" placeholder="{L_SEARCH_MINI}" />
++					<input type="HIDDEN" name="sr" value="topics" />
+ 					<button class="button button-search" type="submit" title="{L_SEARCH}">
+ 						<i class="icon fa-search fa-fw" aria-hidden="true"></i><span class="sr-only">{L_SEARCH}</span>
+ 					</button>
+ 					<a href="{U_SEARCH}" class="button button-search-end" title="{L_SEARCH_ADV}">
+ 						<i class="icon fa-cog fa-fw" aria-hidden="true"></i><span class="sr-only">{L_SEARCH_ADV}</span>
+ 					</a>
+ 					{S_SEARCH_HIDDEN_FIELDS}
+ 				</fieldset>
+ 				</form>
+ 			</div>
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/styles/prosilver/template/posting_buttons.html com3319/styles/prosilver/template/posting_buttons.html
+--- ref3319/styles/prosilver/template/posting_buttons.html	2026-09-24 15:18:30.000000000 +0000
++++ com3319/styles/prosilver/template/posting_buttons.html	2026-11-02 02:42:10.524460243 +0000
+@@ -57,21 +57,21 @@
+ 	<button type="button" class="button button-icon-only bbcode-list" accesskey="l" name="addbbcode10" value="List" onclick="bbstyle(10)" title="{L_BBCODE_L_HELP}">
+ 		<i class="icon fa-list fa-fw" aria-hidden="true"></i>
+ 	</button>
+ 	<button type="button" class="button button-icon-only bbcode-list-" accesskey="o" name="addbbcode12" value="List=" onclick="bbstyle(12)" title="{L_BBCODE_O_HELP}">
+ 		<i class="icon fa-list-ol fa-fw" aria-hidden="true"></i>
+ 	</button>
+ 	<button type="button" class="button button-icon-only bbcode-asterisk" accesskey="y" name="addlistitem" value="[*]" onclick="bbstyle(-1)" title="{L_BBCODE_LISTITEM_HELP}">
+ 		<i class="icon fa-asterisk fa-fw" aria-hidden="true"></i>
+ 	</button>
+ 	<!-- IF S_BBCODE_IMG -->
+-	<button type="button" class="button button-icon-only bbcode-img" accesskey="p" name="addbbcode14" value="Img" onclick="bbstyle(14)" title="{L_BBCODE_P_HELP}">
++	<button type="button" class="button button-icon-only bbcode-img" accesskey="g" name="addbbcode14" value="Img" onclick="bbstyle(14)" title="{L_BBCODE_P_HELP}">
+ 		<i class="icon fa-image fa-fw" aria-hidden="true"></i>
+ 	</button>
+ 	<!-- ENDIF -->
+ 	<!-- IF S_LINKS_ALLOWED -->
+ 	<button type="button" class="button button-icon-only bbcode-url" accesskey="w" name="addbbcode16" value="URL" onclick="bbstyle(16)" title="{L_BBCODE_W_HELP}">
+ 		<i class="icon fa-link fa-fw" aria-hidden="true"></i>
+ 	</button>
+ 	<!-- ENDIF -->
+ 	<!-- IF S_BBCODE_FLASH -->
+ 	<button type="button" class="button button-icon-only bbcode-flash" accesskey="d" name="addbbcode18" value="Flash" onclick="bbstyle(18)" title="{L_BBCODE_D_HELP}">
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/styles/prosilver/template/posting_editor.html com3319/styles/prosilver/template/posting_editor.html
+--- ref3319/styles/prosilver/template/posting_editor.html	2026-09-24 15:18:30.000000000 +0000
++++ com3319/styles/prosilver/template/posting_editor.html	2026-11-02 02:46:21.459532619 +0000
+@@ -99,21 +99,21 @@
+ 
+ 	<!-- IF not S_SHOW_DRAFTS and not $SIG_EDIT eq 1 -->
+ 	<div class="panel bg2">
+ 		<div class="inner">
+ 		<fieldset class="submit-buttons">
+ 			{S_HIDDEN_ADDRESS_FIELD}
+ 			{S_HIDDEN_FIELDS}
+ 			<!-- EVENT posting_editor_submit_buttons -->
+ 			<!-- IF S_HAS_DRAFTS --><input type="submit" accesskey="d" tabindex="8" name="load" value="{L_LOAD_DRAFT}" class="button2" onclick="load_draft = true;" />&nbsp; <!-- ENDIF -->
+ 			<!-- IF S_SAVE_ALLOWED --><input type="submit" accesskey="k" tabindex="7" name="save" value="{L_SAVE_DRAFT}" class="button2" />&nbsp; <!-- ENDIF -->
+-			<input type="submit" tabindex="5" name="preview" value="{L_PREVIEW}" class="button1"<!-- IF not S_PRIVMSGS --> onclick="document.getElementById('postform').action += '#preview';"<!-- ENDIF --> />&nbsp;
++			<input type="submit" accesskey="p" tabindex="5" name="preview" value="{L_PREVIEW}" class="button1"<!-- IF not S_PRIVMSGS --> onclick="document.getElementById('postform').action += '#preview';"<!-- ENDIF --> />&nbsp;
+ 			<input type="submit" accesskey="s" tabindex="6" name="post" value="{L_SUBMIT}" class="button1 default-submit-action" />&nbsp;
+ 
+ 		</fieldset>
+ 
+ 		</div>
+ 	</div>
+ 	<!-- ENDIF -->
+ 
+ 	<!-- IF not S_PRIVMSGS and not S_SHOW_DRAFTS and not $SIG_EDIT eq 1 -->
+ 		<div id="tabs" class="tabs sub-panels" data-show-panel="<!-- IF SHOW_PANEL -->{SHOW_PANEL}<!-- ELSE -->options-panel<!-- ENDIF -->" role="tablist">
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/styles/prosilver/template/posting_layout.html com3319/styles/prosilver/template/posting_layout.html
+--- ref3319/styles/prosilver/template/posting_layout.html	2026-09-24 15:18:30.000000000 +0000
++++ com3319/styles/prosilver/template/posting_layout.html	2026-11-02 02:47:46.570673916 +0000
+@@ -38,20 +38,21 @@
+ 
+ <!-- IF S_POST_REVIEW --><!-- INCLUDE posting_review.html --><!-- ENDIF -->
+ 
+ <!-- IF S_DISPLAY_PREVIEW --><!-- INCLUDE posting_preview.html --><!-- ENDIF -->
+ 
+ <div class="panel" id="postingbox">
+ 	<div class="inner">
+ 
+ 	<h3>{L_POST_A}</h3>
+ 
++	<!-- IF S_SHOW_POSTING_GUIDE_URI --><p>{S_SHOW_POSTING_GUIDE_URI}</p><!-- ENDIF -->
+ 	<!-- DEFINE $EXTRA_POSTING_OPTIONS = 1 -->
+ 	<!-- INCLUDE posting_editor.html -->
+ 	<input type="hidden" name="show_panel" value="options-panel" />
+ 	{S_FORM_TOKEN}
+ 	</div>
+ </div>
+ 
+ <!-- IF S_SHOW_ATTACH_BOX and FILTERS --><!-- INCLUDE posting_attach_body.html --><!-- ENDIF -->
+ 
+ <!-- IF S_SHOW_POLL_BOX or S_POLL_DELETE --><!-- INCLUDE posting_poll_body.html --><!-- ENDIF -->
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/styles/prosilver/template/search_body.html com3319/styles/prosilver/template/search_body.html
+--- ref3319/styles/prosilver/template/search_body.html	2026-09-24 15:18:30.000000000 +0000
++++ com3319/styles/prosilver/template/search_body.html	2026-11-02 02:49:41.946564449 +0000
+@@ -56,22 +56,22 @@
+ 		<dd><label for="sf4"><input type="radio" name="sf" id="sf4" value="firstpost" /> {L_SEARCH_FIRST_POST}</label></dd>
+ 	</dl>
+ 	<!-- EVENT search_body_search_options_append -->
+ 
+ 	<hr class="dashed" />
+ 
+ 	<!-- EVENT search_body_search_display_options_prepend -->
+ 	<dl>
+ 		<dt><label for="show_results1">{L_DISPLAY_RESULTS}{L_COLON}</label></dt>
+ 		<dd>
+-			<label for="show_results1"><input type="radio" name="sr" id="show_results1" value="posts" checked="checked" /> {L_POSTS}</label>
+-			<label for="show_results2"><input type="radio" name="sr" id="show_results2" value="topics" /> {L_TOPICS}</label>
++			<label for="show_results1"><input type="radio" name="sr" id="show_results1" value="posts" /> {L_POSTS}</label>
++			<label for="show_results2"><input type="radio" name="sr" id="show_results2" value="topics" checked="checked" /> {L_TOPICS}</label>
+ 		</dd>
+ 	</dl>
+ 	<dl>
+ 		<dt><label for="sd">{L_RESULT_SORT}{L_COLON}</label></dt>
+ 		<dd>{S_SELECT_SORT_KEY}&nbsp;
+ 			<label for="sa"><input type="radio" name="sd" id="sa" value="a" /> {L_SORT_ASCENDING}</label>
+ 			<label for="sd"><input type="radio" name="sd" id="sd" value="d" checked="checked" /> {L_SORT_DESCENDING}</label>
+ 		</dd>
+ 	</dl>
+ 	<dl>
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/styles/prosilver/template/ucp_register.html com3319/styles/prosilver/template/ucp_register.html
+--- ref3319/styles/prosilver/template/ucp_register.html	2026-09-24 15:18:30.000000000 +0000
++++ com3319/styles/prosilver/template/ucp_register.html	2026-11-02 02:52:26.503534339 +0000
+@@ -59,20 +59,28 @@
+ 	<!-- EVENT ucp_register_options_before -->
+ 	{% if S_LANG_OPTIONS %}
+ 	<dl>
+ 		<dt><label for="lang">{{ lang('LANGUAGE') ~ lang('COLON') }}</label></dt>
+ 		<dd><select name="lang" id="lang" onchange="change_language(this.value); return false;" tabindex="6" title="{{ lang('LANGUAGE') }}">{{ S_LANG_OPTIONS }}</select></dd>
+ 	</dl>
+ 	{% endif %}
+ 
+ 	<!-- INCLUDE timezone_option.html -->
+ 
++	<!-- IF S_SIGNATURE -->
++ 	<hr />
++ 	<dl>
++ 		<dt><label for="lang">{L_SIGNATURE}:</label><br /><span>{L_SIGNATURE_REQUIRED}</span></dt>
++ 		<dd><textarea name="user_sig" id="user_sig" class="inputbox" rows="3" cols="30">{SIGNATURE}</textarea></dd>
++ 	</dl>
++	<!-- ENDIF -->
++
+ 	<!-- EVENT ucp_register_profile_fields_before -->
+ 	{% if PROFILE_FIELDS_REQUIRED %}<dl><dd><strong>{L_ITEMS_REQUIRED}</strong></dd></dl>{% endif %}
+ 
+ 	<!-- BEGIN profile_fields -->
+ 		<dl>
+ 			<dt><label<!-- IF profile_fields.FIELD_ID --> for="{profile_fields.FIELD_ID}"<!-- ENDIF -->>{profile_fields.LANG_NAME}{L_COLON}<!-- IF profile_fields.S_REQUIRED --> *<!-- ENDIF --></label>
+ 			<!-- IF profile_fields.LANG_EXPLAIN --><br /><span>{profile_fields.LANG_EXPLAIN}</span><!-- ENDIF -->
+ 			<!-- IF profile_fields.ERROR --><br /><span class="error">{profile_fields.ERROR}</span><!-- ENDIF --></dt>
+ 			<dd>{profile_fields.FIELD}</dd>
+ 		</dl>
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/styles/prosilver/template/viewtopic_body.html com3319/styles/prosilver/template/viewtopic_body.html
+--- ref3319/styles/prosilver/template/viewtopic_body.html	2026-09-24 15:18:30.000000000 +0000
++++ com3319/styles/prosilver/template/viewtopic_body.html	2026-11-02 02:54:13.498482032 +0000
+@@ -152,21 +152,21 @@
+ 				<!-- IF not postrow.U_POST_AUTHOR --><strong>{postrow.POST_AUTHOR_FULL}</strong><!-- ELSE -->{postrow.POST_AUTHOR_FULL}<!-- ENDIF -->
+ 				<!-- EVENT viewtopic_body_post_author_after -->
+ 			</dt>
+ 
+ 			<!-- EVENT viewtopic_body_postrow_rank_before -->
+ 			<!-- IF postrow.RANK_TITLE or postrow.RANK_IMG --><dd class="profile-rank">{postrow.RANK_TITLE}<!-- IF postrow.RANK_TITLE and postrow.RANK_IMG --><br /><!-- ENDIF -->{postrow.RANK_IMG}</dd><!-- ENDIF -->
+ 			<!-- EVENT viewtopic_body_postrow_rank_after -->
+ 
+ 		<!-- IF postrow.POSTER_POSTS != '' --><dd class="profile-posts"><strong>{L_POSTS}{L_COLON}</strong> <!-- IF postrow.U_SEARCH !== '' --><a href="{postrow.U_SEARCH}"><!-- ENDIF -->{postrow.POSTER_POSTS}<!-- IF postrow.U_SEARCH !== '' --></a><!-- ENDIF --></dd><!-- ENDIF -->
+ 		<!-- IF postrow.POSTER_JOINED --><dd class="profile-joined"><strong>{L_JOINED}{L_COLON}</strong> {postrow.POSTER_JOINED}</dd><!-- ENDIF -->
+-		<!-- IF postrow.POSTER_WARNINGS --><dd class="profile-warnings"><strong>{L_WARNINGS}{L_COLON}</strong> {postrow.POSTER_WARNINGS}</dd><!-- ENDIF -->
++		<!-- IF postrow.POSTER_WARNINGS --><dd class="profile-warnings"><strong>*** {L_WARNINGS}{L_COLON} ***</strong> {postrow.POSTER_WARNINGS}</dd><!-- ENDIF -->
+ 
+ 		<!-- IF postrow.S_PROFILE_FIELD1 -->
+ 			<!-- Use a construct like this to include admin defined profile fields. Replace FIELD1 with the name of your field. -->
+ 			<dd><strong>{postrow.PROFILE_FIELD1_NAME}{L_COLON}</strong> {postrow.PROFILE_FIELD1_VALUE}</dd>
+ 		<!-- ENDIF -->
+ 
+ 		<!-- EVENT viewtopic_body_postrow_custom_fields_before -->
+ 		<!-- BEGIN custom_fields -->
+ 			<!-- IF not postrow.custom_fields.S_PROFILE_CONTACT -->
+ 				<dd class="profile-custom-field profile-{postrow.custom_fields.PROFILE_FIELD_IDENT}"><strong>{postrow.custom_fields.PROFILE_FIELD_NAME}{L_COLON}</strong> {postrow.custom_fields.PROFILE_FIELD_VALUE}</dd>
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/styles/prosilver/theme/bidi.css com3319/styles/prosilver/theme/bidi.css
+--- ref3319/styles/prosilver/theme/bidi.css	2026-09-24 15:18:30.000000000 +0000
++++ com3319/styles/prosilver/theme/bidi.css	2026-11-02 02:55:54.141095011 +0000
+@@ -513,21 +513,21 @@
+ 
+ .rtl blockquote cite {
+ 	/* Username/source of quoter */
+ 	margin-left: 0;
+ }
+ 
+ .rtl blockquote cite:before, .rtl .uncited:before {
+ 	padding-left: 5px;
+ }
+ 
+-.rtl blockquote .codebox {
++.rtl blockquote .codebox, .rtl blockquote dl.codeboxexp {
+ 	margin-right: 0;
+ }
+ 
+ .rtl code {
+ 	direction: ltr;
+ }
+ 
+ /* Attachments
+ ----------------------------------------*/
+ .rtl .attachbox {
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/styles/prosilver/theme/colours.css com3319/styles/prosilver/theme/colours.css
+--- ref3319/styles/prosilver/theme/colours.css	2026-09-24 15:18:30.000000000 +0000
++++ com3319/styles/prosilver/theme/colours.css	2026-11-02 03:03:09.659203354 +0000
+@@ -82,32 +82,34 @@
+ ---------------------------------------- */
+ .wrap {
+ 	background-color: #FFF;
+ 	border-color: #E6E9ED;
+ }
+ 
+ .headerbar {
+ 	color: #FFFFFF;
+ }
+ 
+-.headerbar, .forumbg {
+-	background-color: #12A3EB;
+-	background-image: -webkit-linear-gradient(top, #6ACEFF 0%, #0076B1 2px, #12A3EB 92px, #12A3EB 100%);
+-	background-image: linear-gradient(to bottom, #6ACEFF 0%,#0076B1 2px,#12A3EB 92px,#12A3EB 100%);
+-	background-repeat: repeat-x;
++.headerbar {
++	background-color: #E6EFF7;
++	background-image: url("{T_THEME_PATH}/images/bg_header.gif");
++	color: #105289;
++}
++
++.forumbg {
++    background-color: #CAD5E5;
++    background-image: url("{T_THEME_PATH}/images/bg_forum.gif");
+ }
+ 
+ .forabg {
+-	background-color: #0076B1;
+-	background-image: -webkit-linear-gradient(top, #6ACEFF 0%, #12A3EB 2px, #0076B1 92px, #0076B1 100%);
+-	background-image: linear-gradient(to bottom, #6ACEFF 0%,#12A3EB 2px,#0076B1 92px,#0076B1 100%);
+-	background-repeat: repeat-x;
++	background-color: #0076b1;
++	background-image: url("{T_THEME_PATH}/images/bg_list.gif");
+ }
+ 
+ .navbar {
+ 	background-color: #CADCEB;
+ }
+ 
+ .panel {
+ 	background-color: #ECF1F3;
+ 	color: #28313F;
+ }
+@@ -143,21 +145,35 @@
+ 
+ .ucprowbg {
+ 	background-color: #DCDEE2;
+ }
+ 
+ .fieldsbg {
+ 	background-color: #E7E8EA;
+ }
+ 
+ .site_logo {
+-	background-image: url("./images/site_logo.svg");
++	background-image: url("../../../logo_forum.png");
++	width: "450";
++	height: "77";
++}
++
++.asf_logo {
++	background-image: url("https://www.apache.org/foundation/press/kit/asf_logo_wide.svg");
++	width: "153";
++	height: "43";
++}
++
++.aoo_download {
++	background-image: url("../../../AOO-download.png");
++	width: "238";
++	height: "60";
+ }
+ 
+ /* Horizontal lists
+ ----------------------------------------*/
+ 
+ ul.navlinks {
+ 	border-top-color: #FFFFFF;
+ }
+ 
+ /* Table styles
+@@ -417,30 +433,30 @@
+ 	/* Nested quotes */
+ 	background-color: #EFEED9;
+ }
+ 
+ blockquote blockquote blockquote {
+ 	/* Nested quotes */
+ 	background-color: #EBEADD;
+ }
+ 
+ /* Code block */
+-.codebox {
++.codebox, .codeboxexp {
+ 	background-color: #FFFFFF;
+ 	border-color: #C9D2D8;
+ }
+ 
+-.codebox p {
++.codebox p, .codeboxexp p {
+ 	border-bottom-color: #CCCCCC;
+ }
+ 
+-.codebox code {
++.codebox code, .codeboxexp code {
+ 	color: #2E8B57;
+ }
+ 
+ /* Attachments
+ ----------------------------------------*/
+ .attachbox {
+ 	background-color: #FFFFFF;
+ 	border-color: #C9D2D8;
+ }
+ 
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/styles/prosilver/theme/common.css com3319/styles/prosilver/theme/common.css
+--- ref3319/styles/prosilver/theme/common.css	2026-09-24 15:18:30.000000000 +0000
++++ com3319/styles/prosilver/theme/common.css	2026-11-02 03:47:44.992013091 +0000
+@@ -160,45 +160,82 @@
+ .page-footer {
+ 	clear: both;
+ }
+ 
+ .page-footer h3 {
+ 	margin-top: 20px;
+ }
+ 
+ .logo {
+ 	float: left;
+-	width: auto;
+-	padding: 10px 13px 0 10px;
++	width: 473px;
++	height: 77px;
++	padding: 0px 13px 0 10px;
+ }
+ 
+ .logo:hover {
+ 	text-decoration: none;
+ }
+ 
+ .site_logo {
+ 	background-repeat: no-repeat;
+ 	display: inline-block;
+-	width: 149px;
+-	height: 52px;
++	width: 450px;
++	height: 77px;
++}
++
++.asf_logo {
++	background-repeat: no-repeat;
++	display: inline-block;
++	width: 200px;
++	height: 50px;
++}
++
++.aoo_download {
++	background-repeat: no-repeat;
++	display: inline-block;
++	width: 238px;
++	height: 60px;
+ }
+ 
+ /* Site description and logo */
+ .site-description {
+ 	float: left;
+ 	width: 65%;
+ }
+ 
+ .site-description h1 {
+ 	margin-right: 0;
+ }
+ 
++.column {
++  float: left;
++}
++
++/* Left and right column */
++.column.side {
++  width: 25%;
++}
++
++/* Middle column */
++.column.middle {
++  width: 50%;
++}
++
++/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
++@media screen and (max-width: 600px) {
++  .column.side, .column.middle {
++    width: 100%;
++  }
++}
++
++
+ /* Round cornered boxes and backgrounds
+ ---------------------------------------- */
+ .headerbar {
+ 	margin-bottom: 4px;
+ 	padding: 5px;
+ 	border-radius: 7px;
+ }
+ 
+ .navbar {
+ 	padding: 3px 10px;
+@@ -975,20 +1012,21 @@
+ 	top: 50%;
+ 	z-index: 51;
+ }
+ 
+ /* Miscellaneous styles
+ ---------------------------------------- */
+ .copyright {
+ 	font-size: 10px;
+ 	text-align: center;
+ 	padding: 10px;
++	height: 60px;
+ }
+ 
+ .footer-row {
+ 	font-size: 10px;
+ 	line-height: 1.8;
+ 	margin: 0;
+ }
+ 
+ .small {
+ 	font-size: 0.9em !important;
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/styles/prosilver/theme/content.css com3319/styles/prosilver/theme/content.css
+--- ref3319/styles/prosilver/theme/content.css	2026-09-24 15:18:30.000000000 +0000
++++ com3319/styles/prosilver/theme/content.css	2026-11-02 03:06:53.565863778 +0000
+@@ -508,51 +508,59 @@
+ 	float: right;
+ 	font-weight: normal;
+ }
+ 
+ .postbody .content li blockquote {
+ 	overflow: inherit;
+ 	margin-left: 0;
+ }
+ 
+ /* Code block */
+-.codebox {
++.codebox, .codeboxext {
+ 	border: 1px solid transparent;
+ 	font-size: 1em;
+ 	margin: 1em 0 1.2em 0;
+ 	word-wrap: normal;
+ }
+ 
+-.codebox p {
++.codebox p, codeboxext p {
+ 	text-transform: uppercase;
+ 	border-bottom: 1px solid transparent;
+ 	margin-bottom: 0;
+-	padding: 3px;
+ 	font-size: 0.8em !important;
+ 	font-weight: bold;
+ 	display: block;
+ }
+ 
+-blockquote .codebox {
++blockquote .codebox, blockquote .codeboxext {
+ 	margin-left: 0;
+ }
+ 
+-.codebox code {
++.codebox code, .codeboxext code {
+ 	overflow: auto;
+ 	display: block;
+ 	height: auto;
+-	max-height: 200px;
+ 	padding: 5px 3px;
+ 	font: 0.9em Monaco, "Andale Mono","Courier New", Courier, monospace;
+ 	line-height: 1.3em;
+ }
+ 
++
++.codebox code {
++	max-height: 200px;
++}
++
++dl.codebox    dt a.codebox    { display: inline }
++dl.codebox    dt a.codeboxexp { display: none }
++dl.codeboxexp dt a.codebox    { display: none }
++dl.codeboxexp dt a.codeboxexp { display: inline }
++
+ /* Attachments
+ ----------------------------------------*/
+ .attachbox {
+ 	font-size: 13px;
+ 	float: left;
+ 	width: auto;
+ 	max-width: 100%;
+ 	margin: 5px 5px 5px 0;
+ 	padding: 6px;
+ 	border: 1px dashed transparent;
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/viewforum.php com3319/viewforum.php
+--- ref3319/viewforum.php	2026-09-24 15:18:30.000000000 +0000
++++ com3319/viewforum.php	2026-11-02 03:11:25.941833277 +0000
+@@ -172,21 +172,21 @@
+ 	$config['topics_per_page'] = $forum_data['forum_topics_per_page'];
+ }
+ 
+ /* @var $phpbb_content_visibility \phpbb\content_visibility */
+ $phpbb_content_visibility = $phpbb_container->get('content.visibility');
+ 
+ // Dump out the page header and load viewforum template
+ $topics_count = $phpbb_content_visibility->get_count('forum_topics', $forum_data, $forum_id);
+ $start = $pagination->validate_start($start, $config['topics_per_page'], $topics_count);
+ 
+-$page_title = $forum_data['forum_name'] . ($start ? ' - ' . $user->lang('PAGE_TITLE_NUMBER', $pagination->get_on_page($config['topics_per_page'], $start)) : '');
++$page_title = $forum_data['forum_name'] . ' - (' . $user->lang['VIEW_FORUM'] . ')' . ($start ? ' - ' . $user->lang('PAGE_TITLE_NUMBER', $pagination->get_on_page($config['topics_per_page'], $start)) : '');
+ 
+ /**
+ * You can use this event to modify the page title of the viewforum page
+ *
+ * @event core.viewforum_modify_page_title
+ * @var	string	page_title		Title of the viewforum page
+ * @var	array	forum_data		Array with forum data
+ * @var	int		forum_id		The forum ID
+ * @var	int		start			Start offset used to calculate the page
+ * @since 3.2.2-RC1
+diff -ruN -U10 '--exclude=*.gif' '--exclude=*.png' '--exclude=*.jpg' '--exclude=*.jpeg' '--exclude=*.ico' '--exclude=*.pdf' ref3319/viewtopic.php com3319/viewtopic.php
+--- ref3319/viewtopic.php	2026-09-24 15:18:30.000000000 +0000
++++ com3319/viewtopic.php	2026-11-02 03:12:34.676619979 +0000
+@@ -2401,21 +2401,21 @@
+ {
+ 	$request->overwrite('f', $forum_id);
+ }
+ 
+ // We need to do the same with the topic_id. See #53025.
+ if (!$request->variable('t', 0) && !empty($topic_id))
+ {
+ 	$request->overwrite('t', $topic_id);
+ }
+ 
+-$page_title = $topic_data['topic_title'] . ($start ? ' - ' . sprintf($user->lang['PAGE_TITLE_NUMBER'], $pagination->get_on_page($config['posts_per_page'], $start)) : '');
++$page_title = $topic_data['topic_title'] . ' - (' . $user->lang['VIEW_TOPIC'] . ')' . ($start ? ' - ' . sprintf($user->lang['PAGE_TITLE_NUMBER'], $pagination->get_on_page($config['posts_per_page'], $start)) : '');
+ 
+ /**
+ * You can use this event to modify the page title of the viewtopic page
+ *
+ * @event core.viewtopic_modify_page_title
+ * @var	string	page_title		Title of the viewtopic page
+ * @var	array	topic_data		Array with topic data
+ * @var	int		forum_id		Forum ID of the topic
+ * @var	int		start			Start offset used to calculate the page
+ * @var	array	post_list		Array with post_ids we are going to display

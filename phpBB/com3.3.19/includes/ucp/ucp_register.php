@@ -9,12 +9,6 @@
 * For full copyright and license information, please see
 * the docs/CREDITS.txt file.
 *
-* Mod 01 TE 06 Apr 20009 
-*	 Support for FR forum's custom Signature field on registration.  This functionality
-*	 is enabled if the system_config variable subject_validation is defined.  This field
-*	 is a match pattern which is used as the validation criterion for the Subject field.
-*	 This pattern must succede for the Subject field to be accepted.
-*
 */
 
 /**
@@ -51,7 +45,6 @@ class ucp_register
 		$submit			= $request->is_set_post('submit');
 		$change_lang	= $request->variable('change_lang', '');
 		$user_lang		= $request->variable('lang', $user->lang_name);
-		$subject_reqd		= isset($config['subject_validation']);									//  *** Mod 01 ***
 
 		if ($agreed && !check_form_key('ucp_register'))
 		{
@@ -274,7 +267,7 @@ class ucp_register
 		// Check and initialize some variables if needed
 		if ($submit)
 		{
-			$error_validation = array(															//	*** Mod 01 ***
+			$error = validate_data($data, array(
 				'username'			=> array(
 					array('string', false, $config['min_name_chars'], $config['max_name_chars']),
 					array('username', '')),
@@ -287,18 +280,9 @@ class ucp_register
 					array('user_email')),
 				'tz'				=> array('timezone'),
 				'lang'				=> array('language_iso_name'),
-			);
+			));
 
-           		if ($subject_reqd)                                                                  //+ *** Mod 01 ***
-           		{
-				$error_validation['user_sig'] = array(
-				 	array('string', false, 0, $config['max_sig_chars']),
-				 	array('match', false, $config['subject_validation']),
-				 );
-		   	}
-		   $error = validate_data($data, $error_validation);								   //- *** Mod 01 ***	  
-
-		   	if (!check_form_key('ucp_register'))
+			if (!check_form_key('ucp_register'))
 			{
 				$error[] = $user->lang['FORM_INVALID'];
 			}
@@ -410,7 +394,6 @@ class ucp_register
 					'user_regdate'				=> time(),
 					'user_inactive_reason'		=> $user_inactive_reason,
 					'user_inactive_time'		=> $user_inactive_time,
-					'user_sig'		=> $data['user_sig'],
 				);
 
 				if ($config['new_member_post_limit'])
@@ -660,7 +643,6 @@ class ucp_register
 			'PASSWORD'			=> $data['new_password'],
 			'PASSWORD_CONFIRM'	=> $data['password_confirm'],
 			'EMAIL'				=> $data['email'],
-			'SIGNATURE'			=> $data['user_sig'],
 
 			'L_REG_COND'				=> $l_reg_cond,
 			'L_USERNAME_EXPLAIN'		=> $user->lang($config['allow_name_chars'] . '_EXPLAIN', $user->lang('CHARACTERS_XY', (int) $config['min_name_chars']), $user->lang('CHARACTERS_XY', (int) $config['max_name_chars'])),
@@ -670,7 +652,6 @@ class ucp_register
 			'S_TZ_PRESELECT'	=> !$submit,
 			'S_CONFIRM_REFRESH'	=> ($config['enable_confirm'] && $config['confirm_refresh']) ? true : false,
 			'S_REGISTRATION'	=> true,
- 			'S_SIGNATURE'		=> true,
 			'S_COPPA'			=> $coppa,
 			'S_UCP_ACTION'		=> append_sid("{$phpbb_root_path}ucp.$phpEx", 'mode=register'),
 
