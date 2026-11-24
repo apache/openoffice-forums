@@ -86,6 +86,9 @@ cp  ../aoo-setup/images/icons/misc/spacer.gif images/icons/misc/.
 cp  -rp ../aoo-setup/images/ranks images/.
 cp  -rp ../aoo-setup/images/smilies images/.
 
+# the VigLink extension's development lock file is not used and only triggers dependabot alerts
+rm -f ext/phpbb/viglink/composer.lock
+
 cd ..
 
 # create AOO forum deployment

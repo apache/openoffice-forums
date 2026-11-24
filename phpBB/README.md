@@ -32,14 +32,47 @@ Change the version numbers as necessary. Make sure from phpbb.com that there are
 
   Two directories are created.
 
-  1. `ref3.3.19` - the release with our languages and images included
-  2. `com3.3.19` - The `ref` with the `aoo-changes.patch` applied.
+  1. `ref3.3.19` - the release with our languages and images included. This is a local
+     working copy only. It is rebuilt from the downloads on every run and is not
+     committed (see `.gitignore`).
+  2. `com3.3.19` - The `ref` with the `aoo-changes.patch` applied. This is what is
+     committed and installed.
 
-- Update the GitHub repository.
+  The script also removes files that should not be deployed or committed:
+
+  - `config.php` and the `files` directory - each forum keeps its own.
+  - `ext/phpbb/viglink/composer.lock` - an unused development lock file which only
+    triggers GitHub dependabot alerts.
+
+- Review the result. If `patch` reports failed hunks, or our changes need to be revised,
+  edit the files in `com3.3.19` and recreate the patch as described below.
+
+- Update the GitHub repository. Commit `com3.3.19`, the patch, the scripts and the
+  downloads. Do not commit `ref3.3.19`.
 
   1. `git add` or equivalent.
   2. `git commit` or equivalent.
-  3. `git [ush` or equivalent.
+  3. `git push` or equivalent.
+
+## Recreating the patch
+
+`aoo-changes.patch` holds our changes to phpBB. To change them, edit the files in
+`com3.3.19` and then recreate the patch from the two directories:
+
+```bash
+diff -ruN -U10 --exclude='*.gif' --exclude='*.png' --exclude='*.jpg' --exclude='*.jpeg' --exclude='*.ico' --exclude='*.pdf' ref3.3.19 com3.3.19 > aoo-changes.patch
+```
+
+If `ref3.3.19` is not present, run `aoo-assemble.sh` first. It rebuilds both directories,
+so save edited files from `com3.3.19` elsewhere before running it.
+
+## Dependabot alerts
+
+GitHub dependabot reports vulnerabilities from `com3.3.19/composer.lock`. These libraries
+are the ones bundled with the phpBB release and are pinned by phpBB to old major versions
+(Symfony 3.4, Twig 2, Guzzle 6), so the alerts cannot be fixed by updating a library on
+its own. Review new alerts for whether phpBB actually uses the affected code, dismiss
+those that do not apply, and leave the rest open until a phpBB release resolves them.
 
 ## Backup
 
